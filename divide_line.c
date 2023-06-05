@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   divide_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 10:02:43 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/06/05 10:05:04 by razasharuku      ###   ########.fr       */
+/*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/06/05 13:41:31 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include"libft.h"
 
-int	main(void)
+void	divide_line(const char *line)
 {
-    int pid;
-
-    pid = fork();
-    printf("%i", pid);
-
-    return (0);
+	
 }

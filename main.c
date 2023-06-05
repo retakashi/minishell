@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/05/31 11:59:52 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/06/05 13:39:07 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,26 @@ int	main(void)
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
-		if (*line)
-			add_history(line);
 		// TODO: intepret line as a command
+		printf("line = %s \n",line);
+		if (*line)
+		{
+			divide_line(line);
+			add_history(line);
+		}
+		
+		if (*line == '1')
+		{
+			free(line);
+			break ;
+		}
 		free(line);
 	}
 	exit(0);
+}
+
+__attribute__((destructor))
+static void destructor()
+{
+	system("leaks -q minishell");
 }
