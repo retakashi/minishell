@@ -6,7 +6,7 @@
 #    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/05/31 11:51:08 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/06 13:40:43 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ NAME = $(NAME)
 NAME	 =	minishell
 CFLAGS	 =	-Wall -Werror -Wextra 
 
-SRCS	=	main.c
+SRCS	=	main.c \
+			parse_line.c
 
 OBJS = ${SRCS:%.c=%.o}
 
