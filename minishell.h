@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/06 13:47:52 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/07 21:28:49 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,12 @@
 # include <stdarg.h>
 # include"./libft/libft.h"
 
-typedef struct s_wrod_desc
+typedef struct s_word_list
 {
-	char	*word;
-	int		flags;
-}			t_word_desc;
-typedef struct s_wrod_list
-{
-	struct word_list	*next;
-	t_word_desc			*word;
-}			t_wrod_list;
+	struct s_wrod_list	*next;
+	char				*word;
+	int					flag;
+}			t_word_list;
 
 
 void					parse_line(const char *line);
