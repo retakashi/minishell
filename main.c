@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/06 14:33:31 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/07 10:45:14 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@
 #include <readline/history.h>
 #include"minishell.h"
 
-void find_letter(const char *line)
-{
-
-}
-
 
 
 void	parse_line(const char *line)
 {
-	find_letter(line);
-
+	char	**line2;
+	int		i;
 
 	if (*line == '#' || line[strlen(line) - 1] == '|')
 	{
 		printf(" comment out or End with pipe!\n");
 		return ;
 	}
-	
-	// printf("line = %s \n",line);
+	i = 0;
+	line2 = ft_split(line, ' ');
+	while (line2[i] != NULL)
+	{
+		printf("line[%i] = %s \n", i, line2[i]);
+		i++;
+	}
 	return ;
 }
 /*
@@ -79,13 +79,11 @@ echo "raza |" | echo '"reira"'
 
 
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char	*line;
 
 	rl_outstream = stderr;
-	if (argc > 1)
-		printf("too many arguments \n");
 	while (1)
 	{
 		line = readline("minishell$ ");
