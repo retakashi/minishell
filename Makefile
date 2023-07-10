@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
+#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/06 13:40:43 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/10 17:22:41 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,11 @@ NAME	 =	minishell
 CFLAGS	 =	-Wall -Werror -Wextra 
 
 SRCS	=	main.c \
-			parse_line.c
+			parse_line.c \
+			is_something.c \
+			make_list.c \
+			utils.c \
+			split_words.c 
 
 OBJS = ${SRCS:%.c=%.o}
 

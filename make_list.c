@@ -1,67 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 10:02:43 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/08 15:33:39 by razasharuku      ###   ########.fr       */
+/*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
+/*   Updated: 2023/07/10 17:11:51 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include"minishell.h"
 
-
-t_word_list	*ft_newlst(void *content)
+/*新しいリストを作る→次のノードの指す場所はNUll埋めする*/
+t_word_list	*ft_newlst(char *content)
 {
 	t_word_list	*new;
 
 	new = malloc(sizeof(t_word_list));
 	if (new == NULL)
 		return (NULL);
-	new->word = content;
+	new->word = ft_strdup(content);
 	new->next = NULL;
 	return (new);
 }
 
-int	main(int argc, char **argv)
+/*Listというスプリットされた配列を線形リストに変形する関数*/
+t_word_list *make_list(char **list)
 {
-	// char		**list;
 	int			i;
 	t_word_list	*string;
 	t_word_list	*new;
 	t_word_list	*tmp;
 
 	i = 1;
-	if (argc == 1)
-		return (0);
-
-	string = ft_newlst(argv[0]);
+	string = ft_newlst(list[0]);
 	tmp = string;
-	while (argv[i] != NULL)
+	while (list[i] != NULL)
 	{
-		new = ft_newlst(argv[i]);
+		new = ft_newlst(list[i]);
 		new->flag = i;
 		string->next = new;
-		string = new;
-		printf("--------------\n");
-		i++;
-	}
-	string = tmp;
-	i = 0;
-	while (argv[i])
-	{
-		printf("%s \n", string->word);
-		printf("%i \n", string->flag);
 		string = string->next;
 		i++;
 	}
-	return (0);
+	return (tmp);
 }

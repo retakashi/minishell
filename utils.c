@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/10 17:23:03 by sraza            ###   ########.fr       */
+/*   Created: 2023/07/10 17:03:22 by sraza             #+#    #+#             */
+/*   Updated: 2023/07/10 17:13:28 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void	parse_line(const char *line)
+void	*ft_free_line2(char **result)
 {
-	char		**line2;
-	t_word_list	*string;
+	size_t	i;
 
-
-	if (*line == '#' || line[strlen(line) - 1] == '|')
+	i = 0;
+	while (result[i] != NULL)
 	{
-		printf(" comment out or End with pipe!\n");
-		return ;
+		free(result[i]);
+		result[i] = NULL;
+		i++;
 	}
-	line2 = ft_split(line, ' ');
-	string = make_list(line2);
-	ft_free_line2(line2);
-	while (string != NULL)
-	{
-		printf("string->word = %s \n", string->word);
-		string = string->next;
-	}
-	return ;
+	free(result);
+	result = NULL;
+	return (NULL);
 }
