@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/07 21:57:46 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/08 15:36:46 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,38 @@
 #include <readline/history.h>
 #include"minishell.h"
 
+int	main(void)
+{
+	char	*line;
+
+	rl_outstream = stderr;
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (line == NULL)
+			break ;
+		// TODO: intepret line as a command
+		if (*line)
+		{
+			parse_line(line);
+			add_history(line);
+		}
+		if (*line == '1')
+		{
+			free(line);
+			break ;
+		}
+		free(line);
+	}
+	exit(0);
+}
 
 
-// void	parse_line(const char *line)
+
+// __attribute__((destructor))
+// static void destructor()
 // {
-// 	char	**line2;
-// 	int		i;
-
-// 	if (*line == '#' || line[strlen(line) - 1] == '|')
-// 	{
-// 		printf(" comment out or End with pipe!\n");
-// 		return ;
-// 	}
-// 	i = 0;
-// 	line2 = ft_split(line, ' ');
-// 	while (line2[i] != NULL)
-// 	{
-// 		printf("line[%i] = %s \n", i, line2[i]);
-// 		i++;
-// 	}
-// 	return ;
+// 	system("leaks -q minishell");
 // }
 /*
 1　readlineで文字の受け取り　					　　<-できている
@@ -75,80 +87,3 @@ echo "raza |" | echo '"reira"'
    
 
 */
-
-
-
-
-// int	main(void)
-// {
-// 	char	*line;
-
-// 	rl_outstream = stderr;
-// 	while (1)
-// 	{
-// 		line = readline("minishell$ ");
-// 		if (line == NULL)
-// 			break ;
-// 		// TODO: intepret line as a command
-// 		if (*line)
-// 		{
-// 			parse_line(line);
-// 			add_history(line);
-// 		}
-// 		if (*line == '1')
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		free(line);
-// 	}
-// 	exit(0);
-// }
-
-t_word_list	*ft_newlst(void *content)
-{
-	t_word_list	*new;
-
-	new = malloc(sizeof(t_word_list));
-	if (new == NULL)
-		return (NULL);
-	new->word = content;
-	new->next = NULL;
-	return (new);
-}
-
-int	main(int argc, char **argv)
-{
-	char		**list;
-	int			i;
-	t_word_list	*string;
-	t_word_list	*new;
-	t_word_list	*tmp;
-
-	i = 1;
-	if (argc == 1)
-		return (0);
-
-	list = ft_split(argv, ' ');
-	string = ft_newlst(list[0]);
-	tmp = string;
-	while (list[i] != NULL)
-	{
-		new = ft_newlst(list[i]);
-		new->flag = i;
-		string->next = new;
-		string = new;
-		i++;
-	}
-	while ()
-	printf("%s \n", string->word);
-	printf("%i \n", string->flag);
-	return (0);
-}
-
-
-__attribute__((destructor))
-static void destructor()
-{
-	system("leaks -q minishell");
-}
