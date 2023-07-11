@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/11 18:36:31 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/11 18:38:29 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_word_list
 typedef enum e_flags
 {
 	command,
+	option;
 	arguments,
 	env,
 	pipe_char,
