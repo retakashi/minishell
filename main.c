@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/08 15:36:46 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/10 17:42:02 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	main(void)
 		line = readline("minishell$ ");
 		if (line == NULL)
 			break ;
-		// TODO: intepret line as a command
 		if (*line)
 		{
 			parse_line(line);

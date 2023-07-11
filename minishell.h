@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/10 17:14:50 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/11 18:36:31 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,21 @@ typedef struct s_word_list
 	int					flag;
 }			t_word_list;
 
+typedef enum e_flags
+{
+	command,
+	arguments,
+	env,
+	pipe_char,
+	great,
+	great_great,
+	less,
+	less_less,
+	meta_char;
+}			m_flags;
+
 //parse_line.c
-void					parse_line(const char *line);
+void					parse_line(char *line);
 //make_list.c
 t_word_list				*ft_newlst(char *content);
 t_word_list 			*make_list(char **list);
@@ -38,6 +51,8 @@ t_word_list 			*make_list(char **list);
 
 //utils.c
 void					*ft_free_line2(char **result);
+char					*ft_strncpy(char *dest, char *src, unsigned int n);
+char					*duplicate(char *content, char *line, unsigned int n);
 
 
 #endif
