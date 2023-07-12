@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/12 15:34:32 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:41:24 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	parse_line(char *line)
 		printf(" comment out or End with pipe!\n");
 		return ;
 	}
-	string = copy_make_list(line);
+	string = make_list(line);
 	tmp = string;
 	while (string != NULL)
 	{

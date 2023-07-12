@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/12 15:37:32 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:41:06 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_word_list	*sp_sprt(char **line, t_word_list *string, int i)
 	return (string);
 }
 
-t_word_list	*copy_make_list(char *line)
+t_word_list	*make_list(char *line)
 {
 	int			i;
 	t_word_list	*string;

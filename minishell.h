@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/12 15:35:31 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:41:02 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum e_flags
 void					parse_line(char *line);
 //make_list.c
 t_word_list				*ft_newlst(char *content);
-t_word_list				*copy_make_list(char *line);
+t_word_list				*make_list(char *line);
 //split_words.c
 
 //is_something.c
