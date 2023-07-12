@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/12 15:29:12 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:37:32 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	squotes_sprt(char *line, int i)
 	return (i);
 }
 
-t_word_list *creat_list(char *line, int i)
+t_word_list	*creat_list(char *line, int i)
 {
-	char 		*content;
+	char		*content;
 	t_word_list	*new;
 
 	if (*line == '"')
@@ -67,20 +67,18 @@ t_word_list *creat_list(char *line, int i)
 	return (new);
 }
 
-t_word_list *sp_sprt(char **line, t_word_list *string, int i)
+t_word_list	*sp_sprt(char **line, t_word_list *string, int i)
 {
 	t_word_list	*new;
 
-	// printf("before list :i = %i,  line = %s\n", i, *line);
 	new = creat_list(*line, i);
 	string->next = new;
 	string = string->next;
 	*line += (ft_strlen(new->word));
-	// printf("After list :line = %s, new->word = %zu\n", *line, ft_strlen(new->word));
 	return (string);
 }
 
-t_word_list *copy_make_list(char *line)
+t_word_list	*copy_make_list(char *line)
 {
 	int			i;
 	t_word_list	*string;

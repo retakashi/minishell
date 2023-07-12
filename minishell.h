@@ -6,19 +6,19 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/12 13:53:55 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:35:31 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include"./libft/libft.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include"./libft/libft.h"
 
 typedef struct s_word_list
 {
@@ -39,13 +39,13 @@ typedef enum e_flags
 	less,
 	less_less,
 	meta_char,
-}			m_flags;
+}			t_flags;
 
 //parse_line.c
 void					parse_line(char *line);
 //make_list.c
 t_word_list				*ft_newlst(char *content);
-t_word_list 			*copy_make_list(char *line);
+t_word_list				*copy_make_list(char *line);
 //split_words.c
 
 //is_something.c
@@ -54,6 +54,5 @@ t_word_list 			*copy_make_list(char *line);
 void					*ft_free_line2(char **result);
 char					*ft_strncpy(char *dest, char *src, unsigned int n);
 char					*duplicate(char *content, char *line, unsigned int n);
-
 
 #endif

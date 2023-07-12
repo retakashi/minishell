@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:03:22 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/11 09:52:58 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:35:48 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 		dest[i] = '\0';
 	return (dest);
 }
-
 
 /*ここの中に完全コピーする関数を作る必要がある
 内容はlineをポインタで進めているのでそれをコピーできるようにする。*/

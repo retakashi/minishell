@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/12 10:13:05 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 15:36:07 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(void)
 {
 	char	*line;
 
-	// rl_outstream = stderr;
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -36,8 +35,6 @@ int	main(void)
 	}
 	exit(0);
 }
-
-
 
 // __attribute__((destructor))
 // static void destructor()
