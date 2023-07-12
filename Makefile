@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
+#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/10 17:22:41 by sraza            ###   ########.fr        #
+#    Updated: 2023/07/12 14:05:43 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

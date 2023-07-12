@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/11 18:38:29 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/12 13:53:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_word_list
 typedef enum e_flags
 {
 	command,
-	option;
+	option,
 	arguments,
 	env,
 	pipe_char,
@@ -38,14 +38,14 @@ typedef enum e_flags
 	great_great,
 	less,
 	less_less,
-	meta_char;
+	meta_char,
 }			m_flags;
 
 //parse_line.c
 void					parse_line(char *line);
 //make_list.c
 t_word_list				*ft_newlst(char *content);
-t_word_list 			*make_list(char **list);
+t_word_list 			*copy_make_list(char *line);
 //split_words.c
 
 //is_something.c
