@@ -6,22 +6,21 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:47:56 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/07 22:32:04 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:05:34 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-#define PWD_LEN 4
-//"PWD="
-
 void	pwd_cmd(void)
 {
-	char	*pwd;
+	t_envp	*node;
 
-	pwd = ft_getenvp("PWD=");
-	if (pwd == NULL)
-		perror("get envp");
-	write(1, &pwd[PWD_LEN], ft_strlen(&pwd[PWD_LEN]));
+	node = NULL;
+	ft_getenvp("PWD", &node);
+	if (node == NULL || node->envp_str)
+		perror_free_2d_arr_exit("pwd", NULL, NULL, NULL);
+	write(1, node->envp_str, ft_strlen(node->envp_str));
+	write(1, "\n", 1);
 }
