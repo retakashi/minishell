@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/12 15:41:02 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/13 10:09:58 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 # include"./libft/libft.h"
 
 typedef struct s_word_list
@@ -29,7 +30,7 @@ typedef struct s_word_list
 
 typedef enum e_flags
 {
-	command,
+	command = 1,
 	option,
 	arguments,
 	env,

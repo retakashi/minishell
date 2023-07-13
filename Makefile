@@ -6,7 +6,7 @@
 #    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/12 14:05:43 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/13 09:49:07 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ SRCS	=	main.c \
 			is_something.c \
 			make_list.c \
 			utils.c \
-			split_words.c 
 
 OBJS = ${SRCS:%.c=%.o}
 
