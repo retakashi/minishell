@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 17:48:32 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:31:35 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,15 @@
 
 // "\" ";"の解釈は必要なし
 
-t_envp	*g_envp_list;
-
 void	ft_getenvp(char *str, t_envp **node)
 {
 	t_envp	*head;
 
 	head = g_envp_list;
-	while (g_envp_list != NULL)
-	{
-		if (ft_strcmp(g_envp_list->envp_name, str) == 0)
-		{
-			*node = g_envp_list;
-			g_envp_list = head;
-			return ;
-		}
+	while (g_envp_list != NULL && ft_strcmp(g_envp_list->envp_name, str) != 0)
 		g_envp_list = g_envp_list->next;
-	}
+	if (g_envp_list != NULL && ft_strcmp(g_envp_list->envp_name, str) == 0)
+		*node = g_envp_list;
 	g_envp_list = head;
 }
 
@@ -72,5 +64,4 @@ void	main_builtin(t_word_list **head)
 		env_cmd(head);
 	else if (g_envp_list->builtin_flg == exit_no)
 		exit_cmd(head);
-	return ;
 }

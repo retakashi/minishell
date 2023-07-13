@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/13 16:30:31 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:18:39 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	check_syntax_error(t_word_list *head)
 
 void	read_word_list(t_word_list *head)
 {
+	check_syntax_error(head);
 	while (head != NULL)
 	{
-		check_syntax_error(head);
 		if (head != NULL && (head->flag == great || head->flag == less))
 			main_redirection(&head);
 		else if (head != NULL && (head->flag == great_great
