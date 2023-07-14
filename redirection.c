@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:15:58 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/13 21:20:14 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:01:51 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	dup2_stdoutput(t_word_list **word_head)
 			perror_free_2d_arr_exit("close", NULL, NULL, NULL);
 }
 
-void	main_redirection(t_word_list **word_head)
+void	main_redirection(t_word_list **word_head,t_fd *fd_struct)
 {
 	if ((*word_head)->flag == less)
 		dup2_stdinput(&word_head);

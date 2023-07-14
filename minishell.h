@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 21:30:34 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:21:38 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ typedef struct s_word_list
 	int					flag;
 }						t_word_list;
 
+typedef struct s_env_list
+{
+	char				*env_name;
+	char				*env_str;
+	int					builtin_flg;
+	int					sort_num;
+	bool				shell_variable;
+	struct s_env_list	*next;
+}						t_env_list;
+
 typedef struct s_fd
 {
 	int					in_fd;
@@ -46,18 +56,22 @@ typedef struct s_fd
 	int					here_fd;
 }						t_fd;
 
-typedef struct s_envp
+typedef struct s_execve_args
 {
-	char				*envp_name;
-	char				*envp_str;
-	int					write_flg;
-	int					builtin_flg;
-	int					sort_num;
-	char				**envp_2d_arr;
+	char				**env_path;
+	char				**argv;
+}						t_execve_args;
+
+//freeを楽にするためにグローバル変数に先頭のポインタを格納
+typedef struct s_shell
+{
 	t_word_list			*word_head;
+	t_env_list			*env_head;
+	char				**envp_2d_arr;
+	t_execve_args		*execve_args_p;
 	t_fd				*fd_struct;
-	struct s_envp		*next;
-}						t_envp;
+
+}						t_shell;
 
 typedef enum e_builtin_no
 {
@@ -84,15 +98,13 @@ typedef enum e_flags
 	meta_char,
 }						t_flags;
 
-extern t_envp			*g_envp_list;
+extern t_shell			*g_shell_struct;
 
-//get_envp_list.c
-void					get_write_flg(t_envp **node, char *envp);
-size_t					get_len(char *envp, int flg);
+//get_env_list.c
 void					get_envp_str(t_envp **node, char *envp,
 							size_t name_len);
 void					new_node(t_envp **node, char *envp);
-void					get_envp_list(char **envp);
+void					get_env_list(char **envp,t_env_list **head);
 
 //sort_write_envp_list.c
 int						ft_strcmp(char *s1, char *s2);

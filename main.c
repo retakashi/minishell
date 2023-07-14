@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/13 18:18:39 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:08:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,52 @@
 #include "minishell.h"
 //meta_char | & ; ( ) space tab  < > == less,great,| == pipe_char
 
-void	free_g_list(void)
+void	read_word_list(t_word_list *word_list, t_env_list *env_list,t_fd fd_struct)
 {
-	t_envp	*next;
-
-	if (g_envp_list == NULL)
-		return ;
-	if (g_envp_list->word_head != NULL)
-		// free_word_list(); まだ
-		while (g_envp_list != NULL)
-		{
-			next = g_envp_list->next;
-			free(g_envp_list->envp_name);
-			free(g_envp_list->envp_str);
-			free(g_envp_list);
-			g_envp_list = next;
-		}
-	g_envp_list = NULL;
-}
-
-void	check_syntax_error(t_word_list *head)
-{
-	if (head != NULL && head->flag == pipe_char)
-		perror_free_2d_arr_exit("|", NULL, NULL, SYNTAX_ERROR);
-	if (head != NULL && (ft_strcmp(head->word, "&") == 0
-			|| ft_strchr(head->word, ";") == 0))
-		perror_free_2d_arr_exit(head->word, NULL, NULL, SYNTAX_ERROR);
-}
-
-void	read_word_list(t_word_list *head)
-{
-	check_syntax_error(head);
-	while (head != NULL)
+	while (word_list != NULL)
 	{
-		if (head != NULL && (head->flag == great || head->flag == less))
-			main_redirection(&head);
-		else if (head != NULL && (head->flag == great_great
-					|| head->flag == less_less))
-			main_heredoc_or_additionally_write(&head);
-		else if (head != NULL && head->flag == arguments && is_builtin(head))
-			main_builtin(&head);
-		else if (head != NULL && head->flag == arguments && !is_builtin(head))
-			main_command(&head);
+		if (word_list != NULL && word_list->flag == less_less)
+			create_heredoc(&word_list,&fd_struct);
+		else if (word_list != NULL && (word_list->flag == great
+					|| word_list->flag == less))
+			main_redirection(&word_list,&fd_struct);
+		else if (word_list != NULL && word_list->flag == great_great)
+			main_additionally_write(&word_list,&fd_struct);
+		else if (word_list != NULL && word_list->flag == command
+				&& is_builtin(word_list))
+			main_builtin(&word_list,&env_list);
+		else if (word_list != NULL && word_list->flag == command
+				&& !is_builtin(word_list))
+			main_command(&word_list);
 	}
+}
+
+void	is_command_list_head(t_word_list **head)
+{
+	if ((*head)->flag == arguments)
+		(*head)->flag = command;
+	else if ((*head)->flag == great || (*head)->flag == great
+			|| (*head)->flag == less || (*head)->flag == less_less)
+	{
+		if ((*head)->next == NULL)
+			perror_exit("newline", SYNTAX_ERROR);
+		*head = (*head)->next;
+		if ((*head)->flag == pipe_char)
+			perror_exit("|", SYNTAX_ERROR);
+		if ((*head)->next != NULL)
+		{
+			*head = (*head)->next;
+			if ((*head)->flag == arguments)
+				(*head)->flag = command;
+		}
+	}
+	else
+		perror_exit((*head)->word, SYNTAX_ERROR);
 }
 
 void	is_command(t_word_list **head)
 {
-	if ((*head)->flag == arguments)
-		(*head)->flag = command;
+	is_command_list_head(head);
 	while (*head != NULL)
 	{
 		*head = (*head)->next;
@@ -76,22 +73,35 @@ void	is_command(t_word_list **head)
 			(*head)->flag == command;
 		}
 	}
-	*head = g_envp_list->word_head;
+	*head = g_shell_struct->word_head;
 }
 
-void	minishell_init(char **envp)
+void	init_fd_struct(t_fd *fd_struct)
+{
+	fd_struct->here_fd = 0;
+	fd_struct->in_fd = 0;
+	fd_struct->out_fd = 0;
+	fd_struct->pipe_fd[0] = 0;
+	fd_struct->pipe_fd[1] = 0;
+	g_shell_struct->fd_struct = fd_struct;
+}
+
+void	init_minishell(char **envp)
 {
 	t_word_list	*word_head;
+	t_env_list	*env_list_head;
+	t_fd		fd_struct;
 
-	g_envp_list = NULL;
-	if (envp != NULL)
-		get_envp_list(envp);
 	// get_word_list(&word_head); まだ
-	g_envp_list->word_head = word_head;
 	is_command(&word_head);
-	read_word_list(word_head);
-	free_g_list();
-	//free_word_list(head);
+	g_shell_struct->word_head = word_head;
+	g_shell_struct->env_head = NULL;
+	env_list_head = NULL;
+	g_shell_struct = envp;
+	if (envp != NULL)
+		get_envp_list(envp, &env_list_head);
+	init_fd_struct(&fd_struct);
+	read_word_list(word_head, env_list_head,fd_struct);
 }
 
 // __attribute__((destructor))
