@@ -6,13 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 17:32:11 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 01:22:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "gnl/get_next_line.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -41,7 +42,7 @@ typedef struct s_env_list
 {
 	char				*env_name;
 	char				*env_str;
-	int					sort_num;
+	int					write_flg;
 	bool				shell_variable;
 	struct s_env_list	*next;
 }						t_env_list;
@@ -89,7 +90,50 @@ typedef enum e_flags
 extern t_shell			*g_shell_struct;
 
 // addtionally_write.c
-void					additionally_write(t_word_list **word_head,
+void	additionally_write(t_word_list **word_head,
+						t_fd *fd_struct);
+//cd.c
+void					cd_cmd(t_word_list **word_list, t_env_list *env_list);
+//command.c
+void					main_command(t_word_list *word_list,
+							t_env_list *env_list);
+void					ft_get_env(char *str, t_env_list *env_list,
+							t_env_list **tmp);
+//echo.c
+void					echo_cmd(t_word_list **word_list);
+//env.c
+void					env_cmd(t_word_list **word_list, t_env_list *env_list);
+//error.c
+void					perror_exit(char *str, int error_flg);
+//exit.c
+void					exit_cmd(t_word_list **word_list);
+//export.c
+void					export_cmd(t_word_list **word_list,
+							t_env_list **env_list);
+//get_env_list.c
+size_t					get_name_len(char *str);
+void					new_node(t_env_list **node, char *envp);
+void					get_env_list(char **envp, t_env_list **head);
+//get_word_list.c
+void					get_word_list(t_word_list **head, char **argv);
+//heredoc.c
+void					create_heredoc(t_word_list **word_head,
 							t_fd *fd_struct);
+//pwd.c
+void					pwd_cmd(t_word_list **word_list, t_env_list *env_list);
+//redirection.c
+void					main_redirection(t_word_list **word_list,
+							t_fd *fd_struct);
+//export.nooption.c
+int						ft_strcmp(char *s1, char *s2);
+void					export_nooption(t_env_list *env_list);
+//pwd.c
+void					pwd_cmd(t_word_list **word_list, t_env_list *env_list);
+//redirecrion.c
+void					main_redirection(t_word_list **word_list,
+							t_fd *fd_struct);
+//unset.c
+void					unset_cmd(t_word_list **word_list,
+							t_env_list **env_list);
 
 #endif

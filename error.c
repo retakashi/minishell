@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 17:31:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 00:02:09 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	write_env_error(void)
 	write(2, str, ft_strlen(str));
 }
 
-void	put_error_free_2d_arr_exit(char *str,int error_flg)
+void	perror_exit(char *str,int error_flg)
 {
 
 	if (error_flg == COMMAND_ERROR)

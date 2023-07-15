@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 18:36:13 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/15 23:53:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	new_node(t_env_list **node, char *envp)
 	}
 	else
 		(*node)->env_str = NULL;
-	(*node)->sort_num = 0;
+	(*node)->write_flg = false;
 	(*node)->shell_variable = false;
 	(*node)->next = NULL;
 }

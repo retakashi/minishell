@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:31:53 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/15 16:39:50 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 00:35:13 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	additionally_write(t_word_list **word_head, t_fd *fd_struct)
 								O_RDWR | O_CREAT | O_APPEND,
 								S_IREAD | S_IWRITE);
 	if (dup2(fd_struct->out_fd, STDOUT_FILENO) < 0)
-		put_error_free_2d_arr_exit("dup2", NULL, NULL, NULL);
+		perror_exit("dup2", 0);
 	if (close(fd_struct->out_fd) < 0)
-		put_error_free_2d_arr_exit("close", NULL, NULL, NULL);
+		perror_exit("close",0);
 }
