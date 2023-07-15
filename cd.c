@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 20:34:09 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:10:44 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,47 +21,42 @@
 //チルダプレフィックスが `~+' ならば、チルダプレフィックスはシェル変数 PWD の値
 //チルダプレフィックスが `~-' ならば、シェル変数 OLDPWD の値
 
-void	move_to_home(t_word_list **head)
+void	move_to_home(t_env_list *env_list)
 {
-	t_envp	*node;
+	t_env_list	*node;
 
 	node = NULL;
 	ft_getenvp("HOME", &node);
-	if (node == NULL || node->envp_str == NULL)
-		perror_free_2d_arr_exit("cd", NULL, NULL, NULL);
-	if (chdir(node->envp_str) < 0)
-		perror_free_2d_arr_exit("chdir", NULL, NULL, NULL);
-	while (*head != NULL || (*head)->flag != pipe_char)
-	{
-		*head = (*head)->next;
-		if ((*head)->flag != arguments && (*head)->flag != option)
-			perror_free_2d_arr_exit("newline", NULL, NULL, SYNTAX_ERROR);
-	}
+	if (node == NULL)
+		perror_exit("HOME doesn't exist", 0);
+	if (chdir(node->env_str) < 0)
+		perror_exit("chdir", 0);
 }
 
-void	move_to_oldpwd(t_word_list **head)
+void	move_to_oldpwd(t_env_list *env_list)
 {
-	t_envp	*node;
+	t_env_list	*node;
 
+	node=NULL;
 	ft_getenvp("OLDPWD", &node);
-	if (*head != NULL)
-		*head = (*head)->next;
-	if (node == NULL || node->envp_str == NULL)
-		perror_free_2d_arr_exit("cd", NULL, NULL, NULL);
-	if (chdir(node->envp_str) < 0)
-		perror_free_2d_arr_exit("chdir", NULL, NULL, NULL);
+	if (node == NULL)
+		perror_exit("OLDPWD doesn't exist", 0);
+	if (chdir(node->env_str) < 0)
+		perror_exit("chdir", 0);	
 }
 
-void	cd_cmd(t_word_list **head)
+void	cd_cmd(t_word_list **word_list,t_env_list *env_list)
 {
-	*head = (*head)->next;
-	if (*head == NULL || ft_strcmp((*head)->word, "~") == 0)
-		move_to_home(head);
-	else if (*head == NULL || ft_strcmp((*head)->word, "-") == 0)
-		move_to_oldpwd(head);
+	*word_list = (*word_list)->next;
+	if (*word_list== NULL || ft_strcmp((*word_list)->word, "~") == 0)
+		move_to_home(env_list);
+	else if (*word_list == NULL || ft_strcmp((*word_list)->word, "-") == 0)
+		move_to_oldpwd(env_list);
 	else
 	{
-		if (chdir((*head)->word) < 0)
-			perror_free_2d_arr_exit("chdir", NULL, NULL, NULL);
+		if (chdir((*word_list)->word) < 0)
+			perror_exit("chdir", 0);
 	}
+	while (*word_list != NULL && (*word_list)->flag != pipe_char)
+		*word_list = (*word_list)->next;
 }

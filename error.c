@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/14 16:04:03 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:31:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ void	write_command_error(char *str)
 	write(2, error, ft_strlen(error));
 }
 
-void	write_syntax_error(char *str)
-{
-	char	*error;
-
-	error = "syntax error near unexpected token ";
-	write(2, error, ft_strlen(error));
-	write(2, "`", 1);
-	write(2, str, ft_strlen(str));
-	write(2, "'\n", 2);
-}
-
 void	write_env_error(void)
 {
 	char	*str;
@@ -46,8 +35,6 @@ void	put_error_free_2d_arr_exit(char *str,int error_flg)
 
 	if (error_flg == COMMAND_ERROR)
 		write_command_error(str);
-	else if (error_flg == SYNTAX_ERROR)
-		write_syntax_error(str);
 	else if (error_flg == ENV_ERROR)
 		write_env_error();
 	else

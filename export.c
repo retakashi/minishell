@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/12 18:03:49 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/15 18:41:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,107 +16,62 @@
 //argv[0]->export
 //argv[1]->aaa=hello
 
-t_envp	*g_envp_list;
-
-int	search_same_name(char *s1, char *s2)
+bool	search_env_name(char *str, t_env_list **env_list)
 {
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	str_name;
+	size_t	env_name;
 
-	if (s1 == NULL || s2 == NULL)
-		return (FALSE);
-	s1_len = get_len(s1, NAME);
-	s2_len = get_len(s2, NAME);
-	if (s1_len == s2_len && !ft_strncmp(s1, s2, s1_len))
-		return (TRUE);
-	return (FALSE);
+	if (*env_list == NULL)
+		return (false);
+	str_name = get_name_len(str);
+	env_name = ft_strlen((*env_list)->env_name);
+	while ((*env_list)->next != NULL && str_name == env_name && ft_strncmp(str,
+			(*env_list)->env_name, str_name) == 0)
+		*env_list = (*env_list)->next;
+	if ((*env_list)->next == NULL&&!(str_name == env_name && ft_strncmp(str, (*env_list)->env_name,
+			str_name)==0))
+		return (false);
+	return (true);
 }
 
-void	is_envp_name(char *argv, int *flg, t_envp **update_node)
+void	add_env_list(t_env_list **env_list, char *str)
 {
-	t_envp	*head;
+	t_env_list	*new;
 
-	head = g_envp_list;
-	while (g_envp_list != NULL)
-	{
-		if (search_same_name(argv, g_envp_list->envp_name) == TRUE)
-		{
-			*flg = UPDATE;
-			*update_node = g_envp_list;
-			break ;
-		}
-		g_envp_list = g_envp_list->next;
-	}
-	g_envp_list = head;
-}
-
-int	is_shell_variable(char *argv, char **envp)
-{
-	size_t	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (search_same_name(argv, envp[i]) == FALSE)
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-void	add_envp_list(char *argv, char **envp)
-{
-	t_envp	*new;
-	t_envp	*head;
-
-	head = g_envp_list;
 	new = NULL;
-	new_node(&new, argv);
-	if (is_shell_variable(argv, envp) == TRUE)
-		new->shell_variable = TRUE;
-	while (g_envp_list->next != NULL)
-		g_envp_list = g_envp_list->next;
-	g_envp_list->next = new;
-	g_envp_list = head;
+	new_node(&new, str);
+	while (*env_list != NULL && (*env_list)->next != NULL)
+		*env_list = (*env_list)->next;
+	(*env_list)->next = new;
+	*env_list = head;
 }
 
-void	envp_str_update(char *argv, t_envp **update_node)
+void	update_env_str(t_env_list **env_list, char *str)
 {
 	size_t	name_len;
 	size_t	str_len;
 
-	if (!ft_strchr(argv, '='))
+	if (!ft_strchr(str, '='))
 		return ;
-	name_len = get_len(argv, NAME);
-	str_len = get_len(&argv[name_len + 1], STR);
-	free((*update_node)->envp_str);
-	(*update_node)->envp_str = malloc(sizeof(char) * (str_len + 1));
-	if ((*update_node)->envp_str == NULL)
-		perror_free_2d_arr_exit("malloc",NULL,NULL);
-	ft_strlcpy((*update_node)->envp_str, &argv[name_len + 1], str_len + 1);
+	name_len = get_envz_name(str);
 }
 
-void	export_cmd(char **argv, char **envp)
+void	export_cmd(t_word_list **word_list, t_env_list **env_list)
 {
-	t_envp	*update_node;
-	int		flg;
-	size_t	i;
+	t_env_list	*head;
 
-	if (argv[1] == NULL)
+	if ((*word_list)->next == NULL)
 		export_nooption();
 	else
 	{
-		i = 1;
-		while (argv[i] != NULL)
+		head = *env_list;
+		*word_list = (*word_list)->next;
+		while ((*word_list)->flag != arguments)
 		{
-			update_node = NULL;
-			flg = ADD;
-			is_envp_name(argv[i], &flg, &update_node);
-			if (update_node != NULL && flg == UPDATE)
-				envp_str_update(argv[i], &update_node);
+			if (search_env_name((*word_list)->word, env_list) == true)
+				env_str_update(&env_list, word_list);
 			else
-				add_envp_list(argv[i], envp);
-			i++;
+				add_env_list(env_list, );
 		}
 		// export_nooption();
 	}

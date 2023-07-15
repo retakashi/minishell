@@ -3,25 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/07 22:31:01 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:39:07 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-//argv[0]->exit
-//argv[1]->status (0-255) 255<num num=num%256
-
-t_envp	*g_envp_list;
-
-void	exit_cmd(char **argv)
+void	exit_cmd(t_word_list **word_list)
 {
-	if (argv[1] == NULL)
+	if ((*word_list)->next==NULL)
 		exit(EXIT_SUCCESS);
-	g_envp_list->exit_status = ft_atoi(argv[1]);
+	*word_list=(*word_list)->next;
+	g_shell_struct->exit_status = ft_atoi((*word_list)->word);
 	exit(EXIT_SUCCESS);
 }

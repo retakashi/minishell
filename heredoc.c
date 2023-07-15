@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/14 17:12:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:41:10 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 void	get_here_fd(t_word_list **word_head, t_fd *fd_struct)
 {
-	if ((*word_head)->next == NULL)
-		perror_exit("newline", SYNTAX_ERROR);
 	*word_head = (*word_head)->next;
 	fd_struct->here_fd = open(".heredoc_file",
 								O_WRONLY | O_CREAT | O_TRUNC,

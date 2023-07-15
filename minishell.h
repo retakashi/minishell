@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/14 16:21:38 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:32:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define STR 0
 # define ADD 1
 # define UPDATE 0
-# define SYNTAX_ERROR -1
 # define COMMAND_ERROR -2
 # define ENV_ERROR -3
 
@@ -42,7 +41,6 @@ typedef struct s_env_list
 {
 	char				*env_name;
 	char				*env_str;
-	int					builtin_flg;
 	int					sort_num;
 	bool				shell_variable;
 	struct s_env_list	*next;
@@ -70,19 +68,9 @@ typedef struct s_shell
 	char				**envp_2d_arr;
 	t_execve_args		*execve_args_p;
 	t_fd				*fd_struct;
+	int					exit_status;
 
 }						t_shell;
-
-typedef enum e_builtin_no
-{
-	echo_no,
-	cd_no,
-	pwd_no,
-	export_no,
-	unset_no,
-	env_no,
-	exit_no
-}						t_builtin_no;
 
 typedef enum e_flags
 {
@@ -100,22 +88,8 @@ typedef enum e_flags
 
 extern t_shell			*g_shell_struct;
 
-//get_env_list.c
-void					get_envp_str(t_envp **node, char *envp,
-							size_t name_len);
-void					new_node(t_envp **node, char *envp);
-void					get_env_list(char **envp,t_env_list **head);
+// addtionally_write.c
+void					additionally_write(t_word_list **word_head,
+							t_fd *fd_struct);
 
-//sort_write_envp_list.c
-int						ft_strcmp(char *s1, char *s2);
-void					export_nooption(void);
-
-//error.c
-void					perror_free_exit(char *str);
-
-//env.c
-void					env_cmd(char **argv);
-
-//export.c
-void					export_cmd(char **argv);
 #endif
