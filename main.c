@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/15 17:32:47 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 00:03:38 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	read_word_list(t_word_list *word_list, t_env_list *env_list,
 		else if (word_list != NULL && word_list->flag == great_great)
 			main_additionally_write(&word_list, &fd_struct);
 		else if (word_list != NULL && word_list->flag == command)
-			main_command(&word_list);
+			main_command(word_list,env_list);
 	}
 }
 

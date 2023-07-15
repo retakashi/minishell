@@ -3,58 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/07 19:30:17 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/16 00:33:30 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-//argv[0]->unset
-//argv[1]->variable
-
-t_envp	*g_envp_list;
-
-void	remove_node(t_envp **head, t_envp *node)
+void	remove_node(t_env_list **env_list,t_env_list *tmp)
 {
-	t_envp	*prev;
+	t_env_list *head;
+	t_env_list	*prev;
 
-	if (*head == node)
-		*head = g_envp_list->next;
-	else
+	head=*env_list;
+	prev=*env_list;
+	if(head==tmp)
+	head=(*env_list)->next;
+	while(*env_list!=NULL&&ft_strcmp((*env_list)->env_name,tmp->env_name)!=0)
 	{
-		prev = g_envp_list;
-		while (g_envp_list != NULL)
-		{
-			if (!ft_strcmp(node->envp_name, g_envp_list->envp_name))
-			{
-				prev->next = g_envp_list->next;
-				break ;
-			}
-			prev = g_envp_list;
-			g_envp_list = g_envp_list->next;
-		}
+		prev=*env_list;
+		*env_list=(*env_list)->next;
 	}
-	free(g_envp_list->envp_name);
-	free(g_envp_list->envp_str);
-	free(g_envp_list);
+	if((*env_list)->next==NULL)
+	prev->next=NULL;
+	else
+	prev->next=(*env_list)->next;
+	free((*env_list)->env_name);
+	free((*env_list)->env_str);
+	free(env_list);
+	*env_list=head;
 }
 
-void	unset_cmd(char **argv)
+void	unset_cmd(t_word_list **word_list ,t_env_list **env_list)
 {
-	t_envp	*node;
-	t_envp	*head;
-
-	if (argv[1] == NULL)
+	t_env_list *head;
+	t_env_list *tmp;
+	
+	head=*env_list;
+	if (*env_list == NULL)
 		return ;
-	node = NULL;
-	if (search_same_name(argv[1], &node) == FALSE)
+	if (search_env_name((*word_list)->word, env_list) == false)
 		return ;
-	head = g_envp_list;
-	remove_node(&head, node);
-	g_envp_list = head;
+	tmp=*env_list;
+	*env_list=head;
+	remove_node(env_list,tmp);
 	// export_nooption();
 }
