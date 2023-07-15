@@ -6,81 +6,82 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/13 13:34:13 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/15 15:40:35 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-/*新しいリストを作る→次のノードの指す場所はNUll埋めする*/
-t_word_list	*ft_newlst(char *content)
-{
-	t_word_list	*new;
 
-	new = malloc(sizeof(t_word_list));
-	if (new == NULL)
-		return (NULL);
-	new->word = ft_strdup(content);
-	new->next = NULL;
-	return (new);
+int	is_meta(char *str)
+{
+	t_flags	meta_num;
+
+	meta_num = 0;
+	if (ft_strrchr(str, '|'))
+		meta_num = pipe_char;
+	if (ft_strncmp(str, ">", ft_strlen(str)))
+		meta_num = great;
+	// if (ft_strncmp(str, ">>", ft_strlen(str)))
+	// 	meta_num = great_great;
+	if (ft_strncmp(str, "<", ft_strlen(str)))
+		meta_num = less;
+	// if (ft_strncmp(str, "<<", ft_strlen(str)))
+	// 	meta_num = less_less;
+	return (meta_num);
 }
 
-int	dquotes_sprt(char *line, int i)
+t_word_list	*split_list(t_word_list *string, char *flag)
 {
-	while (*line != ' ')
-		line++;
-	while (*line != '"')
-	{
-		i++;
-		line++;
-	}
-	i++;
-	return (i);
-}
+	t_word_list *tmp;
+	t_word_list *new;
 
-int	squotes_sprt(char *line, int i)
-{
-	while (*line != ' ')
-		line++;
-	while (*line != '\'')
-	{
-		i++;
-		line++;
-	}
-	i++;
-	return (i);
-}
+	char 		**split;
+	int			i;
 
-t_word_list	*creat_list(char *line, int i)
-{
-	char		*content;
-	t_word_list	*new;
-
-	if (*line == '"')
-		i = dquotes_sprt(line, i);
-	if (*line == '\'')
-		i = squotes_sprt(line, i);
-	content = malloc(sizeof (char) * (i + 1));
-	content = duplicate(content, line, i);
-	new = ft_newlst(content);
-	free(content);
-	return (new);
-}
-
-t_word_list	*sp_sprt(char **line, t_word_list *string, int i)
-{
-	t_word_list	*new;
-
-	new = creat_list(*line, i);
+	i = 1;
+	tmp = string;
+	split = split_str(string->word, flag);
+	if (split == NULL)
+		return (tmp);
+	string->word = ft_strdup(split[0]);
+	new = ft_newlst(flag);
 	string->next = new;
 	string = string->next;
-	*line += (ft_strlen(new->word));
-	return (string);
+	while (split[i])
+	{
+		new = creat_list(split[i], ft_strlen(split[i]));
+		string->next = new;
+		string = string->next;
+		new = ft_newlst(flag);
+		string->next = new;
+		string = string->next;
+		i++;
+	}
+	printf("%s come here!! \n", flag);
+	return (tmp);
 }
 
 t_word_list	*find_meta(t_word_list *string)
 {
-	
+	t_word_list	*tmp;
+	t_flags flag;
+
+	tmp = string;
+	while (string != NULL)
+	{
+		flag = is_meta(string->word);
+		if (flag == 5 && (ft_strlen(string->word) > 1))
+			string = split_list(string, "|");
+		else if (flag == 6 && (ft_strlen(string->word) > 1))
+			string = split_list(string, ">");
+		else if (flag == 7 && (ft_strlen(string->word) > 2))
+			string = split_list(string, ">>");
+		else if (flag == 8 && (ft_strlen(string->word) > 1))
+			string = split_list(string, "<");
+		string = string->next;
+	}
+	return (tmp);
 }
 
 

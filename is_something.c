@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:28:09 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/13 13:36:11 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/14 12:52:20 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,39 +29,39 @@ bool	is_argument(char *str)
 	return (false);
 }
 
-char	*is_meta_in_arguments(char *str)
-{
-	t_flags	flag;
-	int		i;
+// char	*is_meta_in_arguments(char *str)
+// {
+// 	t_flags	flag;
+// 	int		num;
+// 	int		i;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		flag = is_meta(str[i]);
-		if (flag)
-			break;
-		i++;
-		str++;
-	}
-	return (str);
-}
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		num = is_meta(str[i]);
+// 		if (num)
+// 			break;
+// 		i++;
+// 		str++;
+// 	}
+// 	return (str);
+// }
 
 
-bool	is_meta(char *str)
-{
-	t_flags	meta_num;
+// int	is_meta(char *str)
+// {
+// 	t_flags	meta_num;
 
-	meta_num = 0;
-
-	if (ft_strncmp(str, '|', ft_strlen(str)))
-		meta_num = pipe_char;
-	if (ft_strncmp(str, '>', ft_strlen(str)))
-		meta_num = great;
-	if (ft_strncmp(str, ">>", ft_strlen(str)))
-		meta_num = great_great;
-	if (ft_strncmp(str, '<', ft_strlen(str)))
-		meta_num = less;
-	if (ft_strncmp(str, "<<", ft_strlen(str)))
-		meta_num = less_less;
-	return (meta_num);
-}
+// 	meta_num = 0;
+// 	if (ft_strncmp(str, "|", ft_strlen(str)))
+// 		meta_num = pipe_char;
+// 	if (ft_strncmp(str, ">", ft_strlen(str)))
+// 		meta_num = great;
+// 	if (ft_strncmp(str, ">>", ft_strlen(str)))
+// 		meta_num = great_great;
+// 	if (ft_strncmp(str, "<", ft_strlen(str)))
+// 		meta_num = less;
+// 	if (ft_strncmp(str, "<<", ft_strlen(str)))
+// 		meta_num = less_less;
+// 	return (meta_num);
+// }
