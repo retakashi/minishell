@@ -3,45 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:52 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:30:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-t_envp		*g_envp_list;
-
-static void	write_envp(void)
+static void	write_env(t_env_list *env_list)
 {
-	t_envp	*head;
-	t_envp	*node;
+	t_env_list	*node;
 
-	node = NULL;
 	ft_getenvp("PATH", &node);
-	if (node == NULL || node->envp_str == NULL)
-		perror_free_2d_arr_exit(NULL, NULL, NULL, ENV_ERROR);
-	head = g_envp_list;
-	while (g_envp_list != NULL)
+	if (node == NULL)
+		perror_exit(NULL, ENV_ERROR);
+	while (env_list != NULL)
 	{
-		if (g_envp_list->envp_str != NULL)
+		if (env_list->env_str != NULL && env_list->shell_variable == false)
 		{
-			write(1, g_envp_list->envp_name, ft_strlen(g_envp_list->envp_name));
+			write(1, env_list->env_name, ft_strlen(env_list->env_name));
 			write(1, "=", 1);
-			write(1, g_envp_list->envp_str, ft_strlen(g_envp_list->envp_str));
+			write(1, env_list->env_str, ft_strlen(env_list->env_str));
 			write(1, "\n", 1);
 		}
-		g_envp_list = g_envp_list->next;
+		env_list = env_list->next;
 	}
-	g_envp_list = head;
 }
 
-void	env_cmd(t_word_list **head)
+void	env_cmd(t_word_list **word_list, t_env_list *env_list)
 {
-	write_envp();
-	while (*head != NULL && (*head)->flag != pipe_char)
-		*head = (*head)->next;
+	write_env(env_list);
+	while (*word_list != NULL && (*word_list)->flag != pipe_char)
+		*word_list = (*word_list)->next;
 }

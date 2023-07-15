@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:16 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:29:56 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,27 @@ bool	should_putstr(t_word_list *head)
 		return (false);
 	if (head->flag == arguments || head->flag == option)
 		return (true);
-	else
-		perror_free_2d_arr_exit("newline", NULL, NULL, SYNTAX_ERROR);
+	return(false);
 }
 
-void	echo_cmd(t_word_list **head)
+void	echo_cmd(t_word_list **word_list)
 {
 	int	opt_flg;
 
 	opt_flg = 0;
-	if ((*head)->next == NULL)
+
+	*word_list = (*word_list)->next;
+	if (*word_list!=NULL&&ft_strcmp((*word_list)->word, "-n") == 0)
 	{
-		ft_putstr_fd("\n", 1);
-		return ;
-	}
-	*head = (*head)->next;
-	if (*head != NULL && ft_strcmp((*head)->word, "-n") == 0)
-	{
-		if ((*head)->next == NULL)
-			return ;
 		opt_flg = 1;
-		*head = (*head)->next;
+		*word_list = (*word_list)->next;
 	}
-	while (should_putstr(*head))
+	while (should_putstr(*word_list))
 	{
-		ft_putstr_fd((*head)->word, 1);
-		if ((*head)->next != NULL && should_putstr((*head)->next))
+		ft_putstr_fd((*word_list)->word, 1);
+		if ((*word_list)->next != NULL && should_putstr((*word_list)->next))
 			ft_putstr_fd(" ", 1);
-		*head = (*head)->next;
+		*word_list = (*word_list)->next;
 	}
 	if (opt_flg == 0)
 		ft_putstr_fd("\n", 1);

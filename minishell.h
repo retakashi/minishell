@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 21:30:34 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:32:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define STR 0
 # define ADD 1
 # define UPDATE 0
-# define SYNTAX_ERROR -1
 # define COMMAND_ERROR -2
 # define ENV_ERROR -3
 
@@ -38,6 +37,15 @@ typedef struct s_word_list
 	int					flag;
 }						t_word_list;
 
+typedef struct s_env_list
+{
+	char				*env_name;
+	char				*env_str;
+	int					sort_num;
+	bool				shell_variable;
+	struct s_env_list	*next;
+}						t_env_list;
+
 typedef struct s_fd
 {
 	int					in_fd;
@@ -46,29 +54,23 @@ typedef struct s_fd
 	int					here_fd;
 }						t_fd;
 
-typedef struct s_envp
+typedef struct s_execve_args
 {
-	char				*envp_name;
-	char				*envp_str;
-	int					write_flg;
-	int					builtin_flg;
-	int					sort_num;
-	char				**envp_2d_arr;
-	t_word_list			*word_head;
-	t_fd				*fd_struct;
-	struct s_envp		*next;
-}						t_envp;
+	char				**env_path;
+	char				**argv;
+}						t_execve_args;
 
-typedef enum e_builtin_no
+//freeを楽にするためにグローバル変数に先頭のポインタを格納
+typedef struct s_shell
 {
-	echo_no,
-	cd_no,
-	pwd_no,
-	export_no,
-	unset_no,
-	env_no,
-	exit_no
-}						t_builtin_no;
+	t_word_list			*word_head;
+	t_env_list			*env_head;
+	char				**envp_2d_arr;
+	t_execve_args		*execve_args_p;
+	t_fd				*fd_struct;
+	int					exit_status;
+
+}						t_shell;
 
 typedef enum e_flags
 {
@@ -84,26 +86,10 @@ typedef enum e_flags
 	meta_char,
 }						t_flags;
 
-extern t_envp			*g_envp_list;
+extern t_shell			*g_shell_struct;
 
-//get_envp_list.c
-void					get_write_flg(t_envp **node, char *envp);
-size_t					get_len(char *envp, int flg);
-void					get_envp_str(t_envp **node, char *envp,
-							size_t name_len);
-void					new_node(t_envp **node, char *envp);
-void					get_envp_list(char **envp);
+// addtionally_write.c
+void					additionally_write(t_word_list **word_head,
+							t_fd *fd_struct);
 
-//sort_write_envp_list.c
-int						ft_strcmp(char *s1, char *s2);
-void					export_nooption(void);
-
-//error.c
-void					perror_free_exit(char *str);
-
-//env.c
-void					env_cmd(char **argv);
-
-//export.c
-void					export_cmd(char **argv);
 #endif
