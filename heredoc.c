@@ -6,12 +6,15 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 17:41:10 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:06:35 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+#include "gnl/get_next_line.h"
+
+extern t_shell			*g_shell_struct;
 
 void	get_here_fd(t_word_list **word_head, t_fd *fd_struct)
 {

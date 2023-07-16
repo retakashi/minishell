@@ -6,12 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:15:58 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/16 01:14:38 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:07:09 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+extern t_shell			*g_shell_struct;
 
 void	dup2_stdinput(t_word_list **word_list,t_fd *fd_struct)
 {
