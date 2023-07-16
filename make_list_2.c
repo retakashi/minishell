@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/14 14:06:36 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/16 17:14:30 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,33 @@ t_word_list	*ft_newlst(char *content)
 	return (new);
 }
 
-int	dquotes_sprt(char *line, int i)
+int	dquotes_sprt(char *line)
 {
-	while (*line != ' ')
-		line++;
+	int i;
+
+	i = 0;
+	line++;
 	while (*line != '"')
 	{
 		i++;
 		line++;
 	}
-	i++;
+	i += 2;
 	return (i);
 }
 
-int	squotes_sprt(char *line, int i)
+int	squotes_sprt(char *line)
 {
-	while (*line != ' ')
-		line++;
+	int i;
+
+	i = 0;
+	line++;
 	while (*line != '\'')
 	{
 		i++;
 		line++;
 	}
-	i++;
+	i += 2;
 	return (i);
 }
 
@@ -57,9 +61,9 @@ t_word_list	*creat_list(char *line, int i)
 	t_word_list	*new;
 
 	if (*line == '"')
-		i = dquotes_sprt(line, i);
+		i = dquotes_sprt(line);
 	if (*line == '\'')
-		i = squotes_sprt(line, i);
+		i = squotes_sprt(line);
 	content = malloc(sizeof (char) * (i + 1));
 	content = duplicate(content, line, i);
 	new = ft_newlst(content);

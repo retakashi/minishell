@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
+#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/15 15:06:39 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/16 11:59:22 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS	=	main.c \
 			is_something.c \
 			make_list.c \
 			make_list_2.c \
+			make_list_3.c \
 			utils.c \
 			split_str.c
 

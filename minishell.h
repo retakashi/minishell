@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/15 15:06:27 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/16 17:10:17 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,28 @@ typedef enum e_flags
 //parse_line.c
 void					parse_line(char *line);
 //make_list.c
-t_word_list				*ft_newlst(char *content);
 t_word_list				*make_list(char *line);
-int						dquotes_sprt(char *line, int i);
-int						squotes_sprt(char *line, int i);
+
+//make_list2.c
+t_word_list				*ft_newlst(char *content);
+int						dquotes_sprt(char *line);
+int						squotes_sprt(char *line);
 t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
+//make_list3.c
+t_word_list				*find_meta(t_word_list *string);
+t_word_list				*split_list(t_word_list *string, char *flag);
+int						is_meta(char *str);
 //split_words.c
 
 //is_something.c
 
 //utils.c
 void					*ft_free_line2(char **result);
-char					*ft_strncpy(char *dest, char *src, unsigned int n);
 char					*duplicate(char *content, char *line, unsigned int n);
 //split_str.c
 char					**split_str(char *str, char *charset);
 
+void					print_words(t_word_list *string);
 
 #endif

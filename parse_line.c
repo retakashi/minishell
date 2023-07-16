@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paser_line.c                                       :+:      :+:    :+:   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/14 11:59:06 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/16 15:54:33 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,17 @@ void	parse_line(char *line)
 	}
 	string = make_list(line);
 	tmp = string;
+	printf( "\n ---------------       ----------------\n");
+	print_words(string);
+	return ;
+}
+
+void	print_words(t_word_list *string)
+{
 	while (string != NULL)
 	{
 		printf("string->word = %s \n", string->word);
 		string = string->next;
 	}
-	string = tmp;
 	return ;
 }
