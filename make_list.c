@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/16 17:20:12 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/17 20:16:53 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ t_word_list	*make_list(char *line)
 		string->next->next = NULL;
 	}
 	string = tmp;
-	printf( "\n ----------  after meta  -------\n");
 	string = find_meta(string);
-	print_words(string);
 	return (string);
 }
