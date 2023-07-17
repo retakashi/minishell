@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/16 17:25:40 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/17 13:26:42 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_word_list	*split_list(t_word_list *string, char *flag)
 	if (split == NULL)
 		return (tmp);
 	tmp2 = string->next;
-	if (string != NULL && string->word[0] == '|')	
+	if (string != NULL && string->word[0] == flag[0])	
 	{
 		string->word = ft_strdup(flag);
 		new = ft_newlst(split[0]);
@@ -81,24 +81,6 @@ t_word_list	*split_list(t_word_list *string, char *flag)
 	string->next = tmp2;
 	ft_free_line2(split);
 	return (tmp);
-}
-
-t_word_list	*argument_flag(t_word_list *string)
-{
-	t_word_list	*tmp;
-
-	tmp = string;
-	while (tmp != NULL)
-	{
-		if (tmp->word != NULL && (tmp->word[0] == '"' || tmp->word[0] == '\''))
-			tmp->flag = 3;
-		if (tmp->flag == 3)
-			printf("%s is an argument\n", tmp->word);
-		tmp = tmp->next;
-	}
-	// string = tmp;
-	printf("finished\n");
-	return (string);
 }
 
 t_word_list	*find_meta(t_word_list *string)

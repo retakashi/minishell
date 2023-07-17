@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/16 17:10:17 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/17 12:00:06 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
 t_word_list				*find_meta(t_word_list *string);
 t_word_list				*split_list(t_word_list *string, char *flag);
 int						is_meta(char *str);
+//make_list4.c
+t_word_list				*argument_flag(t_word_list *string);
 //split_words.c
 
 //is_something.c
