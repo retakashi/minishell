@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/16 15:06:13 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/19 01:25:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-extern t_shell			*g_shell_struct;
+extern t_shell	*g_shell_struct;
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -60,26 +60,33 @@ static void	write_env_exportver(t_env_list *env_list)
 	write(1, "\n", 1);
 }
 
+static void	get_min(t_env_list **min, t_env_list *env_list)
+{
+	while (env_list != NULL && env_list->write_flg == true)
+		env_list = env_list->next;
+	*min = env_list;
+}
+
 void	export_nooption(t_env_list *env_list)
 {
-	int cnt;
-	t_env_list *head;
-	t_env_list *min;
+	int			cnt;
+	t_env_list	*head;
+	t_env_list	*min;
 
 	cnt = cnt_envp_list(env_list);
 	head = env_list;
-	min = env_list;
 	while (cnt > 0)
 	{
 		env_list = head;
+		get_min(&min, env_list);
 		while (env_list != NULL)
 		{
 			if (env_list->write_flg == false && ft_strcmp(min->env_name,
-					env_list->env_name) < 0)
+					env_list->env_name) > 0)
 				min = env_list;
 			env_list = env_list->next;
 		}
-		min->write_flg=true;
+		min->write_flg = true;
 		write_env_exportver(min);
 		cnt--;
 	}
