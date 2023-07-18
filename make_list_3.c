@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/17 13:26:42 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/18 21:07:43 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ int	is_meta(char *str)
 	return (meta_num);
 }
 
-
-/*
-ここの関数の＞＞echoの順番を修正したら、OK
-例）    echo raza|echo "raza | shaeruku" >>echo "rtakaashi">>tesst|ehoc raa
-ほぼ全部のスプリットができているので、上記の内容をうまくつじつま合わせができれば完了する
-*/
 t_word_list	*split_list(t_word_list *string, char *flag)
 {
 	t_word_list	*tmp;

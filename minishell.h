@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/17 12:00:06 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/18 10:27:22 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_word_list				*split_list(t_word_list *string, char *flag);
 int						is_meta(char *str);
 //make_list4.c
 t_word_list				*argument_flag(t_word_list *string);
-//split_words.c
 
 //is_something.c
 
