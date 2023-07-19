@@ -6,14 +6,16 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:23:36 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 16:32:49 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/18 21:30:19 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-void	new_word_list(t_word_list **node, char *argv)
+extern t_shell			*g_shell_struct;
+
+void	new_word_node(t_word_list **node, char *argv)
 {
 	*node = malloc(sizeof(t_word_list));
 	(*node)->next = NULL;
@@ -21,9 +23,9 @@ void	new_word_list(t_word_list **node, char *argv)
 		(*node)->flag = less;
 	else if (ft_strchr(argv, '>'))
 		(*node)->flag = great;
-	else if (ft_strncmp(argv, ">>", 2))
+	else if (!ft_strncmp(argv, ">>", 3))
 		(*node)->flag = great_great;
-	else if (ft_strncmp(argv, "<<", 2))
+	else if (!ft_strncmp(argv, "<<", 3))
 		(*node)->flag = less_less;
 	else
 		(*node)->flag = arguments;
@@ -36,10 +38,10 @@ void	get_word_list(t_word_list **head, char **argv)
 	t_word_list *node;
 	size_t i;
 
-	new_word_node(&node,argv[1]);
-	g_shell_struct = node;
+	i = 0;
+	new_word_node(&node,argv[i]);
+	i++;
 	*head = node;
-	i = 2;
 	while (argv[i] != NULL)
 	{
 		new_word_node(&new, argv[i]);

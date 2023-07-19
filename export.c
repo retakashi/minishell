@@ -6,29 +6,35 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/16 01:07:32 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/20 00:27:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-bool	search_env_name(char *str, t_env_list **env_list)
+extern t_shell	*g_shell_struct;
+
+bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 {
-	size_t	str_name;
-	size_t	env_name;
+	size_t		str_name;
+	size_t		env_name;
+	t_env_list	*prev;
 
 	if (*env_list == NULL)
 		return (false);
 	str_name = get_name_len(str);
 	env_name = ft_strlen((*env_list)->env_name);
-	while ((*env_list)->next != NULL && str_name == env_name && ft_strncmp(str,
-			(*env_list)->env_name, str_name) == 0)
+	while (*env_list != NULL)
+	{
+		prev = *env_list;
+		if (str_name == env_name && ft_strncmp(str, (*env_list)->env_name,
+				str_name) == 0)
+			return (true);
 		*env_list = (*env_list)->next;
-	if ((*env_list)->next == NULL && !(str_name == env_name && ft_strncmp(str,
-				(*env_list)->env_name, str_name) == 0))
-		return (false);
-	return (true);
+	}
+	*env_list = prev;
+	return (false);
 }
 
 void	add_env_list(t_env_list **env_list, char *str)
@@ -60,18 +66,16 @@ void	export_cmd(t_word_list **word_list, t_env_list **env_list)
 	head = *env_list;
 	if ((*word_list)->next == NULL)
 		export_nooption(*env_list);
-	else
+	*word_list = (*word_list)->next;
+	while (*word_list != NULL && (*word_list)->flag == arguments)
 	{
+		*env_list = head;
+		if (search_env_name_advance_list((*word_list)->word, env_list) == true)
+			update_env_str(env_list, (*word_list)->word);
+		else
+			add_env_list(env_list, (*word_list)->word);
 		*word_list = (*word_list)->next;
-		while (*word_list != NULL && (*word_list)->flag != arguments)
-		{
-			if (search_env_name((*word_list)->word, env_list) == true)
-				update_env_str(env_list, (*word_list)->word);
-			else
-				add_env_list(env_list, (*word_list)->word);
-			*word_list = (*word_list)->next;
-		}
-		// export_nooption();
 	}
-	*env_list=head;
+	*env_list = head;
+	// export_nooption(*env_list);
 }

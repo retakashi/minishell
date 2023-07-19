@@ -6,12 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 23:53:11 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:06:22 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+extern t_shell			*g_shell_struct;
 
 size_t get_name_len(char *str)
 {
@@ -55,7 +57,6 @@ void	get_env_list(char **envp, t_env_list **head)
 	size_t		i;
 
 	new_node(&node, envp[0]);
-	g_shell_struct = node;
 	*head = node;
 	i = 1;
 	while (envp[i] != NULL)

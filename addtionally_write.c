@@ -6,12 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:31:53 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/16 00:35:13 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/18 19:36:29 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+extern t_shell			*g_shell_struct;
 
 void	read_heredoc(t_fd *fd_struct)
 {

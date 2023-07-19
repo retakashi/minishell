@@ -6,12 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 17:29:56 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/18 22:58:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+extern t_shell			*g_shell_struct;
 
 bool	should_putstr(t_word_list *head)
 {

@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/16 00:03:38 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/20 01:04:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 //meta_char | & ; ( ) space tab  < > == less,great,| == pipe_char
-
+t_shell	*g_shell_struct;
 
 void	read_word_list(t_word_list *word_list, t_env_list *env_list,
 		t_fd fd_struct)
@@ -26,9 +26,9 @@ void	read_word_list(t_word_list *word_list, t_env_list *env_list,
 					|| word_list->flag == less))
 			main_redirection(&word_list, &fd_struct);
 		else if (word_list != NULL && word_list->flag == great_great)
-			main_additionally_write(&word_list, &fd_struct);
+			additionally_write(&word_list, &fd_struct);
 		else if (word_list != NULL && word_list->flag == command)
-			main_command(word_list,env_list);
+			main_command(&word_list, &env_list);
 	}
 }
 
@@ -42,21 +42,24 @@ void	init_fd_struct(t_fd *fd_struct)
 	g_shell_struct->fd_struct = fd_struct;
 }
 
-void	init_minishell(char **envp,char **argv)
+void	minishell(char **envp, char **argv)
 {
 	t_word_list	*word_head;
 	t_env_list	*env_list_head;
 	t_fd		fd_struct;
 
-	get_word_list(&word_head,argv);
-	is_command(&word_head);
+	g_shell_struct = malloc(sizeof(t_shell));
+	if (g_shell_struct == NULL)
+		perror_exit("malloc", 0);
+	get_word_list(&word_head, &argv[1]);
 	g_shell_struct->word_head = word_head;
-	g_shell_struct->env_head = NULL;
+	traverse_list_until_pipe(&word_head);
+	g_shell_struct->envp_2d_arr = envp;
+	g_shell_struct->exit_status = 0;
 	env_list_head = NULL;
-	g_shell_struct = envp;
-	g_shell_struct->exit_status=0;
 	if (envp != NULL)
-		get_envp_list(envp, &env_list_head);
+		get_env_list(envp, &env_list_head);
+	g_shell_struct->env_head = env_list_head;
 	init_fd_struct(&fd_struct);
 	read_word_list(word_head, env_list_head, fd_struct);
 }
@@ -68,22 +71,22 @@ void	init_minishell(char **envp,char **argv)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-
-	if (argc != 0 && argv != NULL)
-		return ;
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (line == NULL)
-			break ;
-		if (*line)
-		{
-			// parse_line(line);
-			// add_history(line);
-			minishell_init(envp,argv);
-		}
-		free(line);
-	}
+	// char	*line;
+	if (argc == 0 && argv == NULL)
+		return (0);
+	minishell(envp, argv);
+	// while (1)
+	// {
+	// 	line = readline("minishell$ ");
+	// 	if (line == NULL)
+	// 		break ;
+	// 	if (*line)
+	// 	{
+	// 		// parse_line(line);
+	// 		// add_history(line);
+	// 		init_minishell(envp,line);
+	// 	}
+	// 	free(line);
+	// }
 	return (0);
 }

@@ -6,14 +6,13 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/16 01:22:33 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:10:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "gnl/get_next_line.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -99,6 +98,7 @@ void					main_command(t_word_list *word_list,
 							t_env_list *env_list);
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
+void	traverse_list_until_pipe(t_word_list **head);
 //echo.c
 void					echo_cmd(t_word_list **word_list);
 //env.c
@@ -110,6 +110,7 @@ void					exit_cmd(t_word_list **word_list);
 //export.c
 void					export_cmd(t_word_list **word_list,
 							t_env_list **env_list);
+bool	search_env_name(char *str, t_env_list **env_list);
 //get_env_list.c
 size_t					get_name_len(char *str);
 void					new_node(t_env_list **node, char *envp);
