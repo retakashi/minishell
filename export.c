@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/19 01:28:09 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/20 00:27:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 extern t_shell	*g_shell_struct;
 
-bool	cmp_env_name_advance_list(char *str, t_env_list **env_list)
+bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 {
 	size_t		str_name;
 	size_t		env_name;
@@ -65,23 +65,17 @@ void	export_cmd(t_word_list **word_list, t_env_list **env_list)
 
 	head = *env_list;
 	if ((*word_list)->next == NULL)
-	{
 		export_nooption(*env_list);
-		*word_list = (*word_list)->next;
-	}
-	else
+	*word_list = (*word_list)->next;
+	while (*word_list != NULL && (*word_list)->flag == arguments)
 	{
-		*word_list = (*word_list)->next;
-		while (*word_list != NULL && (*word_list)->flag == arguments)
-		{
-			*env_list = head;
-			if (cmp_env_name_advance_list((*word_list)->word, env_list) == true)
-				update_env_str(env_list, (*word_list)->word);
-			else
-				add_env_list(env_list, (*word_list)->word);
-			*word_list = (*word_list)->next;
-		}
 		*env_list = head;
+		if (search_env_name_advance_list((*word_list)->word, env_list) == true)
+			update_env_str(env_list, (*word_list)->word);
+		else
+			add_env_list(env_list, (*word_list)->word);
+		*word_list = (*word_list)->next;
 	}
+	*env_list = head;
 	// export_nooption(*env_list);
 }

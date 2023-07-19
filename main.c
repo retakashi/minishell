@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/18 23:03:32 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/20 01:04:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_fd_struct(t_fd *fd_struct)
 	g_shell_struct->fd_struct = fd_struct;
 }
 
-void	init_minishell(char **envp, char **argv)
+void	minishell(char **envp, char **argv)
 {
 	t_word_list	*word_head;
 	t_env_list	*env_list_head;
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	// char	*line;
 	if (argc == 0 && argv == NULL)
 		return (0);
-	init_minishell(envp, argv);
+	minishell(envp, argv);
 	// while (1)
 	// {
 	// 	line = readline("minishell$ ");
