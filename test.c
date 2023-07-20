@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:05 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/18 21:07:15 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/20 18:31:08 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,58 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <limits.h>
+
+
+static size_t	check_space(const char *str, size_t i);
+static size_t	check_sign(const char *str, size_t i, int *neg);
+
+int	ft_atoi(const char *str)
+{
+	size_t	i;
+	int		neg;
+	long	num;
+
+	i = 0;
+	neg = 0;
+	i = check_space(str, i);
+	i = check_sign(str, i, &neg);
+	num = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if ((neg == 0 && num > LONG_MAX / 10) || (neg == 0 && num == LONG_MAX
+				/ 10 && (str[i] - '0') >= LONG_MAX % 10))
+			return ((int)LONG_MAX);
+		if ((neg == 1 && num > LONG_MIN / 10 * -1) || (neg == 1
+				&& num == LONG_MIN / 10 * -1 && (str[i] - '0') >= LONG_MIN % 10
+				* -1))
+			return ((int)LONG_MIN);
+		num = num * 10 + (str[i] - '0');
+		i++;
+	}
+	if (neg == 1)
+		num = num * -1;
+	return ((int)num);
+}
+
+static size_t	check_space(const char *str, size_t i)
+{
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	return (i);
+}
+
+static size_t	check_sign(const char *str, size_t i, int *neg)
+{
+	if (str[i] == '-')
+	{
+		*neg += 1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	return (i);
+}
 
 typedef struct s_word_list
 {
@@ -222,9 +274,10 @@ int main()
 	g_shell_struct=malloc(sizeof(t_shell));
 	get_word_list(&head,&argv[1]);
 	g_shell_struct->word_head=head;
-	printf("head %s\n",head->word);
+	// printf("head %s\n",head->word);
 	traverse_list_until_pipe(&head);	
-	printf("tmp %s\n",head->word);
-	printf("tmp %s\n",head->word);
+	// printf("tmp %s\n",head->word);
+	// printf("tmp %s\n",head->word);
+	printf("%d\n",ft_atoi("a"));
 	exit(0);
 }
