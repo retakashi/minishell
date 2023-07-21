@@ -6,14 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/20 00:27:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 20:03:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-extern t_shell	*g_shell_struct;
 
 bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 {
@@ -56,17 +54,20 @@ void	update_env_str(t_env_list **env_list, char *str)
 	free((*env_list)->env_str);
 	(*env_list)->env_str = ft_strdup(&str[name_len + 1]);
 	if ((*env_list)->env_str == NULL)
-		perror_exit("ft_strdup", 0);
+		put_error_exit("ft_strdup");
 }
 
 void	export_cmd(t_word_list **word_list, t_env_list **env_list)
 {
 	t_env_list	*head;
 
-	head = *env_list;
 	if ((*word_list)->next == NULL)
+	{
+		init_write_flg(env_list);
 		export_nooption(*env_list);
+	}
 	*word_list = (*word_list)->next;
+	head = *env_list;
 	while (*word_list != NULL && (*word_list)->flag == arguments)
 	{
 		*env_list = head;
@@ -77,5 +78,4 @@ void	export_cmd(t_word_list **word_list, t_env_list **env_list)
 		*word_list = (*word_list)->next;
 	}
 	*env_list = head;
-	// export_nooption(*env_list);
 }

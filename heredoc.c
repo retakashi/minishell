@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/16 15:06:35 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 21:15:08 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,33 @@
 #include "minishell.h"
 #include "gnl/get_next_line.h"
 
-extern t_shell			*g_shell_struct;
-
-void	get_here_fd(t_word_list **word_head, t_fd *fd_struct)
+void	get_here_fd(t_fd *fd_struct)
 {
-	*word_head = (*word_head)->next;
 	fd_struct->here_fd = open(".heredoc_file",
 								O_WRONLY | O_CREAT | O_TRUNC,
 								S_IREAD | S_IWRITE);
 	if (fd_struct->here_fd < 0)
-		perror_exit(".heredoc_file", 0);
+		put_error(".heredoc_file", 0);
 }
 
-void	create_heredoc(t_word_list **word_head, t_fd *fd_struct)
+void	create_heredoc(t_word_list *word_list, t_fd *fd_struct)
 {
 	int		flg;
 	char	*line;
 
-	get_here_fd(word_head, fd_struct);
+	
+	get_here_fd(fd_struct);
 	flg = 0;
 	line = NULL;
+	advance_to_inequality_sign_arg(&word_list,less_less);
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		line = get_next_line(STDOUT_FILENO, &flg);
 		if (flg == 0 && line == NULL)
-			perror_exit("failed to gnl", 0);
+			put_error_exit("failed to gnl");
 		if ((flg == 1 && line == NULL) || (ft_strcmp(line,
-					(*word_head)->word) == 0))
+					word_list->word) == 0))
 			break ;
 		ft_putstr_fd(line, fd_struct->here_fd);
 		free(line);
@@ -49,6 +48,5 @@ void	create_heredoc(t_word_list **word_head, t_fd *fd_struct)
 	if (line != NULL)
 		free(line);
 	if (close(fd_struct->here_fd) < 0)
-		perror_exit("close", 0);
-    *word_head=(*word_head)->next;
+		put_error("close", 0);
 }

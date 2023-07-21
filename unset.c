@@ -6,14 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/20 00:53:46 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 18:05:41 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-extern t_shell	*g_shell_struct;
 
 void	get_prev_node(t_env_list **env_list, t_word_list *word_list)
 {
@@ -76,6 +74,4 @@ void	unset_cmd(t_word_list **word_list, t_env_list **env_list)
 		*word_list = (*word_list)->next;
 	}
 	*env_list = head;
-	g_shell_struct->env_head = head;
-	export_nooption(*env_list);
 }
