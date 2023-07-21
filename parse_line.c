@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/19 14:16:14 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/21 10:58:27 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,32 @@ int	check_sp(char *line)
 	return (0);
 }
 
+t_word_list	*set_flags(t_word_list	*string)
+{
+	t_word_list	*tmp;
+
+	tmp = string;
+	while (tmp != NULL)
+	{
+		tmp->flag = is_meta(tmp->word);
+		if (tmp->flag == 0 && tmp->word[0] == '-')
+			tmp->flag = 2;
+		tmp = tmp->next;
+	}
+	return (string);
+}
+
 void	parse_line(char *line)
 {
 	t_word_list	*string;
 
 	if (check_sp(line))
 		return ;
-	if (*line == '#' || line[strlen(line) - 1] == '|')
-	{
-		printf(" comment out or End with pipe!\n");
-		return ;
-	}
 	string = make_list(line);
 	printf( "\n ---------------       ----------------\n");
+	print_words(string);
+	printf( "\n ---------------       ----------------\n");
+	string = set_flags(string);
 	print_words(string);
 	return ;
 }
