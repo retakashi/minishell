@@ -6,14 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/16 15:06:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 17:54:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-extern t_shell			*g_shell_struct;
 
 size_t get_name_len(char *str)
 {
@@ -31,17 +29,17 @@ void	new_node(t_env_list **node, char *envp)
 
 	*node = malloc(sizeof(t_env_list));
 	if (*node == NULL)
-		perror_exit("malloc", 0);
+		put_error_exit("malloc");
 	len = get_name_len(envp);
 	(*node)->env_name = malloc(sizeof(char) * (len + 1));
 	if ((*node)->env_name == NULL)
-		perror_exit("malloc", 0);
+		put_error_exit("malloc");
 	ft_strlcpy((*node)->env_name, envp, len + 1);
 	if (ft_strchr(envp, '='))
 	{
 		(*node)->env_str = ft_strdup(&envp[len + 1]);
 		if ((*node)->env_str == NULL)
-			perror_exit("ft_strdup", 0);
+			put_error_exit("malloc");
 	}
 	else
 		(*node)->env_str = NULL;

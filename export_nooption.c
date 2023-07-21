@@ -6,29 +6,24 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/19 01:25:57 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 21:04:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-extern t_shell	*g_shell_struct;
-
-int	ft_strcmp(char *s1, char *s2)
+void	init_write_flg(t_env_list **env_list)
 {
-	size_t	i;
+	t_env_list	*head;
 
-	if (s1 == NULL)
-		return ((unsigned char)s2[0] * -1);
-	i = 0;
-	while (s1[i] == s2[i])
+	head = *env_list;
+	while (*env_list != NULL)
 	{
-		if (s1[i] == '\0' && s2[i] == '\0')
-			return (0);
-		i++;
+		(*env_list)->write_flg = false;
+		*env_list = (*env_list)->next;
 	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	*env_list = head;
 }
 
 static int	cnt_envp_list(t_env_list *env_list)
@@ -73,16 +68,16 @@ void	export_nooption(t_env_list *env_list)
 	t_env_list	*head;
 	t_env_list	*min;
 
-	cnt = cnt_envp_list(env_list);
 	head = env_list;
+	cnt = cnt_envp_list(env_list);
 	while (cnt > 0)
 	{
 		env_list = head;
 		get_min(&min, env_list);
 		while (env_list != NULL)
 		{
-			if (env_list->write_flg == false && ft_strcmp(min->env_name,
-					env_list->env_name) > 0)
+			if ((env_list)->write_flg == false && ft_strcmp(min->env_name,
+					(env_list)->env_name) > 0)
 				min = env_list;
 			env_list = env_list->next;
 		}

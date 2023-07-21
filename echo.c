@@ -6,14 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/20 14:24:18 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 20:26:17 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-extern t_shell	*g_shell_struct;
 
 bool	should_putstr(t_word_list *head)
 {
@@ -37,9 +35,7 @@ void	echo_cmd(t_word_list **word_list)
 	}
 	while (should_putstr(*word_list))
 	{
-		if (ft_strcmp((*word_list)->word, "$?") == 0)
-			ft_putstr_fd(ft_itoa(g_shell_struct->exit_status), STDOUT_FILENO);
-		else
+		dup(STDOUT_FILENO);
 			ft_putstr_fd((*word_list)->word, STDOUT_FILENO);
 		if ((*word_list)->next != NULL && should_putstr((*word_list)->next))
 			ft_putstr_fd(" ", STDOUT_FILENO);

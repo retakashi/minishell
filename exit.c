@@ -6,14 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/20 23:12:50 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 18:00:13 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-
-extern t_shell	*g_shell_struct;
 
 static bool	check_sign(char c, int *neg)
 {
@@ -98,7 +96,10 @@ void	exit_cmd(t_word_list **word_list)
 	num = 0;
 	*word_list = (*word_list)->next;
 	if (is_valid_number((*word_list)->word, &num) == false)
-		perror_exit((*word_list)->word, EXIT_ERROR);
+	{
+		put_error((*word_list)->word, EXIT_ERROR);
+		exit(2);
+	}
 	if (num > 255 || num < -255)
 		num = num % 256;
 	if (num < 0)

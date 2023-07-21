@@ -6,50 +6,46 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/20 23:04:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/21 18:00:02 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-extern t_shell	*g_shell_struct;
-
-void	write_command_error(char *str)
+void	command_error(char *str)
 {
-	char	*error;
-
-	error = ": command not found\n";
 	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd(error, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 }
 
-void	write_env_error(void)
+void	exit_error(char *str)
 {
-	char	*str;
-
-	str = "env: No such file or directory\n";
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 }
 
-void	write_exit_error(char *str)
+void	put_error(char *str, int err_flg)
 {
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
-	ft_putstr_fd("minishell: exit: ", STDOUT_FILENO);
-	ft_putstr_fd(str, STDOUT_FILENO);
-	ft_putstr_fd(": numeric argument required\n", STDOUT_FILENO);
-	exit(2);
-}
-
-void	perror_exit(char *str, int error_flg)
-{
-	if (error_flg == COMMAND_ERROR)
-		write_command_error(str);
-	else if (error_flg == ENV_ERROR)
-		write_env_error();
-	else if (error_flg == EXIT_ERROR)
-		write_exit_error(str);
+	if (err_flg == EXIT_ERROR)
+	{
+		exit_error(str);
+		return ;
+	}
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (err_flg == COMMAND_ERROR)
+		command_error(str);
+	else if (err_flg == NO_ERRNO)
+		ft_putstr_fd(str, STDERR_FILENO);
 	else
 		perror(str);
+}
+
+void	put_error_exit(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	perror(str);
 	exit(EXIT_FAILURE);
 }
