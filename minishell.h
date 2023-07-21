@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/18 10:27:22 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/19 10:15:43 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_word_list
 	int					flag;
 }			t_word_list;
 
-typedef enum e_flags
+typedef enum s_flags
 {
 	command = 1,
 	option,
@@ -40,6 +40,7 @@ typedef enum e_flags
 	less,
 	less_less,
 	meta_char,
+	file_name,
 }			t_flags;
 
 //parse_line.c

@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/18 21:12:32 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/19 14:16:14 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	check_sp(char *line)
 void	parse_line(char *line)
 {
 	t_word_list	*string;
-	t_word_list	*tmp;
 
 	if (check_sp(line))
 		return ;
@@ -39,9 +38,8 @@ void	parse_line(char *line)
 		return ;
 	}
 	string = make_list(line);
-	tmp = string;
 	printf( "\n ---------------       ----------------\n");
-	print_words(tmp);
+	print_words(string);
 	return ;
 }
 
