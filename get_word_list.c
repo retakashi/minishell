@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:23:36 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 21:41:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/23 00:45:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	new_word_node(t_word_list **node, char *argv)
 	(*node)->next = NULL;
 	(*node)->flag = arguments;
 	if (ft_strchr(argv, '<'))
-		(*node)->flag = less;
+		(*node)->flag = input;
 	else if (ft_strchr(argv, '>'))
-		(*node)->flag = great;
+		(*node)->flag = output;
 	else if (!ft_strncmp(argv, ">>", 3))
-		(*node)->flag = great_great;
+		(*node)->flag = append;
 	else if (!ft_strncmp(argv, "<<", 3))
-		(*node)->flag = less_less;
+		(*node)->flag = heredoc;
 	(*node)->word = ft_strdup(argv);
 }
 
@@ -44,6 +44,8 @@ void	get_word_list(t_word_list **head, char *line)
 	while (argv[i] != NULL)
 	{
 		new_word_node(&new, argv[i]);
+		if(node->flag==input)
+		new->flag=input_file;
 		node->next = new;
 		node = new;
 		i++;

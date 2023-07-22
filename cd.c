@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 17:58:55 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:37:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,21 @@ void	move_to_oldpwd(t_env_list *env_list)
 void	cd_cmd(t_word_list **word_list, t_env_list *env_list)
 {
 	*word_list = (*word_list)->next;
-	if (*word_list == NULL || ft_strcmp((*word_list)->word, "~") == 0)
+	if (*word_list == NULL)
+	{
+		move_to_home(env_list);
+		return ;
+	}
+	if (ft_strcmp((*word_list)->word, "~") == 0)
 		move_to_home(env_list);
 	else if (ft_strcmp((*word_list)->word, "-") == 0)
 		move_to_oldpwd(env_list);
 	else
 	{
 		if (chdir((*word_list)->word) < 0)
-			put_error("cd", 0);
+			put_error((*word_list)->word, CD_ERROR);
 	}
+	*word_list = (*word_list)->next;
 	if (*word_list != NULL && (*word_list)->flag != pipe_char)
 		put_error("cd: too many arguments\n", NO_ERRNO);
 }
