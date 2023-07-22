@@ -77,6 +77,7 @@ int	get_fd_arr(int **fd_arr, t_word_list *word_list, int red_flg, int *cnt)
 		if (word_list->flag == red_flg)
 		{
 			(*fd_arr)[i] = get_fd(word_list->word, red_flg);
+			printf("fd %d\n",(*fd_arr)[i]);
 			if ((*fd_arr)[i] < 0)
 				return (put_error(word_list->word, 0));
 			i++;
@@ -86,7 +87,7 @@ int	get_fd_arr(int **fd_arr, t_word_list *word_list, int red_flg, int *cnt)
 	return (SUCCCESS);
 }
 
-int	do_dup2_input(t_word_list *word_list, t_fd **fd_list, int red_flg)
+int	do_dup2_output(t_word_list *word_list, t_fd **fd_list)
 {
 	int		*fd_arr;
 	int		cnt;
@@ -98,13 +99,13 @@ int	do_dup2_input(t_word_list *word_list, t_fd **fd_list, int red_flg)
 
 	cnt = 0;
 	i = 0;
-	if (get_fd_arr(&fd_arr, word_list, input_file, &cnt) == FAILURE)
+	if (get_fd_arr(&fd_arr, word_list, output_file, &cnt) == FAILURE)
 		return (FAILURE);
 	if (*fd_list == NULL)
 	{
-		save_fd = save_stdfd(STDIN_FILENO);
-		new_fd_node(fd_list, save_fd, SAVE_STDIN);
-		if (dup2(fd_arr[i], STDIN_FILENO) < 0)
+		save_fd = save_stdfd(STDOUT_FILENO);
+		new_fd_node(fd_list, save_fd, SAVE_STDOUT);
+		if (dup2(fd_arr[i], STDOUT_FILENO) < 0)
 			return (put_error("dup2", 0) < 0);
 		if (close(fd_arr[i]) < 0)
 			return (put_error("close", 0));
@@ -116,14 +117,14 @@ int	do_dup2_input(t_word_list *word_list, t_fd **fd_list, int red_flg)
 	{
 		get_fd_list_back(fd_list);
 		node = *fd_list;
-		save_fd = save_stdfd(STDIN_FILENO);
+		save_fd = save_stdfd(STDOUT_FILENO);
 		if (save_fd < 0)
 			return (put_error("dup", 0));
-		new_fd_node(&new, save_fd, red_flg);
+		new_fd_node(&new, save_fd, SAVE_STDOUT);
 		new->prev = node;
 		node->next = new;
 		node = new;
-		if (dup2(fd_arr[i], STDIN_FILENO) < 0)
+		if (dup2(fd_arr[i], STDOUT_FILENO) < 0)
 			return (put_error("dup2", 0) < 0);
 		cnt--;
 		i++;
@@ -134,8 +135,8 @@ int	do_dup2_input(t_word_list *word_list, t_fd **fd_list, int red_flg)
 
 int	input_output_operation(t_word_list *word_list, t_fd **fd_list, int red_flg)
 {
-	if (red_flg == input)
-		do_dup2_input(word_list, fd_list, input_file);
+	if (red_flg == output)
+		do_dup2_output(word_list, fd_list);
 	// else if (red_flg == output)
 	// 	do_dup2_output();
 	// else

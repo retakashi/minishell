@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:23:36 by reira             #+#    #+#             */
-/*   Updated: 2023/07/23 00:45:12 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/23 03:13:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ void	get_word_list(t_word_list **head, char *line)
 	while (argv[i] != NULL)
 	{
 		new_word_node(&new, argv[i]);
-		if(node->flag==input)
-		new->flag=input_file;
+		if(node->flag==output)
+		new->flag=output_file;
 		node->next = new;
 		node = new;
 		i++;
