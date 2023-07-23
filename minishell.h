@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/23 20:57:47 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 00:26:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define EXIT_ERROR -2
 # define NO_ERRNO -3
 # define CD_ERROR -4
+# define EXPORT_ERROR -5
 # define SAVE_STDIN 15
 # define SAVE_STDOUT 16
 
@@ -51,12 +52,17 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }						t_env_list;
 
+typedef struct s_here
+{
+	int					here_fd;
+	char				*here_file_name;
+	struct s_here		*next;
+}						t_here;
 typedef struct s_fd
 {
 	int					in_fd;
 	int					out_fd;
-	bool				is_heredoc;
-	bool				is_append;
+	t_here				*here_list_head;
 }						t_fd;
 
 typedef struct s_execve_args
@@ -101,7 +107,7 @@ void					env_cmd(t_word_list **word_list, t_env_list *env_list);
 //error.c
 int						put_error(char *str, int err_flg,
 							t_env_list **env_head);
-void					put_error_exit(char *str,int flg);
+void					put_error_exit(char *str, int flg);
 //exit.c
 void					exit_cmd(t_word_list **word_list);
 //export.c

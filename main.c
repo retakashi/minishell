@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 21:05:56 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 00:05:48 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 bool	is_word_list_flags(t_word_list **word_list, int flags)
 {
-	while (*word_list != NULL || (*word_list)->flag != pipe_char)
+	while (*word_list != NULL)
 	{
 		if ((*word_list)->flag == flags)
 			return (true);
@@ -29,11 +29,10 @@ void	read_word_list(t_word_list *word_list, t_env_list **env_list,
 		t_fd *fd_struct)
 {
 	t_word_list	*word_head;
+	t_here		*here_list;
 
-	// if (is_word_list_flags(word_list, pipe_char) == true)
-	// 	do_pipe();
-	// else
-	// {
+	here_list = NULL;
+	//pipeがある場合、t_hereも渡す。 ex:) << eof cat > file1 | << hello cat > file2 file1にもfile2にも入る
 	if (is_word_list_flags(&word_list, heredoc_file) == true)
 		main_heredoc(word_list, &fd_struct);
 	word_list = word_head;
@@ -45,6 +44,8 @@ void	read_word_list(t_word_list *word_list, t_env_list **env_list,
 	if (is_word_list_flags(word_list, append) == true
 		&& input_output_operation(word_list, &fd_struct, append) == FAILURE)
 		return ;
+	// if (is_word_list_flags(word_list, pipe_char) == true)
+	// 	do_pipe();
 	main_command(&word_list, env_list, fd_struct);
 	// }
 }
@@ -56,10 +57,9 @@ void	init_minishell(char **envp,
 {
 	*word_list_head = NULL;
 	*env_list_head = NULL;
-	fd_struct->is_append = false;
-	fd_struct->is_heredoc = false;
 	fd_struct->in_fd = STDIN_FILENO;
 	fd_struct->out_fd = STDOUT_FILENO;
+	fd_struct->here_list_head = NULL;
 	if (envp != NULL)
 		get_env_list(envp, env_list_head);
 }
@@ -68,6 +68,10 @@ void	init_minishell(char **envp,
 // static void destructor() {
 //     system("leaks -q minishell");
 // }
+
+//pipeなし　builtin　メインで実行
+//それ以外でリダイレクションあり　子プロセスで実行
+//pipe heredoc ありt_here作成
 
 int	main(int argc, char **argv, char **envp)
 {

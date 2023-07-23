@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/23 20:57:26 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/23 22:51:02 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ int	cd_error(char *str, t_env_list **env_head)
 	return (FAILURE);
 }
 
+int export_error(char *str, t_env_list **env_head)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	(*env_head)->exit_status = 127;
+	return (FAILURE);	
+}
+
 int	put_error(char *str, int err_flg, t_env_list **env_head)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -45,6 +53,8 @@ int	put_error(char *str, int err_flg, t_env_list **env_head)
 		return (command_error(str, env_head));
 	else if (err_flg == CD_ERROR)
 		return (cd_error(str, env_head));
+	else if (err_flg == EXPORT_ERROR)
+		return (export_error(str, env_head));
 	else if (err_flg == NO_ERRNO)
 		ft_putstr_fd(str, STDERR_FILENO);
 	else

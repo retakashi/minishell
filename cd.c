@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/23 20:21:05 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/23 22:04:34 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,48 +21,48 @@
 //チルダプレフィックスが `~+' ならば、チルダプレフィックスはシェル変数 PWD の値
 //チルダプレフィックスが `~-' ならば、シェル変数 OLDPWD の値
 
-void	move_to_home(t_env_list *env_list)
+int	move_to_home(t_env_list **env_list)
 {
 	t_env_list	*node;
 
 	node = NULL;
 	ft_get_env("HOME", env_list, &node);
 	if (node == NULL)
-		put_error("cd: HOME not set\n", 0);
+		return (put_error("cd: HOME not set\n", 0, env_list));
 	if (chdir(node->env_str) < 0)
-		put_error("chdir", 0);
+		return (put_error("chdir", 0, env_list));
+	return (SUCCESS);
 }
 
-void	move_to_oldpwd(t_env_list *env_list)
+int	move_to_oldpwd(t_env_list **env_list)
 {
 	t_env_list	*node;
 
 	node = NULL;
 	ft_get_env("OLDPWD", env_list, &node);
 	if (node == NULL)
-		put_error("cd: OLDPWD not set\n", NO_ERRNO);
+		return (put_error("cd: OLDPWD not set\n", NO_ERRNO, env_list));
 	if (chdir(node->env_str) < 0)
-		put_error("chdir", 0);
+		return (put_error("chdir", 0, env_list));
+	return (SUCCESS);
 }
 
-void	cd_cmd(t_word_list **word_list, t_env_list *env_list)
+int	cd_cmd(t_word_list **word_list, t_env_list **env_list)
 {
 	*word_list = (*word_list)->next;
 	if (*word_list == NULL)
-	{
-		move_to_home(env_list);
-		return ;
-	}
+		return (move_to_home(env_list));
 	if (ft_strcmp((*word_list)->word, "~") == 0)
-		move_to_home(env_list);
+		return (move_to_home(env_list));
 	else if (ft_strcmp((*word_list)->word, "-") == 0)
-		move_to_oldpwd(env_list);
+		reutrn(move_to_oldpwd(env_list));
 	else
 	{
 		if (chdir((*word_list)->word) < 0)
-			put_error((*word_list)->word, CD_ERROR);
+			return (put_error((*word_list)->word, CD_ERROR, env_list));
 	}
 	*word_list = (*word_list)->next;
 	if (*word_list != NULL && (*word_list)->flag != pipe_char)
-		put_error("cd: too many arguments\n", NO_ERRNO);
+		return (put_error("cd: too many arguments\n", NO_ERRNO, env_list));
+	return (SUCCESS);
 }
