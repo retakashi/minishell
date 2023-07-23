@@ -6,7 +6,7 @@
 #    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/18 10:28:26 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/21 15:31:34 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CFLAGS	 =	-Wall -Werror -Wextra
 
 SRCS	=	main.c \
 			parse_line.c \
+			parse_line_1.c \
 			is_something.c \
 			make_list_1.c \
 			make_list_2.c \

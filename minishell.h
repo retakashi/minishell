@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/19 10:15:43 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/21 15:31:23 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ typedef enum s_flags
 
 //parse_line.c
 void					parse_line(char *line);
+void					print_words(t_word_list *string);
+
+//parse_line_1.c
+t_word_list				*set_flags(t_word_list	*string);
 //make_list.c
 t_word_list				*make_list(char *line);
 
@@ -69,6 +73,6 @@ char					*duplicate(char *content, char *line, unsigned int n);
 //split_str.c
 char					**split_str(char *str, char *charset);
 
-void					print_words(t_word_list *string);
+
 
 #endif
