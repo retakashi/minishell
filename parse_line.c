@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 17:20:18 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/23 18:54:52 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void	parse_line(char *line)
 
 	if (check_sp(line))
 		return ;
+	/*ここに環境変装の展開を入れるgetenvにするかリスト型で持つかあとで決める
+		mallocして文字列の長さを変えていくようにする
+	*/
 	string = make_list(line);
 	tmp = string;
 	printf( "\n ---------------       ----------------\n");
