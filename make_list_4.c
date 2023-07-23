@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 11:58:42 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 12:46:17 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/23 17:16:11 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_word_list	*argument_flag(t_word_list *string)
 	{
 		if (tmp->word != NULL && (tmp->word[0] == '"' || tmp->word[0] == '\''))
 			tmp->flag = 3;
-		if (tmp->flag == 3)
-			printf("%s is an argument\n", tmp->word);
 		tmp = tmp->next;
 	}
 	return (string);

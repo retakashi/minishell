@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 15:22:34 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/23 17:20:18 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parse_line(char *line)
 	tmp = string;
 	printf( "\n ---------------       ----------------\n");
 	print_words(tmp);
-	printf( "\n ---------------       ----------------\n");
+	printf( "\n ++++++++++++++       +++++++++++++++\n");
 	string = set_flags(string);
 	print_words(tmp);
 	return ;
