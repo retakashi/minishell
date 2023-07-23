@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:34:40 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 21:54:07 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:37:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool	is_inequality_sign(int flag)
 {
-	if (flag == great || flag == great || flag == less || flag == less_less)
+	if (flag == output || flag == output || flag == input || flag == heredoc)
 		return (true);
 	return (false);
 }

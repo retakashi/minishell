@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 20:12:02 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:37:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	env_cmd(t_word_list **word_list, t_env_list *env_list)
 	{
 		while (env_list != NULL)
 		{
-			if (env_list->env_str != NULL && env_list->shell_variable == false)
+			if (env_list->env_str != NULL)
 			{
-				write(1, env_list->env_name, ft_strlen(env_list->env_name));
-				write(1, "=", 1);
-				write(1, env_list->env_str, ft_strlen(env_list->env_str));
-				write(1, "\n", 1);
+				ft_putstr_fd(env_list->env_name,STDOUT_FILENO);
+				ft_putstr_fd("=",STDOUT_FILENO);	
+				ft_putstr_fd(env_list->env_str,STDOUT_FILENO);
+				ft_putstr_fd("\n",STDOUT_FILENO);
 			}
 			env_list = env_list->next;
 		}

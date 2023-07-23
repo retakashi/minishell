@@ -6,13 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 21:02:22 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 21:12:09 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/23 02:00:55 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft/libft.h"
-
+#include "minishell.h"
 
 void	ft_get_env(char *str, t_env_list *env_list, t_env_list **tmp)
 {
@@ -40,9 +39,25 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	advance_to_inequality_sign_arg(t_word_list **word_list, int flag)
+int	get_fd(char *file_name, int flg)
 {
-	while (*word_list != NULL && (*word_list)->flag != flag)
-		*word_list = (*word_list)->next;
-	*word_list = (*word_list)->next;
+	int	fd;
+
+	if (flg == input_file)
+		fd = open(file_name, O_RDONLY);
+	else if (flg == output_file)
+		fd = open(file_name,
+					O_RDWR | O_CREAT | O_TRUNC,
+					S_IREAD | S_IWRITE);
+	else if (flg == heredoc_file)
+		fd = open(file_name,
+					O_WRONLY | O_CREAT | O_TRUNC,
+					S_IREAD | S_IWRITE);
+	else
+		fd = open(file_name,
+					O_RDWR | O_CREAT | O_APPEND,
+					S_IREAD | S_IWRITE);
+	if (fd < 0)
+		return (FAILURE);
+	return (fd);
 }
