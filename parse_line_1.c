@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/22 13:51:20 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/23 14:05:41 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ t_word_list	*set_flags(t_word_list	*string)
 			tmp->next->flag = 3;
 		if (tmp->flag == 5)
 			tmp->next->flag = 1;
+		if (tmp->flag == 6)
+			tmp->next->flag = 11;
+		if (tmp->flag == 7)
+			tmp->next->flag = 12;
+		if (tmp->flag == 8)
+			tmp->next->flag = 13;
 		tmp = tmp->next;
 	}
 	return (string);

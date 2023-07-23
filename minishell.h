@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/21 15:31:23 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/23 13:55:44 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ typedef enum s_flags
 	option,
 	arguments,
 	env,
-	pipe_char,
-	great,
-	great_great,
-	less,
-	less_less,
-	meta_char,
-	file_name,
+	pipe_char = 5,
+	output,
+	append,
+	input,
+	heredoc,
+	meta_char = 10,
+	out_file,
+	append_file,
+	intput_file,
+	heredoc_file = 14,
 }			t_flags;
 
 //parse_line.c

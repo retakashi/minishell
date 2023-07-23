@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/19 10:21:56 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/23 13:34:00 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	is_meta(char *str)
 	if (ft_strnstr(str, "|", ft_strlen(str)))
 		meta_num = pipe_char;
 	else if (ft_strnstr(str, ">>", ft_strlen(str)))
-		meta_num = great_great;
+		meta_num = append;
 	else if (ft_strnstr(str, ">", ft_strlen(str)))
-		meta_num = great;
+		meta_num = output;
 	else if (ft_strnstr(str, "<<", ft_strlen(str)))
-		meta_num = less_less;
+		meta_num = heredoc;
 	else if (ft_strnstr(str, "<", ft_strlen(str)))
-		meta_num = less;
+		meta_num = input;
 	return (meta_num);
 }
 
