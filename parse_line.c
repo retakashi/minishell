@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/21 15:29:59 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/23 15:22:34 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ int	check_sp(char *line)
 void	parse_line(char *line)
 {
 	t_word_list	*string;
+	t_word_list	*tmp;
 
 	if (check_sp(line))
 		return ;
 	string = make_list(line);
+	tmp = string;
 	printf( "\n ---------------       ----------------\n");
-	print_words(string);
+	print_words(tmp);
 	printf( "\n ---------------       ----------------\n");
 	string = set_flags(string);
-	print_words(string);
+	print_words(tmp);
 	return ;
 }
 
