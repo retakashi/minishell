@@ -3,48 +3,42 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
+#    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/23 18:34:47 by sraza            ###   ########.fr        #
+#    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
+#    Updated: 2023/07/23 00:33:02 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
+NAME = minishell
 CC = cc
-NAME = $(NAME)
-NAME	 =	minishell
-CFLAGS	 =	-Wall -Werror -Wextra 
+CFLAGS = -Wall -Wextra -Werror -g
+LIBFT = libft/libft.a
+GNL = ../gnl/get_next_line.c ../gnl/get_next_line_utils.c
+SRCS = command.c export.c pwd.c echo.c export_nooption.c heredoc.c redirection.c \
+	env.c append.c error.c get_env_list.c main.c unset.c cd.c exit.c get_word_list.c \
+	minishell_utils.c free.c input_output_operation.c $(GNL)
+OBJS = ${addprefix $(OBJS_DIR)/,$(SRCS:.c=.o)}
+OBJS_DIR = objs
 
-SRCS	=	main.c \
-			parse_line.c \
-			parse_line_1.c \
-			is_something.c \
-			make_list_1.c \
-			make_list_2.c \
-			make_list_3.c \
-			make_list_4.c \
-			utils.c \
-			split_str.c
+RM = rm -f
 
-OBJS = ${SRCS:%.c=%.o}
+.DEFAULT_GOAL :=$(NAME)
 
-all:	$(NAME)
+all: $(NAME)
 
-LIBFT		=	./libft/libft.a
-
-$(NAME):	$(OBJS)
-	$(MAKE) -C ./libft
-	$(CC) $(CFLAGS) $(LIBFT) $(SRCS) -o $(NAME) -lreadline
-
+$(NAME): $(OBJS)
+	make -C libft
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) -lreadline
+${OBJS_DIR}/%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
-	$(MAKE) -C ./libft clean
-	$(RM) $(OBJS)
+	make clean -C libft
+	$(RM) $(OBJS) $(LIBFT) $(GNL)
 
-fclean:	clean
-	$(RM) $(LIBFT)
-	$(RM) $(NAME)
+fclean: clean
+	$(RM) $(NAME) $(LIBFT) $(GNL)
 
-re:	fclean all
+re: fclean all
 
-.PHONY:	all clean fclean re
+.PHONY: all clean fclean re leaks
