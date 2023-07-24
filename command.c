@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:34:40 by reira             #+#    #+#             */
-/*   Updated: 2023/07/22 18:37:33 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 16:51:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool	is_inequality_sign(int flag)
 {
-	if (flag == output || flag == output || flag == input || flag == heredoc)
+	if (flag == output || flag == input || flag == append || flag == heredoc)
 		return (true);
 	return (false);
 }
@@ -57,29 +57,3 @@ void	get_command(t_word_list **head)
 	*head = tmp;
 }
 
-void	main_command(t_word_list **word_list, t_env_list **env_list)
-{
-	while (*word_list != NULL)
-	{
-		while (*word_list != NULL && (*word_list)->flag != command)
-			*word_list = (*word_list)->next;
-		if (*word_list != NULL &&ft_strcmp((*word_list)->word, "echo") == 0)
-			echo_cmd(word_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "cd") == 0)
-			cd_cmd(word_list, *env_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "pwd") == 0)
-			pwd_cmd(word_list, *env_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "export") == 0)
-			export_cmd(word_list, env_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "unset") == 0)
-			unset_cmd(word_list, env_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "env") == 0)
-			env_cmd(word_list, *env_list);
-		else if (*word_list != NULL &&ft_strcmp((*word_list)->word, "exit") == 0)
-			exit_cmd(word_list);
-		// else
-		// 	other_command(&word_list,env_list);
-		else
-			return ;
-	}
-}
