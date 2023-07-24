@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/21 20:03:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 00:40:51 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-bool	search_env_name_advance_list(char *str, t_env_list **env_list)
+static bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 {
 	size_t		str_name;
 	size_t		env_name;
@@ -35,16 +35,19 @@ bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 	return (false);
 }
 
-void	add_env_list(t_env_list **env_list, char *str)
+static void	add_env_list(t_env_list **env_list, char *str)
 {
 	t_env_list	*new;
 
 	new = NULL;
-	new_node(&new, str);
-	(*env_list)->next = new;
+	new_env_node(&new, str);
+	if (*env_list == NULL)
+		*env_list = new;
+	else
+		(*env_list)->next = new;
 }
 
-void	update_env_str(t_env_list **env_list, char *str)
+static void	update_env_str(t_env_list **env_list, char *str)
 {
 	size_t	name_len;
 
@@ -54,28 +57,28 @@ void	update_env_str(t_env_list **env_list, char *str)
 	free((*env_list)->env_str);
 	(*env_list)->env_str = ft_strdup(&str[name_len + 1]);
 	if ((*env_list)->env_str == NULL)
-		put_error_exit("ft_strdup");
+		put_error_exit("failed to ft_strdup");
 }
 
-void	export_cmd(t_word_list **word_list, t_env_list **env_list)
+void	export_cmd(t_word_list *word_list, t_env_list **env_list)
 {
 	t_env_list	*head;
 
-	if ((*word_list)->next == NULL)
+	if (word_list->next == NULL)
 	{
 		init_write_flg(env_list);
 		export_nooption(*env_list);
 	}
-	*word_list = (*word_list)->next;
+	word_list = word_list->next;
 	head = *env_list;
-	while (*word_list != NULL && (*word_list)->flag == arguments)
+	while (word_list != NULL && word_list->flag == arguments)
 	{
 		*env_list = head;
-		if (search_env_name_advance_list((*word_list)->word, env_list) == true)
-			update_env_str(env_list, (*word_list)->word);
+		if (search_env_name_advance_list(word_list->word, env_list) == true)
+			update_env_str(env_list, word_list->word);
 		else
-			add_env_list(env_list, (*word_list)->word);
-		*word_list = (*word_list)->next;
+			add_env_list(env_list, word_list->word);
+		word_list = word_list->next;
 	}
 	*env_list = head;
 }

@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/16 15:10:11 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 00:55:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
@@ -23,12 +24,12 @@
 # include <string.h>
 # include <unistd.h>
 
-# define NAME 1
-# define STR 0
+# define SUCCESS 0
+# define FAILURE -1
 # define ADD 1
 # define UPDATE 0
-# define COMMAND_ERROR -2
-# define ENV_ERROR -3
+# define READ 0
+# define WRITE 1
 
 typedef struct s_word_list
 {
@@ -42,7 +43,7 @@ typedef struct s_env_list
 	char				*env_name;
 	char				*env_str;
 	int					write_flg;
-	bool				shell_variable;
+	int					exit_status;
 	struct s_env_list	*next;
 }						t_env_list;
 
@@ -50,27 +51,21 @@ typedef struct s_fd
 {
 	int					in_fd;
 	int					out_fd;
-	int					pipe_fd[2];
-	int					here_fd;
+	char				*here_file_name;
+	int					pipe_cnt;
+	struct s_fd			*next;
 }						t_fd;
 
-typedef struct s_execve_args
+typedef struct s_execve_struct
 {
-	char				**env_path;
+	char				**envp;
 	char				**argv;
-}						t_execve_args;
-
-//freeを楽にするためにグローバル変数に先頭のポインタを格納
-typedef struct s_shell
-{
-	t_word_list			*word_head;
-	t_env_list			*env_head;
-	char				**envp_2d_arr;
-	t_execve_args		*execve_args_p;
-	t_fd				*fd_struct;
-	int					exit_status;
-
-}						t_shell;
+	char				**env_path;
+	char				*path;
+	char				*cmd_path;
+	char				*join_cmd;
+	int					i;
+}						t_execve_struct;
 
 typedef enum e_flags
 {
@@ -79,62 +74,86 @@ typedef enum e_flags
 	arguments,
 	env,
 	pipe_char,
-	great,
-	great_great,
-	less,
-	less_less,
+	output,
+	append,
+	input,
+	heredoc,
 	meta_char,
+	output_file,
+	input_file,
+	append_file,
+	heredoc_file
 }						t_flags;
 
-extern t_shell			*g_shell_struct;
+typedef enum e_builtin_no
+{
+	echo_no,
+	cd_no,
+	pwd_no,
+	export_no,
+	unset_no,
+	env_no,
+	exit_no
+}						t_builtin_no;
 
-// addtionally_write.c
-void	additionally_write(t_word_list **word_head,
-						t_fd *fd_struct);
+//builtin.c
+bool	is_builtin(t_word_list *word_list, int *builtin_flg);
+int	exec_builtin(t_word_list *word_list, t_env_list **env_list, t_fd *fd_list,
+		int builtin_flg);
 //cd.c
-void					cd_cmd(t_word_list **word_list, t_env_list *env_list);
+int	cd_cmd(t_word_list *word_list, t_env_list *env_list);
 //command.c
-void					main_command(t_word_list *word_list,
-							t_env_list *env_list);
+void	main_command(t_word_list **word_list,
+					t_env_list **env_list,
+					t_fd fd_struct);
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
-void	traverse_list_until_pipe(t_word_list **head);
+void					get_command(t_word_list **head);
 //echo.c
-void					echo_cmd(t_word_list **word_list);
+int	echo_cmd(t_word_list *word_list, int fd);
 //env.c
-void					env_cmd(t_word_list **word_list, t_env_list *env_list);
+int	env_cmd(t_word_list *word_list, t_env_list **env_list, int fd);
 //error.c
-void					perror_exit(char *str, int error_flg);
+int	command_error(char *str, t_env_list **env_head);
+int	cd_error(char *str, t_env_list **env_head);
+int	env_error(char *str, t_env_list **env_head);
+int	put_error_update_exit_status(char *str, t_env_list **env_head);
+void	exit_error(char *str);
+void	put_error_exit(char *str);
 //exit.c
-void					exit_cmd(t_word_list **word_list);
+void	exit_cmd(t_word_list *word_list);
+//export_nooption.c
+int	export_nooption(t_env_list **env_list, int fd);
 //export.c
-void					export_cmd(t_word_list **word_list,
-							t_env_list **env_list);
-bool	search_env_name(char *str, t_env_list **env_list);
+void	export_cmd(t_word_list *word_list, t_env_list **env_list);
+//fork_execve_cmd.c
+int	fork_execve_cmd(t_word_list *word_list, t_env_list **env_list,t_fd *fd_list, int pipe_cnt);
+//free.c
+void	free_fd_list(t_fd **list);
+void	free_word_list(t_word_list **list);
+void	free_env_list(t_env_list **list);
 //get_env_list.c
-size_t					get_name_len(char *str);
-void					new_node(t_env_list **node, char *envp);
-void					get_env_list(char **envp, t_env_list **head);
+size_t	get_name_len(char *str);
+void	new_env_node(t_env_list **node, char *envp);
+void	get_env_list(char **envp, t_env_list **head);
 //get_word_list.c
-void					get_word_list(t_word_list **head, char **argv);
+void					get_word_list(t_word_list **head, char *line);
 //heredoc.c
-void					create_heredoc(t_word_list **word_head,
-							t_fd *fd_struct);
-//pwd.c
-void					pwd_cmd(t_word_list **word_list, t_env_list *env_list);
-//redirection.c
-void					main_redirection(t_word_list **word_list,
-							t_fd *fd_struct);
-//export.nooption.c
+int	main_heredoc(t_word_list *word_list, t_fd **fd_list, t_env_list **env_list);
+//in_output_operation.c
+int	in_output_operation(t_word_list *word_list, t_fd **fd_list,
+		t_env_list **env_list);
+//minishell_utils.c
+void					ft_get_env(char *str, t_env_list *env_list,
+							t_env_list **tmp);
 int						ft_strcmp(char *s1, char *s2);
-void					export_nooption(t_env_list *env_list);
+int						get_fd(char *file_name, int flg);
 //pwd.c
-void					pwd_cmd(t_word_list **word_list, t_env_list *env_list);
+void	pwd_cmd(int fd);
 //redirecrion.c
-void					main_redirection(t_word_list **word_list,
-							t_fd *fd_struct);
+int	main_redirection(t_word_list *word_list,
+						t_fd **fd_struct,
+						int red_flg);
 //unset.c
-void					unset_cmd(t_word_list **word_list,
-							t_env_list **env_list);
-
+void	unset_cmd(t_word_list *word_list, t_env_list **env_list);
 #endif
