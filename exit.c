@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/23 20:56:33 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 00:39:07 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	check_sign(char c, int *neg)
 	return (true);
 }
 
-bool	is_within_long(long long num, char c, int neg)
+static bool	is_within_long(long long num, char c, int neg)
 {
 	if ((neg == 0 && num > LONG_MAX / 10) || (neg == 0 && num == LONG_MAX / 10
 			&& (c - '0') > LONG_MAX % 10))
@@ -33,7 +33,7 @@ bool	is_within_long(long long num, char c, int neg)
 	return (true);
 }
 
-long long	ft_atoll(char *str, int *error_flg)
+static long long	ft_atoll(char *str, int *error_flg)
 {
 	long long	num;
 	size_t		i;
@@ -59,7 +59,7 @@ long long	ft_atoll(char *str, int *error_flg)
 	return (num);
 }
 
-bool	is_valid_number(char *word, long long *num)
+static bool	is_valid_number(char *word, long long *num)
 {
 	size_t	i;
 	int		error_flg;
@@ -84,20 +84,21 @@ bool	is_valid_number(char *word, long long *num)
 	return (true);
 }
 
-void	exit_cmd(t_word_list **word_list)
+void	exit_cmd(t_word_list *word_list)
 {
 	long long	num;
 
-	if ((*word_list)->next == NULL)
+	if (word_list->next == NULL)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit(EXIT_SUCCESS);
 	}
 	num = 0;
-	*word_list = (*word_list)->next;
-	if (is_valid_number((*word_list)->word, &num) == false)
+	word_list = word_list->next;
+	if (is_valid_number(word_list->word, &num) == false)
 	{
-		
+		exit_error(word_list->word);
+		exit(2);
 	}
 	if (num > 255 || num < -255)
 		num = num % 256;

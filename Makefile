@@ -6,7 +6,7 @@
 #    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/07/23 00:33:02 by reira            ###   ########.fr        #
+#    Updated: 2023/07/25 00:49:52 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = libft/libft.a
 GNL = ../gnl/get_next_line.c ../gnl/get_next_line_utils.c
-SRCS = command.c export.c pwd.c echo.c export_nooption.c heredoc.c redirection.c \
-	env.c append.c error.c get_env_list.c main.c unset.c cd.c exit.c get_word_list.c \
-	minishell_utils.c free.c input_output_operation.c $(GNL)
+SRCS = builtin.c cd.c command.c echo.c env.c error.c exit.c export_nooption.c export.c fork_execve_cmd.c \
+	free.c get_env_list.c get_fd_list.c heredoc.c in_output_operation.c main.c minishell_utils.c pwd.c \
+	unset.c $(GNL)
 OBJS = ${addprefix $(OBJS_DIR)/,$(SRCS:.c=.o)}
 OBJS_DIR = objs
 

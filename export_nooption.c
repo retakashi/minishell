@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/23 22:54:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 00:53:27 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	export_nooption(t_env_list **env_list, int fd)
 	t_env_list	*min;
 
 	if (env_list == NULL)
-		return (put_error("export", EXPORT_ERROR, env_list));
+		return (env_error("export", env_list));
 	cnt = cnt_envp_list(*env_list);
 	head = *env_list;
 	while (cnt > 0)
@@ -88,4 +88,5 @@ int	export_nooption(t_env_list **env_list, int fd)
 		cnt--;
 	}
 	*env_list = head;
+	return (SUCCESS);
 }

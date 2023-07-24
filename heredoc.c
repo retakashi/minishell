@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/24 02:12:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 21:49:28 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,63 +56,73 @@ int	create_heredoc(char *eof, int fd)
 	return (SUCCESS);
 }
 
-int	new_here_node(t_here *new, char *eof)
+int	new_here_node(t_fd *new, char *eof,t_env_list **env_list)
 {
-	new = malloc(sizeof(t_here));
+	new = malloc(sizeof(t_fd));
 	if (new == NULL)
-		return (FAILURE);
+		put_error_exit("failed to new_here_node");
 	new->here_file_name = get_file_name(0);
 	if (new->here_file_name == NULL)
-		return (FAILURE);
-	new->here_fd = get_fd(new->here_file_name, heredoc);
-	if (new->here_fd < 0)
-		return (FAILURE);
+		put_error_exit("failed to get_file_name");
+	new->in_fd = get_fd(new->here_file_name, heredoc);
+	if (new->in_fd < 0)
+		return (put_error_update_exit_status(new->here_file_name, env_list));
+	new->out_fd = STDOUT_FILENO;
+	if (create_heredoc(eof, new->in_fd) == FAILURE)
+		put_error_exit("failed to gnl");
+	new->pipe_cnt = 0;
 	return (SUCCESS);
 }
 
-int	change_here_file(t_here *node, char *eof)
+int	change_here_file(t_fd *node, char *eof, t_env_list **env_list)
 {
 	if (unlink(node->here_file_name) < 0)
-		return (FAILURE);
+		return (put_error_update_exit_status("unlink", env_list));
 	free(node->here_file_name);
-	if (close(node->here_fd) < 0)
-		return (FAILURE);
+	if (close(node->in_fd) < 0)
+		return (put_error_update_exit_status("close", env_list));
 	node->here_file_name = get_file_name(0);
 	if (node->here_file_name == NULL)
-		return (FAILURE);
-	node->here_fd = get_fd(node->here_file_name, heredoc);
-	if (node->here_fd < 0)
-		return (FAILURE);
+		put_error_exit("failed to get_file_name");
+	node->in_fd = get_fd(node->here_file_name, heredoc);
+	if (node->in_fd < 0)
+		return (put_error_update_exit_status(node->here_file_name, env_list));
+	if (create_heredoc(eof, node->in_fd) == FAILURE)
+		put_error_exit("failed to gnl");
 	return (SUCCESS);
 }
 
-int	main_heredoc(t_word_list *word_list, t_fd *fd_struct, t_env_list **env_list)
+int	main_heredoc(t_word_list *word_list, t_fd **fd_list, t_env_list **env_list)
 {
-	int		pipe_flg;
-	t_here	*here_node;
-	t_here	*here_new;
+	t_fd	*here_node;
+	t_fd	*here_new;
+	int		here_flg;
 
-	pipe_flg = false;
-	if (new_here_node(&here_node, word_list->word) == FAILURE)
-		return (put_error("failed to new_here_node", 0, env_list));
-	fd_struct->here_list_head = here_node;
+	here_flg = false;
+	while (word_list != NULL && word_list->flag != heredoc_file)
+		word_list = word_list->next;
+	if (new_here_node(&here_node, word_list->word,env_list) == FAILURE)
+		return (FAILURE);
+	*fd_list = here_node;
 	word_list = word_list->next;
 	while (word_list != NULL)
 	{
-		if (pipe_flg == false && word_list->flag == pipe_char)
-			pipe_flg = true;
-		if (pipe_flg == true && word_list->flag == heredoc_file)
+		if (word_list != NULL && word_list->flag == pipe_char)
+			word_list = word_list->next;
+		if (here_flg == false && find_heredoc_to_pipe(&word_list) == true)
 		{
-			if (new_here_node(&here_new, word_list->word) == FAILURE)
-				return (put_error("failed to new_here_node", 0, env_list));
+			here_flg = true;
+			if (new_here_node(&here_new, word_list->word,env_list) == FAILURE)
+				return (FAILURE);
 			here_node->next = here_new;
 			here_node = here_new;
 		}
-		if (pipe_flg == true && word_list->flag == pipe_char)
-			pipe_flg = false;
-		if ((pipe_flg == false && word_list->flag == heredoc_file)
-			&& change_here_node(&here_node, word_list->word) == FAILURE)
-			return (put_error("failed to change_here_node", 0, env_list));
+		if (here_flg == true && find_heredoc_to_pipe(&word_list) == true
+			&& change_here_file(&here_node, word_list->word,
+				env_list) == FAILURE)
+			return (FAILURE);
+		if (here_flg == true && find_heredoc_to_pipe(&word_list) == false)
+			here_flg = false;
 		word_list = word_list->next;
 	}
 	return (SUCCESS);

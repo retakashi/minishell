@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/21 18:05:41 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 19:09:20 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,20 @@ void	remove_node(t_word_list *remove_word, t_env_list **env_list,
 	free(remove_node);
 }
 
-void	unset_cmd(t_word_list **word_list, t_env_list **env_list)
+void	unset_cmd(t_word_list *word_list, t_env_list **env_list)
 {
 	t_env_list	*head;
 
-	*word_list = (*word_list)->next;
-	if (*env_list == NULL)
+	word_list = word_list->next;
+	if (*env_list == NULL || word_list == NULL)
 		return ;
 	head = *env_list;
-	while (*word_list != NULL && (*word_list)->flag == arguments)
+	while (word_list != NULL && word_list->flag == arguments)
 	{
 		*env_list = head;
-		if (search_env_name(*word_list, *env_list) == true)
-			remove_node(*word_list, env_list, &head);
-		*word_list = (*word_list)->next;
+		if (search_env_name(word_list, *env_list) == true)
+			remove_node(word_list, env_list, &head);
+		word_list = word_list->next;
 	}
 	*env_list = head;
 }

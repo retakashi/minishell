@@ -6,17 +6,17 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/24 01:09:29 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/24 19:18:50 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-void	free_here_list(t_here **list)
+void	free_fd_list(t_fd **list)
 {
-	t_here	*node;
-	t_here	*next;
+	t_fd	*node;
+	t_fd	*next;
 
 	if (*list == NULL)
 		return ;
