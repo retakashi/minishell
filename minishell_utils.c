@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 21:02:22 by reira             #+#    #+#             */
-/*   Updated: 2023/07/23 02:00:55 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 17:40:55 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	get_fd(char *file_name, int flg)
 		fd = open(file_name,
 					O_RDWR | O_CREAT | O_TRUNC,
 					S_IREAD | S_IWRITE);
-	else if (flg == heredoc_file)
+	else if (flg == heredoc)
 		fd = open(file_name,
 					O_WRONLY | O_CREAT | O_TRUNC,
 					S_IREAD | S_IWRITE);

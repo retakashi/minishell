@@ -6,13 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/24 19:56:02 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 23:46:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
-//meta_char | & ; ( ) space tab  < > == input,output,| == pipe_char
 
 bool	is_word_list_flag(t_word_list *word_list, int flag)
 {
@@ -40,26 +39,32 @@ int	pipe_cnt(t_word_list *word_list)
 }
 
 int	read_word_list_execve_cmd(t_word_list *word_list, t_env_list **env_list,
-		t_fd **fd_list)
+		t_fd_list **fd_list)
 {
 	int	cnt;
 	int	builtin_flg;
 
-	if (is_word_list_flag(word_list, heredoc_file) == true
-		&& main_heredoc(word_list, fd_list) == FAILURE)
+	if (is_word_list_flag(word_list, eof_num) == true && main_heredoc(word_list,
+			fd_list, env_list) == FAILURE)
 		return (FAILURE);
 	cnt = pipe_cnt(word_list);
-	get_fd_list(word_list, fd_list, env_list, cnt);
-	if (cnt == 0 && is_builin(word_list) == true)
+	get_fd_list(word_list, fd_list, cnt);
+	if (cnt == 0 && is_builtin(word_list, &builtin_flg) == true)
 	{
 		if (in_output_operation(word_list, fd_list, env_list) == FAILURE)
 			return (FAILURE);
-		if (execve_builtin(word_list, env_list, fd_list) == FAILURE)
+		if (execve_builtin(word_list, env_list, *fd_list,
+				builtin_flg) == FAILURE)
 			return (FAILURE);
+		if ((*fd_list)->here_file_name != NULL
+			&& unlink((*fd_list)->here_file_name) < 0)
+			return (put_cd_error_update_exit_status("unlink", env_list));
 	}
 	else
 	{
-		if (fork_execve_cmd(word_list, env_list, fd_list,cnt) == FAILURE)
+		if (cnt == 0)
+			cnt++;
+		if (fork_execve_cmd(word_list, env_list, *fd_list, cnt) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -68,7 +73,7 @@ int	read_word_list_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 void	init_minishell(char **envp,
 					t_env_list **env_list_head,
 					t_word_list **word_list_head,
-					t_fd **fd_list)
+					t_fd_list **fd_list)
 {
 	*word_list_head = NULL;
 	*env_list_head = NULL;
@@ -86,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_word_list	*word_head;
 	t_env_list	*env_list_head;
-	t_fd		*fd_list;
+	t_fd_list	*fd_list;
 	char		*line;
 
 	if (argc == 0 || argv == NULL)
@@ -95,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		// line = "echo hello  > file1 > file2";
+		// line = "cat | ls";
 		if (line == NULL)
 			break ;
 		if (*line)
@@ -111,5 +116,5 @@ int	main(int argc, char **argv, char **envp)
 		free_fd_list(&fd_list);
 	}
 	free_env_list(&env_list_head);
-	exit(0);
+	return (0);
 }

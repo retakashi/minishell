@@ -6,12 +6,20 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 00:52:38 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 13:56:46 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
+
+int	put_cd_error_update_exit_status(char *str, t_env_list **env_head)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDOUT_FILENO);
+	(*env_head)->exit_status = 1;
+	return (FAILURE);
+}
 
 int	command_error(char *str, t_env_list **env_head)
 {
