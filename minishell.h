@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/24 11:41:55 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/25 19:48:37 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char					*duplicate(char *content, char *line, unsigned int n);
 char					**split_str(char *str, char *charset);
 //get_env.c
 t_env_list				*init_minishell(char **envp, t_env_list **env_list_head);
+//change_line.c
+char					*change_line(char *line, t_env_list *env_list);
 
 
 #endif
