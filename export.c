@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 00:40:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 18:32:38 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,12 @@ static void	update_env_str(t_env_list **env_list, char *str)
 		put_error_exit("failed to ft_strdup");
 }
 
-void	export_cmd(t_word_list *word_list, t_env_list **env_list)
+void	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd)
 {
 	t_env_list	*head;
 
-	if (word_list->next == NULL)
-	{
-		init_write_flg(env_list);
-		export_nooption(*env_list);
-	}
+	if (word_list->next == NULL||(word_list->next->flag!=arguments&&word_list->next->flag!=option))
+		export_nooption(env_list,fd);
 	word_list = word_list->next;
 	head = *env_list;
 	while (word_list != NULL && word_list->flag == arguments)
