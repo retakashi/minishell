@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 18:35:03 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/24 11:41:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ typedef struct s_word_list
 	char				*word;
 	int					flag;
 }			t_word_list;
+
+typedef struct s_env_list
+{
+	char				*env_name;
+	char				*env_str;
+	int					write_flg;
+	int					exit_status;
+	struct s_env_list	*next;
+}						t_env_list;
 
 typedef enum s_flags
 {
@@ -75,7 +84,8 @@ void					*ft_free_line2(char **result);
 char					*duplicate(char *content, char *line, unsigned int n);
 //split_str.c
 char					**split_str(char *str, char *charset);
-
+//get_env.c
+t_env_list				*init_minishell(char **envp, t_env_list **env_list_head);
 
 
 #endif

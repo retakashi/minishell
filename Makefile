@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
+#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/23 18:34:47 by sraza            ###   ########.fr        #
+#    Updated: 2023/07/24 11:45:44 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ SRCS	=	main.c \
 			make_list_3.c \
 			make_list_4.c \
 			utils.c \
+			get_env.c \
+			change_line.c \
 			split_str.c
 
 OBJS = ${SRCS:%.c=%.o}
