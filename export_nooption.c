@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/25 00:53:27 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 11:16:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-static void	init_write_flg(t_env_list **env_list)
+void	init_write_flg(t_env_list **env_list)
 {
 	t_env_list	*head;
 
@@ -72,6 +72,7 @@ int	export_nooption(t_env_list **env_list, int fd)
 		return (env_error("export", env_list));
 	cnt = cnt_envp_list(*env_list);
 	head = *env_list;
+	init_write_flg(env_list);	
 	while (cnt > 0)
 	{
 		*env_list = head;

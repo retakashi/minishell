@@ -6,20 +6,20 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/24 19:38:53 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 11:14:34 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-int	env_cmd(t_word_list *word_list, t_env_list **env_list, int fd)
+int	env_cmd(t_env_list **env_list, int fd)
 {
 	t_env_list	*tmp;
 	t_env_list	*head;
 
 	tmp = NULL;
-	ft_get_env("PATH", env_list, &tmp);
+	ft_get_env("PATH", *env_list, &tmp);
 	if (tmp == NULL)
 		return (env_error("env", env_list));
 	head = *env_list;

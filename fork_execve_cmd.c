@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 19:52:16 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 00:32:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 00:02:03 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ void	dup2_pipe_fd(int p_fd[2])
 		put_error_exit("close");
 }
 
-void	dup2_fd_list(t_word_list *word_list, t_fd *fd_list)
+void	dup2_fd_list(t_fd_list *fd_list)
 {
-	if ((fd_list->here_file_name != NULL
-			|| find_filename_to_pipe(word_list) == true)
-		&& in_output_operation(word_list, &fd_list) == FAILURE)
-		exit(EXIT_FAILURE);
 	if (fd_list->in_fd != STDIN_FILENO)
 	{
 		if (dup2(fd_list->in_fd, STDIN_FILENO) < 0)
@@ -57,16 +53,17 @@ void	dup2_fd_list(t_word_list *word_list, t_fd *fd_list)
 	}
 }
 
-int	cnt_env_list(char *str)
+int	cnt_env_list(t_env_list *env_list)
 {
-	int	len;
+	int	cnt;
 
-	len = 0;
-	if (str == NULL)
-		return (0);
-	while (str[len] != '\0')
-		len++;
-	return (len);
+	cnt = 0;
+	while (env_list != NULL)
+	{
+		env_list = env_list->next;
+		cnt++;
+	}
+	return (cnt);
 }
 
 char	**convert_env_list_to_2darr(t_env_list *env_list)
@@ -159,12 +156,12 @@ char	**get_envp_path(char **envp)
 	return (e_path);
 }
 
-void	execve_cmd(t_list *word_list, t_list *env_list, t_fd *fd_list)
+void	execve_cmd(t_word_list *word_list, t_env_list **env_list)
 {
 	t_execve_struct	e_struct;
 
 	e_struct.i = 0;
-	e_struct.envp = convert_env_list_to_2darr(env_list);
+	e_struct.envp = convert_env_list_to_2darr(*env_list);
 	e_struct.argv = get_comd_argv(word_list);
 	e_struct.env_path = get_envp_path(e_struct.envp);
 	while (e_struct.env_path[e_struct.i++] != NULL)
@@ -185,26 +182,31 @@ void	execve_cmd(t_list *word_list, t_list *env_list, t_fd *fd_list)
 	exit(EXIT_FAILURE);
 }
 
-void	child(t_word_list *word_list, t_env_list **env_list, t_fd *fd_list,
+void	child(t_word_list *word_list, t_env_list **env_list, t_fd_list *fd_list,
 		int p_fd[2])
 {
+	int	builtin_flg;
 	dup2_pipe_fd(p_fd);
 	if (in_output_operation(word_list, &fd_list, env_list) == FAILURE)
 		exit(EXIT_FAILURE);
 	while (word_list != NULL && word_list->flag != command)
 		word_list = word_list->next;
-	if (is_builin(word_list) == true)
+	if (word_list == NULL)
+		exit(SUCCESS);
+	if (is_builtin(word_list, &builtin_flg) == true)
 	{
-		if (execve_builtin(word_list, env_list, fd_list) == FAILURE)
+		if (execve_builtin(word_list, env_list, fd_list,
+				builtin_flg) == FAILURE)
 			exit(EXIT_FAILURE);
 		else
-			exit(EXIT_SUCCESS);
+			exit(SUCCESS);
 	}
-	dup2_fd_list(word_list, fd_list);
-	execve_cmd(word_list, *env_list, fd_list);
+	dup2_fd_list(fd_list);
+	if (word_list != NULL && word_list->flag == command)
+		execve_cmd(word_list, env_list);
 }
 
-int	parent(int p_fd[])
+void	parent(int p_fd[])
 {
 	if (dup2(p_fd[READ], STDIN_FILENO) < 0)
 		put_error_exit("dup2");
@@ -215,18 +217,17 @@ int	parent(int p_fd[])
 }
 
 int	fork_execve_cmd(t_word_list *word_list, t_env_list **env_list,
-		t_fd *fd_list, int pipe_cnt)
+		t_fd_list *fd_list, int pipe_cnt)
 {
 	int		p_fd[2];
-	int		save_fd[2];
 	pid_t	pid;
+	int		i;
 
-	if (pipe_cnt == 0)
+	i = 0;
+	if (i < pipe_cnt)
 	{
-		if (pipe(p_fd[2]) < 0)
+		if (pipe(p_fd) < 0)
 			return (put_error_update_exit_status("pipe", env_list));
-		save_fd[READ] = dup(p_fd[READ]);
-		save_fd[WRITE] = dup(p_fd[WRITE]);
 		pid = fork();
 		if (pid < 0)
 			return (put_error_update_exit_status("fork", env_list));
@@ -234,8 +235,17 @@ int	fork_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 			child(word_list, env_list, fd_list, p_fd);
 		else
 			parent(p_fd);
+		i++;
+		while (word_list != NULL && word_list->flag != pipe_char)
+			word_list = word_list->next;
+		if (word_list != NULL)
+			word_list = word_list->next;
+		fd_list=fd_list->next;
 	}
-	if (wait(NULL) < 0)
-		put_error_exit("wait");
+	while (i < pipe_cnt)
+	{
+		if (wait(NULL) < 0)
+			put_error_exit("wait");
+	}
 	return (SUCCESS);
 }

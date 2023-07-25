@@ -6,25 +6,27 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/24 19:18:50 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/25 21:18:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-void	free_fd_list(t_fd **list)
+void	free_fd_list(t_fd_list **list)
 {
-	t_fd	*node;
-	t_fd	*next;
+	t_fd_list	*node;
+	t_fd_list	*next;
 
 	if (*list == NULL)
 		return ;
 	node = *list;
+	next = NULL;
 	while (node != NULL)
 	{
 		next = node->next;
-		free(node->here_file_name);
+		if (node->here_file_name != NULL)
+			free(node->here_file_name);
 		free(node);
 		node = next;
 	}
