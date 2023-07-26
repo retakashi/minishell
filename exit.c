@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/25 00:39:07 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 static bool	check_sign(char c, int *neg)
 {

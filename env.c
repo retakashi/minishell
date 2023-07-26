@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 11:14:34 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 int	env_cmd(t_env_list **env_list, int fd)
 {

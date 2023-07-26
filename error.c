@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 13:56:46 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 int	put_cd_error_update_exit_status(char *str, t_env_list **env_head)
 {

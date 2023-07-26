@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 23:21:35 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 static int	new_here_node(t_fd_list **new, char *eof, t_env_list **env_list)
 {

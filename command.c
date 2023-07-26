@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:34:40 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 23:28:00 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 bool	is_inequality_sign(int flag)
 {
