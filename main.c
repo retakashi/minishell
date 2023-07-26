@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/25 23:46:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 13:20:20 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
 bool	is_word_list_flag(t_word_list *word_list, int flag)
 {
@@ -64,7 +64,7 @@ int	read_word_list_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 	{
 		if (cnt == 0)
 			cnt++;
-		if (fork_execve_cmd(word_list, env_list, *fd_list, cnt) == FAILURE)
+		if (fork_execve_cmd(word_list, env_list, fd_list, cnt) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
