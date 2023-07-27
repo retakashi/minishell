@@ -6,17 +6,17 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/27 20:18:35 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "execve_cmd.h"
 
-void	free_fd_list(t_fd_list **list)
+void	free_here_list(t_here_list **list)
 {
-	t_fd_list	*node;
-	t_fd_list	*next;
+	t_here_list	*node;
+	t_here_list	*next;
 
 	if (*list == NULL)
 		return ;

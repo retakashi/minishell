@@ -6,18 +6,29 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/27 23:55:21 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "execve_cmd.h"
 
-static int	new_here_node(t_fd_list **new, char *eof, t_env_list **env_list)
+void	new_fd_node(t_here_list **node)
+{
+	*node = malloc(sizeof(t_here_list));
+	if (*node == NULL)
+		put_error_exit("failed to new_fd_node");
+	(*node)->here_fd = STDIN_FILENO;
+	(*node)->here_file_name = NULL;
+	(*node)->child_num = 0;
+	(*node)->next = NULL;
+}
+
+static int	new_here_node(t_here_list **new, char *eof, t_env_list **env_list)
 {
 	char	*name;
 
-	new_fd_node(new, 0);
+	new_fd_node(new);
 	name = get_file_name(0);
 	if (name == NULL)
 		put_error_exit("failed to get_name_len");
@@ -33,7 +44,7 @@ static int	new_here_node(t_fd_list **new, char *eof, t_env_list **env_list)
 	return (SUCCESS);
 }
 
-static int	update_here_file(t_fd_list **node, char *eof, t_env_list **env_list)
+static int	update_here_file(t_here_list **node, char *eof, t_env_list **env_list)
 {
 	char	*new_name;
 
@@ -55,7 +66,7 @@ static int	update_here_file(t_fd_list **node, char *eof, t_env_list **env_list)
 	return (SUCCESS);
 }
 
-static int	create_head_node(t_fd_list **node, t_word_list **word_list,
+static int	create_head_node(t_here_list **node, t_word_list **word_list,
 		t_env_list **env_list, int *here_flg)
 {
 	while (*word_list != NULL && (*word_list)->flag != eof_num)
@@ -84,16 +95,16 @@ static int	create_or_update_here_node(t_word_list **word_list, int *here_flg)
 	return (false);
 }
 
-int	main_heredoc(t_word_list *word_list, t_fd_list **fd_list,
+int	get_heredoc_list(t_word_list *word_list, t_here_list **here_list,
 		t_env_list **env_list)
 {
-	t_fd_list	*new;
-	t_fd_list	*node;
+	t_here_list	*new;
+	t_here_list	*node;
 	int			here_flg;
 
 	if (create_head_node(&node, &word_list, env_list, &here_flg) == FAILURE)
 		return (FAILURE);
-	*fd_list = node;
+	*here_list = node;
 	while (word_list != NULL)
 	{
 		if (create_or_update_here_node(&word_list, &here_flg) == CREATE)
