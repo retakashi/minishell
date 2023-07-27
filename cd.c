@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/27 21:22:20 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:23:26 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	move_to_home(t_env_list **env_list)
 	return (SUCCESS);
 }
 
-static int	move_to_oldpwd(t_env_list **env_list)
+static int	move_to_oldpwd(t_env_list **env_list,int out_fd)
 {
 	t_env_list	*node;
 
@@ -43,10 +43,12 @@ static int	move_to_oldpwd(t_env_list **env_list)
 				env_list));
 	if (chdir(node->env_str) < 0)
 		return (put_error_update_exit_status("chdir", env_list));
+	ft_putstr_fd(node->env_str,out_fd);
+	ft_putstr_fd("\n",out_fd);	
 	return (SUCCESS);
 }
 
-int	cd_cmd(t_word_list *word_list, t_env_list **env_list)
+int	cd_cmd(t_word_list *word_list, t_env_list **env_list,int out_fd)
 {
 	word_list = word_list->next;
 	if (word_list == NULL)
@@ -54,7 +56,7 @@ int	cd_cmd(t_word_list *word_list, t_env_list **env_list)
 	if (ft_strcmp(word_list->word, "~") == 0)
 		return (move_to_home(env_list));
 	else if (ft_strcmp(word_list->word, "-") == 0)
-		return (move_to_oldpwd(env_list));
+		return (move_to_oldpwd(env_list,out_fd));
 	if (chdir(word_list->word) < 0)
 		return (put_error_update_exit_status(word_list->word, env_list));
 	if (save_oldpwd(env_list) == FAILURE)

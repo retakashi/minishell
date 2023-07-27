@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 19:01:30 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:46:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,28 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }						t_env_list;
 
-typedef struct s_fd_list
+typedef struct s_here_list
+{
+	int					here_fd;
+	char				*here_file_name;
+	int					child_num;
+	struct s_here_list	*next;
+}						t_here_list;
+
+typedef struct s_fd
 {
 	int					in_fd;
 	int					out_fd;
-	char				*here_file_name;
-	int					pipe_cnt;
-	struct s_fd_list	*next;
-}						t_fd_list;
+}						t_fd;
 
-typedef struct s_execve_struct
+typedef struct s_proccess_data
 {
-	char				**envp;
-	char				**argv;
-	char				*path;
-	char				**env_path;
-	char				*cmd_path;
-	char				*join_cmd;
+	int					**pipe_2darr;
+	char				**env_2darr;
+	pid_t				pid;
 	int					i;
-}						t_execve_struct;
+	int					pipe_cnt;
+}						t_proccess_data;
 
 typedef enum e_flags
 {
@@ -97,91 +100,90 @@ typedef enum e_builtin_no
 	exit_no
 }						t_builtin_no;
 
-//builtin.c
+// builtin.c
 bool					is_builtin(t_word_list *word_list, int *builtin_flg);
-int	execve_builtin(t_word_list *word_list,
-					t_env_list **env_list,
-					t_fd_list *fd_list,
-					int builtin_flg);
-//cd.c
-int						cd_cmd(t_word_list *word_list, t_env_list **env_list);
-//command.c
-void	main_command(t_word_list **word_list,
-					t_env_list **env_list,
-					t_fd_list fd_struct);
-void					ft_get_env(char *str, t_env_list *env_list,
-							t_env_list **tmp);
+int						execve_builtin(t_word_list *word_list,
+							t_env_list **env_list, t_fd fd_struct,
+							int builtin_flg);
+// cd.c
+int						cd_cmd(t_word_list *word_list, t_env_list **env_list,int out_fd);
+// command.c
 void					get_command(t_word_list **head);
-//echo.c
+// echo.c
 int						echo_cmd(t_word_list *word_list, int fd);
-//env.c
+// env.c
 int						env_cmd(t_env_list **env_list, int fd);
-//error.c
-int	put_cd_error_update_exit_status(char *str,
-									t_env_list **env_head);
-int						command_error(char *str, t_env_list **env_head);
+// error.c
+int						put_cd_error_update_exit_status(char *str,
+							t_env_list **env_head);
+void						command_error(char *str);
 int						cd_error(char *str, t_env_list **env_head);
 int						env_error(char *str, t_env_list **env_head);
-int	put_error_update_exit_status(char *str,
-									t_env_list **env_head);
+int						put_error_update_exit_status(char *str,
+							t_env_list **env_head);
 void					exit_error(char *str);
 void					put_error_exit(char *str);
-//exit.c
+// execve_cmd_utils.c
+char					**extract_path_from_env_2darr(char **env_2darr);
+void					get_cmdpath_execve(t_word_list *word_list,
+							char **env_2darr);
+void					get_pipe_2darr(int ***pipe_2darr, size_t pipe_cnt);
+// exit.c
 void					exit_cmd(t_word_list *word_list);
-//export_nooption.c
+// export_nooption.c
 int						export_nooption(t_env_list **env_list, int fd);
-//export.c
-void	export_cmd(t_word_list *word_list,
-				t_env_list **env_list,
-				int fd);
-//fork_execve_cmd.c
+// export.c
+void					export_cmd(t_word_list *word_list,
+							t_env_list **env_list, int fd);
+// fork_execve_cmd.c
 int						fork_execve_cmd(t_word_list *word_list,
-							t_env_list **env_list, t_fd_list **fd_list,
+							t_env_list **env_list, t_here_list *here_list,
 							int pipe_cnt);
-//free.c
-void					free_fd_list(t_fd_list **list);
+// free.c
+void					free_here_list(t_here_list **list);
 void					free_word_list(t_word_list **list);
 void					free_env_list(t_env_list **list);
-//get_cmd_argv.c
+// get_cmd_argv.c
 char					**get_cmd_argv(t_word_list *word_list);
-//get_env_list.c
+// get_env_list.c
 size_t					get_name_len(char *str);
 void					new_env_node(t_env_list **node, char *envp);
-void					get_env_list(char **envp, t_env_list **head);
-//get_env_2darr.c
-char					**get_envp_2darr(t_env_list *env_list);
-//get_fd_list.c
-void					get_fd_list(t_word_list *word_list, t_fd_list **fd_list,
-							int pipe_cnt);
-void	new_fd_node(t_fd_list **node,
-					int i);
-//get_word_list.c
+int					get_env_list(char **envp, t_env_list **head);
+// get_env_2darr.c
+char					**get_env_2darr(t_env_list *env_list);
+// get_here_list.c
+void					get_here_list(t_word_list *word_list,
+							t_here_list **here_list, int pipe_cnt);
+void					new_fd_node(t_here_list **node);
+// get_word_list.c
 void					get_word_list(t_word_list **head, char *line);
-//heredoc.c
-int	main_heredoc(t_word_list *word_list,
-					t_fd_list **fd_list,
-					t_env_list **env_list);
-//get_heredoc_file.c
-int						get_heredoc_file(t_fd_list **node, char *eof,
+// heredoc.c
+int						get_heredoc_list(t_word_list *word_list,
+							t_here_list **here_list, t_env_list **env_list);
+// get_heredoc_file.c
+int						get_heredoc_file(t_here_list **node, char *eof,
 							t_env_list **env_list);
 char					*get_file_name(int i);
-//in_output_operation.c
-int	in_output_operation(t_word_list *word_list,
-						t_fd_list **fd_list,
-						t_env_list **env_list);
-int						find_filename_to_pipe(t_word_list *word_list);
-//minishell_utils.c
+// in_output_operation.c
+int						in_output_operation(t_word_list *word_list,
+							t_here_list *here_list, t_fd *fd_struct,
+							t_env_list **env_list);
+// int						find_filename_to_pipe(t_word_list *word_list);
+// minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
 int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
-//pwd.c
-void					pwd_cmd(int fd);
-//redirecrion.c
-int	main_redirection(t_word_list *word_list,
-						t_fd_list **fd_struct,
-						int red_flg);
-//unset.c
-void	unset_cmd(t_word_list *word_list,
-				t_env_list **env_list);
+// proccess.c
+void					child_execve_cmd(t_word_list *word_list,
+							t_env_list **env_list, t_here_list *here_list,
+							t_proccess_data pro_data);
+void					parent(t_proccess_data pro_data);
+int						in_output_file_dup2(t_fd fd_struct);
+// pwd.c
+int						pwd_cmd(int fd, t_env_list **env_list);
+int						save_oldpwd(t_env_list **env_list);
+// unset.c
+void					unset_cmd(t_word_list *word_list,
+							t_env_list **env_list);
 #endif
