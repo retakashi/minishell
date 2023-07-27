@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:10:16 by reira             #+#    #+#             */
-/*   Updated: 2023/07/27 21:47:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:16:17 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ char	**get_env_2darr(t_env_list *env_list)
 	int		i;
 	size_t	name_len;
 	size_t	str_len;
-
+	
+	if(env_list==NULL)
+	return(NULL);
 	cnt = cnt_env_list(env_list);
 	ans = ft_calloc(cnt + 1, sizeof(char *));
 	if (ans == NULL)

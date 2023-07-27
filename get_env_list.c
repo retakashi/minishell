@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:46:01 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
 size_t	get_name_len(char *str)
 {
@@ -48,12 +48,27 @@ void	new_env_node(t_env_list **node, char *envp)
 	(*node)->next = NULL;
 }
 
-void	get_env_list(char **envp, t_env_list **head)
+int	new_node_noenvp(t_env_list **node)
+{
+	*node = malloc(sizeof(t_env_list));
+	if (*node == NULL)
+		put_error_exit("faied to new_env_node");
+	(*node)->env_name = NULL;
+	(*node)->env_str = NULL;
+	(*node)->write_flg = false;
+	(*node)->exit_status = 0;
+	(*node)->next = NULL;
+	return (SUCCESS);
+}
+
+int	get_env_list(char **envp, t_env_list **head)
 {
 	t_env_list	*new;
 	t_env_list	*node;
 	size_t		i;
 
+	if (envp == NULL)
+		return (new_node_noenvp(&node));
 	new_env_node(&node, envp[0]);
 	*head = node;
 	i = 1;
@@ -64,4 +79,5 @@ void	get_env_list(char **envp, t_env_list **head)
 		node = new;
 		i++;
 	}
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 22:37:50 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 00:58:39 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 03:01:05 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	first_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 {
 	t_fd		fd_struct;
 	t_here_list	*tmp;
+	int			builtin_flg;
 
-	fd_struct.in_fd = STDIN_FILENO;
-	fd_struct.out_fd = STDOUT_FILENO;
 	search_here_list_child_num(here_list, &tmp, pro_data);
 	if (in_output_operation(word_list, tmp, &fd_struct, env_list) == FAILURE)
 		exit(EXIT_FAILURE);
@@ -62,6 +61,8 @@ void	first_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 		put_error_exit("close");
 	if (in_output_file_dup2(fd_struct) == FAILURE)
 		put_error_exit("dup2");
+	if (is_builtin(word_list, &builtin_flg) == true && execve_builtin(word_list,
+			env_list, fd_struct, builtin_flg) == FAILURE)
 	get_cmdpath_execve(word_list, pro_data.env_2darr);
 }
 
@@ -71,8 +72,6 @@ void	middle_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 	t_fd		fd_struct;
 	t_here_list	*tmp;
 
-	fd_struct.in_fd = STDIN_FILENO;
-	fd_struct.out_fd = STDOUT_FILENO;
 	search_here_list_child_num(here_list, &tmp, pro_data);
 	if (in_output_operation(word_list, tmp, &fd_struct, env_list) == FAILURE)
 		exit(EXIT_FAILURE);
@@ -95,8 +94,6 @@ void	last_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 	t_fd		fd_struct;
 	t_here_list	*tmp;
 
-	fd_struct.in_fd = STDIN_FILENO;
-	fd_struct.out_fd = STDOUT_FILENO;
 	search_here_list_child_num(here_list, &tmp, pro_data);
 	if (in_output_operation(word_list, tmp, &fd_struct, env_list) == FAILURE)
 		exit(EXIT_FAILURE);
@@ -122,7 +119,6 @@ void	child_execve_cmd(t_word_list *word_list, t_env_list **env_list,
 
 void	parent(t_proccess_data pro_data)
 {
-	
 	if (pro_data.i > 0 && pro_data.i <= pro_data.pipe_cnt)
 	{
 		if (close(pro_data.pipe_2darr[pro_data.i - 1][READ]) < 0)
