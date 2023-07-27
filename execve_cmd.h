@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 00:51:48 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:46:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ typedef enum e_builtin_no
 // builtin.c
 bool					is_builtin(t_word_list *word_list, int *builtin_flg);
 int						execve_builtin(t_word_list *word_list,
-							t_env_list **env_list, t_here_list *here_list,
+							t_env_list **env_list, t_fd fd_struct,
 							int builtin_flg);
 // cd.c
-int						cd_cmd(t_word_list *word_list, t_env_list **env_list);
+int						cd_cmd(t_word_list *word_list, t_env_list **env_list,int out_fd);
 // command.c
 void					get_command(t_word_list **head);
 // echo.c
@@ -116,17 +116,18 @@ int						env_cmd(t_env_list **env_list, int fd);
 // error.c
 int						put_cd_error_update_exit_status(char *str,
 							t_env_list **env_head);
-int						command_error(char *str, t_env_list **env_head);
+void						command_error(char *str);
 int						cd_error(char *str, t_env_list **env_head);
 int						env_error(char *str, t_env_list **env_head);
 int						put_error_update_exit_status(char *str,
 							t_env_list **env_head);
 void					exit_error(char *str);
 void					put_error_exit(char *str);
-//execve_cmd_utils.c
-char	**extract_path_from_env_2darr(char **env_2darr);
-void	get_cmdpath_execve(t_word_list *word_list, char **env_2darr);
-void get_pipe_2darr(int ***pipe_2darr,size_t pipe_cnt);
+// execve_cmd_utils.c
+char					**extract_path_from_env_2darr(char **env_2darr);
+void					get_cmdpath_execve(t_word_list *word_list,
+							char **env_2darr);
+void					get_pipe_2darr(int ***pipe_2darr, size_t pipe_cnt);
 // exit.c
 void					exit_cmd(t_word_list *word_list);
 // export_nooption.c
@@ -147,7 +148,7 @@ char					**get_cmd_argv(t_word_list *word_list);
 // get_env_list.c
 size_t					get_name_len(char *str);
 void					new_env_node(t_env_list **node, char *envp);
-void					get_env_list(char **envp, t_env_list **head);
+int					get_env_list(char **envp, t_env_list **head);
 // get_env_2darr.c
 char					**get_env_2darr(t_env_list *env_list);
 // get_here_list.c
@@ -173,13 +174,15 @@ void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
 int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
-//proccess.c
-void	child_execve_cmd(t_word_list *word_list, t_env_list **env_list,
-		t_here_list *here_list, t_proccess_data pro_data);
-void	parent(t_proccess_data pro_data);
+// proccess.c
+void					child_execve_cmd(t_word_list *word_list,
+							t_env_list **env_list, t_here_list *here_list,
+							t_proccess_data pro_data);
+void					parent(t_proccess_data pro_data);
+int						in_output_file_dup2(t_fd fd_struct);
 // pwd.c
 int						pwd_cmd(int fd, t_env_list **env_list);
-int	save_oldpwd(t_env_list **env_list);
+int						save_oldpwd(t_env_list **env_list);
 // unset.c
 void					unset_cmd(t_word_list *word_list,
 							t_env_list **env_list);

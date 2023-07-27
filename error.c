@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:40:26 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ int	put_cd_error_update_exit_status(char *str, t_env_list **env_head)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDOUT_FILENO);
+	if(*env_head!=NULL)
 	(*env_head)->exit_status = 1;
 	return (FAILURE);
 }
 
-int	command_error(char *str, t_env_list **env_head)
+void	command_error(char *str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	(*env_head)->exit_status = 127;
-	return (FAILURE);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);	
 }
 
 int	cd_error(char *str, t_env_list **env_head)
@@ -35,6 +34,7 @@ int	cd_error(char *str, t_env_list **env_head)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd("cd: ", STDERR_FILENO);
 	perror(str);
+	if(*env_head!=NULL)
 	(*env_head)->exit_status = 1;
 	return (FAILURE);
 }
@@ -44,6 +44,7 @@ int	env_error(char *str, t_env_list **env_head)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	if(*env_head!=NULL)
 	(*env_head)->exit_status = 127;
 	return (FAILURE);
 }
@@ -52,6 +53,7 @@ int	put_error_update_exit_status(char *str, t_env_list **env_head)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	perror(str);
+	if(*env_head!=NULL)
 	(*env_head)->exit_status = 1;
 	return (FAILURE);
 }

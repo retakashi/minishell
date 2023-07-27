@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 00:52:21 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:52:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,23 @@ void	get_here_list_child_num(t_word_list *word_list, t_here_list **here_list)
 int	read_word_list(t_word_list *word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
-	int	cnt;
-	int	builtin_flg;
+	int		cnt;
+	int		builtin_flg;
+	t_fd	fd_struct;
 
 	if (is_word_list_flag(word_list, eof_num) == true
 		&& get_heredoc_list(word_list, here_list, env_list) == FAILURE)
 		return (FAILURE);
 	cnt = pipe_cnt(word_list);
-	if (cnt == 0 && is_builtin(word_list, &builtin_flg) == true
-		&& execve_builtin(word_list, env_list, *here_list,
-			builtin_flg) == FAILURE)
-		return (FAILURE);
+	if (cnt == 0 && is_builtin(word_list, &builtin_flg) == true)
+	{
+		if (in_output_operation(word_list, *here_list, &fd_struct,
+				env_list) == FAILURE)
+			return(FAILURE);
+		if (execve_builtin(word_list, env_list, fd_struct,
+				builtin_flg) == FAILURE)
+			return (FAILURE);
+	}
 	else
 	{
 		if (here_list != NULL)

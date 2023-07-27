@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:47:56 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/28 00:21:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 02:21:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ int	save_oldpwd(t_env_list **env_list)
 		*env_list = (*env_list)->next;
 	connect_env_list(env_list, &new);
 	*env_list = head;
+	free(cwd);
+	free(join);
 	return (SUCCESS);
 }
