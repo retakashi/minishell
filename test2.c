@@ -48,11 +48,15 @@ void first(int *p,char **envp)
 
 void last(int *p,char **envp)
 {
-    char *argv[5]={"ls","-l",NULL};
+    int fd;
+    char *argv[5]={"cat",NULL};
+     fd=open("file1",O_RDWR);
     dup2(p[0],STDIN_FILENO);
     close(p[0]);
     close(p[1]);
-   execve("/bin/ls",argv,envp); 
+    dup2(fd,STDOUT_FILENO);
+    close(fd);
+   execve("/bin/cat",argv,envp); 
 }
 
 void middle(int *prev,int *p,char **envp)
@@ -80,25 +84,25 @@ int main(int argc,char **argv,char **envp)
    int **arr;
    int i;
    pid_t pid;
-   get_pipe_2darr(&arr,1);
+   get_pipe_2darr(&arr,2);
    i=0;
-   while(i<2)
+   while(i<3)
    {
-    if(i<1)
+    if(i<2)
     pipe(arr[i]);
     pid=fork();
     if(pid==0)
     {
         if(i==0)
         first(arr[i],envp);
-        else if(i==1)
+        else if(i==2)
         last(arr[i-1],envp);
         else
         middle(arr[i-1],arr[i],envp);
     }
     else
     {
-        if(i>0&&i<1)
+        if(i>0&&i<2)
         {
         close(arr[i-1][0]);
     close(arr[i-1][1]);

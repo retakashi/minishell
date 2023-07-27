@@ -65,7 +65,8 @@ int	error_check_fd(t_fd *fd_struct)
 int	in_output_operation(t_word_list *word_list, t_here_list *here_list,
 		t_fd *fd_struct, t_env_list **env_list)
 {
-
+	fd_struct->in_fd = STDIN_FILENO;
+	fd_struct->out_fd = STDOUT_FILENO;
 	while (word_list != NULL && word_list->flag != pipe_char)
 	{
 		if (word_list->flag == input_file)
