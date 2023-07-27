@@ -6,38 +6,67 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/15 17:31:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "minishell.h"
+#include "execve_cmd.h"
 
-void	write_command_error(char *str)
+int	put_cd_error_update_exit_status(char *str, t_env_list **env_head)
 {
-	char	*error;
-
-	error = ": command not found\n";
-	write(2, str, ft_strlen(str));
-	write(2, error, ft_strlen(error));
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDOUT_FILENO);
+	(*env_head)->exit_status = 1;
+	return (FAILURE);
 }
 
-void	write_env_error(void)
+int	command_error(char *str, t_env_list **env_head)
 {
-	char	*str;
-
-	str = "env: No such file or directory\n";
-	write(2, str, ft_strlen(str));
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	(*env_head)->exit_status = 127;
+	return (FAILURE);
 }
 
-void	put_error_free_2d_arr_exit(char *str,int error_flg)
+int	cd_error(char *str, t_env_list **env_head)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("cd: ", STDERR_FILENO);
+	perror(str);
+	(*env_head)->exit_status = 1;
+	return (FAILURE);
+}
 
-	if (error_flg == COMMAND_ERROR)
-		write_command_error(str);
-	else if (error_flg == ENV_ERROR)
-		write_env_error();
-	else
-		perror(str);
+int	env_error(char *str, t_env_list **env_head)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	(*env_head)->exit_status = 127;
+	return (FAILURE);
+}
+
+int	put_error_update_exit_status(char *str, t_env_list **env_head)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	perror(str);
+	(*env_head)->exit_status = 1;
+	return (FAILURE);
+}
+
+void	exit_error(char *str)
+{
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+}
+
+void	put_error_exit(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	perror(str);
 	exit(EXIT_FAILURE);
 }
