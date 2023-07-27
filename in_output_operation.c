@@ -10,69 +10,77 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
-int	find_filename_to_pipe(t_word_list *word_list)
+// int	find_filename_to_pipe(t_word_list *word_list)
+// {
+// 	while (word_list != NULL && word_list->flag != pipe_char)
+// 	{
+// 		if (word_list->flag == input_file)
+// 			return (true);
+// 		if (word_list->flag == output_file)
+// 			return (true);
+// 		if (word_list->flag == append_file)
+// 			return (true);
+// 	}
+// 	return (false);
+// }
+
+void	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
+		int flg)
 {
-	while (word_list != NULL && word_list->flag != pipe_char)
+	if (flg == input_file)
 	{
-		if (word_list->flag == input_file)
-			return (true);
-		if (word_list->flag == output_file)
-			return (true);
-		if (word_list->flag == append_file)
-			return (true);
+		if (here_list != NULL && here_list->here_fd == fd_struct->in_fd)
+			if (close(here_list->here_fd) < 0)
+				put_error_exit("close");
+		fd_struct->in_fd = get_fd(filename, flg);
 	}
-	return (false);
+	else if (flg == output_file)
+	{
+		if (fd_struct->out_fd != STDOUT_FILENO)
+			if (close(fd_struct->out_fd) < 0)
+				put_error_exit("close");
+		fd_struct->out_fd = get_fd(filename, flg);
+	}
+	else
+	{
+		if (here_list != NULL && fd_struct->in_fd != STDIN_FILENO)
+			if (close(fd_struct->in_fd) < 0)
+				put_error_exit("close");
+		fd_struct->in_fd = get_fd(here_list->here_file_name, flg);
+	}
 }
 
-int	in_output_operation(t_word_list *word_list, t_fd_list **fd_list,
-		t_env_list **env_list)
+int	error_check_fd(t_fd *fd_struct)
 {
-	int	tmp_fd;
+	if (fd_struct->in_fd < 0)
+		return (FAILURE);
+	if (fd_struct->out_fd < 0)
+		return (FAILURE);
+	return (SUCCESS);
+}
 
-	tmp_fd = 0;
-	if ((*fd_list)->here_file_name != NULL)
-		tmp_fd = (*fd_list)->in_fd;
+int	in_output_operation(t_word_list *word_list, t_here_list *here_list,
+		t_fd *fd_struct, t_env_list **env_list)
+{
+
 	while (word_list != NULL && word_list->flag != pipe_char)
 	{
 		if (word_list->flag == input_file)
-		{
-			if ((*fd_list)->in_fd != STDIN_FILENO
-				&& close((*fd_list)->in_fd) < 0)
-				return (put_cd_error_update_exit_status("close", env_list));
-			(*fd_list)->in_fd = get_fd(word_list->word, input_file);
-		}
+			update_fd(word_list->word, here_list, fd_struct, input_file);
 		else if (word_list->flag == output_file)
-		{
-			if ((*fd_list)->out_fd != STDOUT_FILENO
-				&& close((*fd_list)->out_fd) < 0)
-				return (put_cd_error_update_exit_status("close", env_list));
-			(*fd_list)->out_fd = get_fd(word_list->word, output_file);
-		}
+			update_fd(word_list->word, here_list, fd_struct, output_file);
 		else if (word_list->flag == append_file)
-		{
-			if ((*fd_list)->out_fd != STDOUT_FILENO
-				&& close((*fd_list)->out_fd) < 0)
-				return (put_cd_error_update_exit_status("close", env_list));
-			(*fd_list)->out_fd = get_fd(word_list->word, append_file);
-		}
+			update_fd(word_list->word, here_list, fd_struct, append_file);
 		else if (word_list->flag == heredoc)
-			(*fd_list)->in_fd = tmp_fd;
-		if ((*fd_list)->in_fd < 0 || (*fd_list)->out_fd < 0)
+			update_fd(word_list->word, here_list, fd_struct, input_file);
+		if (error_check_fd(fd_struct) == FAILURE)
 			return (put_error_update_exit_status(word_list->word, env_list));
 		word_list = word_list->next;
 	}
-	if ((*fd_list)->here_file_name!=NULL&&(*fd_list)->in_fd != tmp_fd)
-	{
-		if (unlink((*fd_list)->here_file_name) < 0)
-			return (put_cd_error_update_exit_status("unlink", env_list));
-		if (close(tmp_fd) < 0)
-			return (put_cd_error_update_exit_status("close", env_list));
-	}
-	else if ((*fd_list)->here_file_name!=NULL&&(*fd_list)->in_fd == tmp_fd
-			&& unlink((*fd_list)->here_file_name) < 0)
-		return (put_error_update_exit_status("unlink", env_list));
+	if (here_list != NULL && unlink(here_list->here_file_name) < 0)
+		put_error_exit("unlink");
 	return (SUCCESS);
 }

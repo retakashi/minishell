@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_envp_2darr.c                                   :+:      :+:    :+:   */
+/*   get_env_2darr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:10:16 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 14:11:15 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/27 21:47:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	cnt_env_list(t_env_list *env_list)
 	return (cnt);
 }
 
-char	**get_envp_2darr(t_env_list *env_list)
+char	**get_env_2darr(t_env_list *env_list)
 {
 	char	**ans;
 	int		cnt;
@@ -45,8 +45,6 @@ char	**get_envp_2darr(t_env_list *env_list)
 	size_t	name_len;
 	size_t	str_len;
 
-	if (env_list == NULL)
-		return (NULL);
 	cnt = cnt_env_list(env_list);
 	ans = ft_calloc(cnt + 1, sizeof(char *));
 	if (ans == NULL)
