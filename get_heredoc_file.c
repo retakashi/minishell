@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/07/25 23:21:41 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/27 20:18:35 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execve_cmd.h"
 #include "libft/libft.h"
 #include "gnl/get_next_line.h"
 
@@ -59,16 +59,15 @@ static int	write_to_heredocfile(char *eof, int fd)
 	return (SUCCESS);
 }
 
-int	get_heredoc_file(t_fd_list **node, char *eof, t_env_list **env_list)
+int	get_heredoc_file(t_here_list **node, char *eof, t_env_list **env_list)
 {
-	(*node)->in_fd = get_fd((*node)->here_file_name, heredoc);
-	if ((*node)->in_fd < 0)
+	(*node)->here_fd = get_fd((*node)->here_file_name, heredoc);
+	if ((*node)->here_fd < 0)
 		return (put_error_update_exit_status((*node)->here_file_name,
 												env_list));
-	if (write_to_heredocfile(eof, (*node)->in_fd) == FAILURE)
+	if (write_to_heredocfile(eof, (*node)->here_fd) == FAILURE)
 		put_error_exit("failed to gnl");
-	(*node)->pipe_cnt = 0;
-	if (close((*node)->in_fd) < 0)
+	if (close((*node)->here_fd) < 0)
 		put_cd_error_update_exit_status("close", env_list);
 	return (SUCCESS);
 }
