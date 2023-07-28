@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:34:40 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 18:53:31 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 bool	is_inequality_sign(int flag)
 {
-	if (flag == output_file || flag == input_file || flag == append_file || flag == eof_num)
+	if (flag == out_file || flag == in_file || flag == append_file || flag == eof_num)
 		return (true);
 	return (false);
 }
