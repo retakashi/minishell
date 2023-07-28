@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/28 17:00:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/29 00:53:56 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ static int	cnt_envp_list(t_env_list *env_list)
 	return (cnt + 1);
 }
 
-static void	write_env_exportver(t_env_list *env_list, int fd)
-{
-	ft_putstr_fd("declare -x ", fd);
-	ft_putstr_fd(env_list->env_name, fd);
-	if (env_list->env_str != NULL)
-	{
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd("\"", fd);
-		ft_putstr_fd(env_list->env_str, fd);
-		ft_putstr_fd("\"", fd);
-	}
-	ft_putstr_fd("\n", fd);
-}
-
 static void	get_min(t_env_list **min, t_env_list *env_list)
 {
 	while (env_list != NULL && env_list->write_flg == true)
@@ -78,7 +64,7 @@ int	export_nooption(t_env_list **env_list, int fd)
 	t_env_list	*min;
 
 	if (*env_list == NULL || (*env_list)->env_name == NULL)
-		return (env_error("export", env_list));
+		return (env_error_update_exit_status("export", env_list));
 	init_export_nooption(env_list, &head, &cnt);
 	while (--cnt > 0)
 	{

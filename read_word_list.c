@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 18:43:45 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 21:38:55 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,26 @@ void	get_here_list_child_num(t_word_list *word_list, t_here_list **here_list)
 	}
 }
 
-int	read_word_list(t_word_list *word_list, t_env_list **env_list,
+int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	int		cnt;
 	t_flg	flg_struct;
 
-	if (is_word_list_flag(word_list, eof_num) == true
-		&& get_here_list(word_list, here_list) == FAILURE)
+	if (is_word_list_flag(*word_list, eof_num) == true
+		&& get_here_list(*word_list, here_list) == FAILURE)
 	{
-		free_all_list(&word_list, env_list, here_list);
+		free_all_list(word_list, env_list, here_list);
 		put_error_exit("failed to get heredoc_list");
 	}
-	cnt = pipe_cnt(word_list);
-	if (cnt == 0 && is_builtin(word_list, &flg_struct.builtin_flg) == true)
-		return (main_builtin(word_list, env_list, *here_list,flg_struct));
+	cnt = pipe_cnt(*word_list);
+	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
+		return (main_builtin(word_list, env_list, here_list,flg_struct));
 	else
 	{
 		if (here_list != NULL)
 			get_here_list_child_num(word_list, here_list);
-		if (fork_execve_cmd(word_list, env_list, *here_list, cnt) == FAILURE)
+		if (fork_execve_cmd(word_list, env_list, here_list, cnt) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -125,13 +125,14 @@ int	main(int argc, char **argv, char **envp)
 		{
 			// parse_line(line);
 			// add_history(line);
-			get_word_list(&word_head, line);
-			get_command(&word_head);
-			read_word_list(word_head, &env_list_head, &here_list_head);
+			// get_word_list(&word_head, line);
+			// get_command(&word_head);
+			word_head = parse_line(line);
+			read_word_list(&word_head, &env_list_head, &here_list_head);
 		}
 		// free(line);
-		// free_word_list(&word_head);
-		// free_here_list(&here_list_head);
+		free_word_list(&word_head);
+		free_here_list(&here_list_head);
 	// }
 	free_env_list(&env_list_head);
 	return (0);

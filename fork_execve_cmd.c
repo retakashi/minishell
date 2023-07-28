@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 13:17:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 18:18:46 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	child_execve_cmd_nopipe(t_word_list *word_list, t_env_list **env_list,
 	if (in_output_operation(word_list, here_list, &fd_struct,
 			&exit_error_flg) == FAILURE)
 		exit(EXIT_FAILURE);
-	if (in_output_file_dup2(fd_struct) < 0)
+	if (in_out_file_dup2(fd_struct) < 0)
 		put_error_exit("dup2");
 	env_2darr = get_env_2darr(*env_list);
 	get_cmdpath_execve(word_list, env_2darr);

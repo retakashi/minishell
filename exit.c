@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/28 18:32:18 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/29 00:37:43 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,40 +38,46 @@ static bool	is_valid_number(char *word, long long *num)
 	return (true);
 }
 
-static void	free_list_builtin_exit(t_word_list **word_head, t_env_list **env_list,
+static void	free_list_exit(t_word_list **word_list, t_env_list **env_list,
 		int num, char *error_msg)
 {
 	if (error_msg == NULL && num == 0)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		free_word_env_list(word_head, env_list);
+		free_word_env_list(word_list, env_list);
 		exit(EXIT_SUCCESS);
 	}
 	else if (error_msg != NULL)
 	{
 		exit_error(error_msg);
-		free_word_env_list(word_head, env_list);
+		free_word_env_list(word_list, env_list);
 		exit(2);
 	}
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	free_word_env_list(word_head, env_list);
+	free_word_env_list(word_list, env_list);
 	exit(num);
 }
 
-void	exit_cmd(t_word_list *word_list, t_word_list *word_head,
-		t_env_list **env_list)
+void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 {
 	long long	num;
+	t_word_list	*head;
+	char		*error_str;
 
-	if (word_list->next == NULL)
-		free_list_builtin_exit(&word_head, env_list, 0, NULL);
+	head = *word_list;
+	if ((*word_list)->next == NULL)
+		free_list_exit(word_list, env_list, 0, NULL);
 	num = 0;
-	word_list = word_list->next;
-	if (is_valid_number(word_list->word, &num) == false)
-		free_list_builtin_exit(&word_head, env_list, 0, word_list->word);
+	*word_list = (*word_list)->next;
+	if (is_valid_number((*word_list)->word, &num) == false)
+	{
+		error_str = (*word_list)->word;
+		*word_list = head;
+		free_list_exit(word_list, env_list, 0, error_str);
+	}
 	if (num > 255 || num < -255)
 		num = num % 256;
 	if (num < 0)
 		num += 256;
-	free_list_builtin_exit(&word_head, env_list, (int)num, NULL);
+	free_list_exit(word_list, env_list, (int)num, NULL);
 }
