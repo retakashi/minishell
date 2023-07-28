@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:23:36 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	get_word_list(t_word_list **head, char *line)
 	{
 		new_word_node(&new, argv[i]);
 		if (node->flag == output)
-			new->flag = output_file;
+			new->flag = out_file;
 		else if (node->flag == input)
-			new->flag = input_file;
+			new->flag = in_file;
 		else if (node->flag == heredoc)
 			new->flag = eof_num;
 		else if (node->flag == append)

@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 17:43:08 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 23:02:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	get_name_len(char *str)
 	size_t	len;
 
 	len = 0;
+	if (str == NULL)
+		return (0);
 	while (str[len] != '\0' && str[len] != '=')
 		len++;
 	return (len);

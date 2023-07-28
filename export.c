@@ -6,34 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 18:42:28 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/29 00:54:13 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve_cmd.h"
 #include "libft/libft.h"
-
-bool	search_env_name_advance_list(char *str, t_env_list **env_list)
-{
-	size_t		str_name;
-	size_t		env_name;
-	t_env_list	*prev;
-
-	if (*env_list == NULL)
-		return (false);
-	str_name = get_name_len(str);
-	env_name = ft_strlen((*env_list)->env_name);
-	while (*env_list != NULL)
-	{
-		prev = *env_list;
-		if (str_name == env_name && ft_strncmp(str, (*env_list)->env_name,
-				str_name) == 0)
-			return (true);
-		*env_list = (*env_list)->next;
-	}
-	*env_list = prev;
-	return (false);
-}
 
 static int	add_env_list(t_env_list **env_list, char *str)
 {
@@ -63,6 +41,25 @@ static int	update_env_str(t_env_list **env_list, char *str)
 	return (SUCCESS);
 }
 
+static bool	is_valid_identifier(char *str)
+{
+	size_t	i;
+
+	if (str != NULL && !ft_isalpha(str[0]))
+		return (false);
+	i = 0;
+	if (ft_strchr(str, '='))
+	{
+		while (str[i] != '\0' && str[i] != '=')
+		{
+			if (str[i] == ' ' || str[i] == '\t')
+				return (false);
+			i++;
+		}
+	}
+	return (true);
+}
+
 int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 		int *exit_error_flg)
 {
@@ -75,11 +72,12 @@ int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 	head = *env_list;
 	while (word_list != NULL && word_list->flag == arguments)
 	{
-		*env_list = head;
-		if (search_env_name_advance_list(word_list->word, env_list) == true
+		if (is_valid_identifier(word_list->word) == false)
+			return (export_error_update_exit_status(word_list->word, env_list));
+		if (search_env_name_advance_env_list(word_list->word, env_list) == true
 			&& update_env_str(env_list, word_list->word) == FAILURE)
 			return (change_exit_error_flg(exit_error_flg));
-		if (search_env_name_advance_list(word_list->word, env_list) == false
+		if (search_env_name_advance_env_list(word_list->word, env_list) == false
 			&& add_env_list(env_list, word_list->word) == FAILURE)
 			return (change_exit_error_flg(exit_error_flg));
 		word_list = word_list->next;

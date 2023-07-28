@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 17:19:59 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 21:48:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ void	free_here_list(t_here_list **list)
 	*list = NULL;
 }
 
-void	free_all_list(t_word_list **word_list, t_env_list **env_list,
+void	free_all_list_exit(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	free_word_list(word_list);
 	free_env_list(env_list);
 	free_here_list(here_list);
+	exit(EXIT_FAILURE);
 }
 
 void	free_word_env_list(t_word_list **word_list, t_env_list **env_list)
