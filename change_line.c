@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:06:03 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/28 20:08:04 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,36 @@ int	count_env_mark(char *line)
 	return (count_env);
 }
 
-// char	*copy_str(char *str)
-// {
-// 	int		i;
-// 	int		add_count;
-// 	char	*line;
+char	*copy_str(char *str)
+{
+	int		i;
+	int		add_count;
+	char	*line;
 
-// 	i = 0;
-// 	while (*str != '\0')
-// 	{
-// 		if (*str == '\'')
-// 		{
-// 			i++;
-// 			while (*str != '\'' || *str != '\0')
-// 				i++;
-// 		}
-// 	i++;
-// 	}
-// 	line = malloc(sizeof)
-// 	add[i] = '\0';
-// 	return (add);
-// }
+	i = 0;
+	while (*str != '\0')
+	{
+		if (*str == '\'')
+		{
+			i++;
+			while (*str != '\'' || *str != '\0')
+				i++;
+		}
+	i++;
+	}
+	line = malloc ();
+	add[i] = '\0';
+	return (add);
+}
 
 
 char *make_strlist(char *line, t_env_list *env_list)
 {
 	char **max_str;
+	int	i;
+	int j;
 
+	i = 0;
 	printf("count_env = %i \n" ,(count_env_mark(line)));
 	max_str = malloc(sizeof(char *) * (count_env_mark(line) * 2 + 1));
 	if (max_str == NULL)
@@ -75,14 +78,13 @@ char *make_strlist(char *line, t_env_list *env_list)
 	while (*line != '\0')
 	{
 		if (*line != '$')
-			// max_str[i] = copy_str(line);
+			max_str[i] = copy_str(line);
 		// if (*line == '$')
-		line++;
+
 		
 	}
-	if (env_list == NULL)
-		return (NULL);
-	return (line);
+
+
 }
 
 
