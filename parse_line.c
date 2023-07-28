@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 18:54:52 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/28 20:04:45 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	check_sp(char *line)
 	return (0);
 }
 
-void	parse_line(char *line)
+t_word_list	*parse_line(char *line)
 {
 	t_word_list	*string;
 	t_word_list	*tmp;
 
 	if (check_sp(line))
-		return ;
+		return (NULL);
 	/*ここに環境変装の展開を入れるgetenvにするかリスト型で持つかあとで決める
 		mallocして文字列の長さを変えていくようにする
 	*/
@@ -43,7 +43,7 @@ void	parse_line(char *line)
 	printf( "\n ++++++++++++++       +++++++++++++++\n");
 	string = set_flags(string);
 	print_words(tmp);
-	return ;
+	return(string);
 }
 
 void	print_words(t_word_list *string)

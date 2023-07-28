@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/25 19:48:37 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/28 19:59:45 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }						t_env_list;
 
+typedef struct s_dollar
+{
+	int					*d_count;
+	int					len;
+}						t_dollar;
+
 typedef enum s_flags
 {
 	command = 1,
@@ -56,7 +62,7 @@ typedef enum s_flags
 }			t_flags;
 
 //parse_line.c
-void					parse_line(char *line);
+t_word_list				*parse_line(char *line);
 void					print_words(t_word_list *string);
 
 //parse_line_1.c
