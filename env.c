@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 17:02:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
 int	env_cmd(t_env_list **env_list, int fd)
 {
@@ -19,6 +19,8 @@ int	env_cmd(t_env_list **env_list, int fd)
 	t_env_list	*head;
 
 	tmp = NULL;
+	if (*env_list == NULL || (*env_list)->env_name == NULL)
+		return (env_error("env", env_list));
 	ft_get_env("PATH", *env_list, &tmp);
 	if (tmp == NULL)
 		return (env_error("env", env_list));
@@ -35,5 +37,5 @@ int	env_cmd(t_env_list **env_list, int fd)
 		*env_list = (*env_list)->next;
 	}
 	*env_list = head;
-	return(SUCCESS);
+	return (SUCCESS);
 }

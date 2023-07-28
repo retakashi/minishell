@@ -12,5 +12,7 @@
 
 int main()
 {
+    char *str=NULL;
+    free(str);
 return(0);
 }
