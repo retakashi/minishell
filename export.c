@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 18:42:28 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
-static bool	search_env_name_advance_list(char *str, t_env_list **env_list)
+bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 {
 	size_t		str_name;
 	size_t		env_name;
@@ -35,47 +35,55 @@ static bool	search_env_name_advance_list(char *str, t_env_list **env_list)
 	return (false);
 }
 
-static void	add_env_list(t_env_list **env_list, char *str)
+static int	add_env_list(t_env_list **env_list, char *str)
 {
 	t_env_list	*new;
 
 	new = NULL;
-	new_env_node(&new, str);
+	if (new_env_node(&new, str) == FAILURE)
+		return (FAILURE);
 	if (*env_list == NULL)
 		*env_list = new;
 	else
 		(*env_list)->next = new;
+	return (SUCCESS);
 }
 
-static void	update_env_str(t_env_list **env_list, char *str)
+static int	update_env_str(t_env_list **env_list, char *str)
 {
 	size_t	name_len;
 
 	if (!ft_strchr(str, '='))
-		return ;
+		return (SUCCESS);
 	name_len = get_name_len(str);
 	free((*env_list)->env_str);
 	(*env_list)->env_str = ft_strdup(&str[name_len + 1]);
 	if ((*env_list)->env_str == NULL)
-		put_error_exit("failed to ft_strdup");
+		return (FAILURE);
+	return (SUCCESS);
 }
 
-void	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd)
+int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
+		int *exit_error_flg)
 {
 	t_env_list	*head;
 
-	if (word_list->next == NULL||(word_list->next->flag!=arguments&&word_list->next->flag!=option))
-		export_nooption(env_list,fd);
+	if (word_list->next == NULL || (word_list->next->flag != arguments
+			&& word_list->next->flag != option))
+		return (export_nooption(env_list, fd));
 	word_list = word_list->next;
 	head = *env_list;
 	while (word_list != NULL && word_list->flag == arguments)
 	{
 		*env_list = head;
-		if (search_env_name_advance_list(word_list->word, env_list) == true)
-			update_env_str(env_list, word_list->word);
-		else
-			add_env_list(env_list, word_list->word);
+		if (search_env_name_advance_list(word_list->word, env_list) == true
+			&& update_env_str(env_list, word_list->word) == FAILURE)
+			return (change_exit_error_flg(exit_error_flg));
+		if (search_env_name_advance_list(word_list->word, env_list) == false
+			&& add_env_list(env_list, word_list->word) == FAILURE)
+			return (change_exit_error_flg(exit_error_flg));
 		word_list = word_list->next;
 	}
 	*env_list = head;
+	return (SUCCESS);
 }

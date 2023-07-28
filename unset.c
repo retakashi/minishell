@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 17:00:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
 void	get_prev_node(t_env_list **env_list, t_word_list *word_list)
 {
@@ -63,7 +63,7 @@ void	unset_cmd(t_word_list *word_list, t_env_list **env_list)
 	t_env_list	*head;
 
 	word_list = word_list->next;
-	if (*env_list == NULL || word_list == NULL)
+	if (*env_list == NULL || (*env_list)->env_name == NULL || word_list == NULL)
 		return ;
 	head = *env_list;
 	while (word_list != NULL && word_list->flag == arguments)
