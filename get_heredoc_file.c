@@ -6,13 +6,13 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/07/27 20:18:35 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 17:45:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve_cmd.h"
-#include "libft/libft.h"
 #include "gnl/get_next_line.h"
+#include "libft/libft.h"
 
 char	*get_file_name(int i)
 {
@@ -59,15 +59,14 @@ static int	write_to_heredocfile(char *eof, int fd)
 	return (SUCCESS);
 }
 
-int	get_heredoc_file(t_here_list **node, char *eof, t_env_list **env_list)
+int	get_heredoc_file(t_here_list **node, char *eof)
 {
 	(*node)->here_fd = get_fd((*node)->here_file_name, heredoc);
 	if ((*node)->here_fd < 0)
-		return (put_error_update_exit_status((*node)->here_file_name,
-												env_list));
+		return (FAILURE);
 	if (write_to_heredocfile(eof, (*node)->here_fd) == FAILURE)
-		put_error_exit("failed to gnl");
+		return (FAILURE);
 	if (close((*node)->here_fd) < 0)
-		put_cd_error_update_exit_status("close", env_list);
+		return (FAILURE);
 	return (SUCCESS);
 }

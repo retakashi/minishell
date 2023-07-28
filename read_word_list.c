@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 02:52:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 18:43:45 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,17 @@ int	read_word_list(t_word_list *word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	int		cnt;
-	int		builtin_flg;
-	t_fd	fd_struct;
+	t_flg	flg_struct;
 
 	if (is_word_list_flag(word_list, eof_num) == true
-		&& get_heredoc_list(word_list, here_list, env_list) == FAILURE)
-		return (FAILURE);
-	cnt = pipe_cnt(word_list);
-	if (cnt == 0 && is_builtin(word_list, &builtin_flg) == true)
+		&& get_here_list(word_list, here_list) == FAILURE)
 	{
-		if (in_output_operation(word_list, *here_list, &fd_struct,
-				env_list) == FAILURE)
-			return(FAILURE);
-		if (execve_builtin(word_list, env_list, fd_struct,
-				builtin_flg) == FAILURE)
-			return (FAILURE);
+		free_all_list(&word_list, env_list, here_list);
+		put_error_exit("failed to get heredoc_list");
 	}
+	cnt = pipe_cnt(word_list);
+	if (cnt == 0 && is_builtin(word_list, &flg_struct.builtin_flg) == true)
+		return (main_builtin(word_list, env_list, *here_list,flg_struct));
 	else
 	{
 		if (here_list != NULL)
@@ -98,14 +93,17 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	*word_list_head = NULL;
 	*env_list_head = NULL;
 	*here_list = NULL;
-	if (envp != NULL)
-		get_env_list(envp, env_list_head);
+	if (envp != NULL && get_env_list(envp, env_list_head) == FAILURE)
+	{
+		free_env_list(env_list_head);
+		put_error_exit("failed to get env_list");
+	}
 }
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q minishell");
-// }
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q minishell");
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -117,12 +115,12 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 0 || argv == NULL)
 		return (0);
 	init_minishell(envp, &env_list_head, &word_head, &here_list_head);
-	while (1)
-	{
-		line = readline("minishell$ ");
-		// line = "cat | ls";
-		if (line == NULL)
-			break ;
+	// while (1)
+	// {
+	// 	line = readline("minishell$ ");
+		line = "< file1 export";
+		// if (line == NULL)
+		// 	break ;
 		if (*line)
 		{
 			// parse_line(line);
@@ -131,10 +129,10 @@ int	main(int argc, char **argv, char **envp)
 			get_command(&word_head);
 			read_word_list(word_head, &env_list_head, &here_list_head);
 		}
-		free(line);
-		free_word_list(&word_head);
-		free_here_list(&here_list_head);
-	}
+		// free(line);
+		// free_word_list(&word_head);
+		// free_here_list(&here_list_head);
+	// }
 	free_env_list(&env_list_head);
 	return (0);
 }

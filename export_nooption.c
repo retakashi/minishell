@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 17:00:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
-void	init_write_flg(t_env_list **env_list)
+static void	init_write_flg(t_env_list **env_list)
 {
 	t_env_list	*head;
 
@@ -38,7 +38,7 @@ static int	cnt_envp_list(t_env_list *env_list)
 		cnt++;
 		env_list = env_list->next;
 	}
-	return (cnt);
+	return (cnt + 1);
 }
 
 static void	write_env_exportver(t_env_list *env_list, int fd)
@@ -62,18 +62,25 @@ static void	get_min(t_env_list **min, t_env_list *env_list)
 	*min = env_list;
 }
 
+static void	init_export_nooption(t_env_list **env_list, t_env_list **head,
+		int *cnt)
+{
+	*cnt = 0;
+	*cnt = cnt_envp_list(*env_list);
+	*head = *env_list;
+	init_write_flg(env_list);
+}
+
 int	export_nooption(t_env_list **env_list, int fd)
 {
 	int			cnt;
 	t_env_list	*head;
 	t_env_list	*min;
 
-	if (env_list == NULL)
+	if (*env_list == NULL || (*env_list)->env_name == NULL)
 		return (env_error("export", env_list));
-	cnt = cnt_envp_list(*env_list);
-	head = *env_list;
-	init_write_flg(env_list);	
-	while (cnt > 0)
+	init_export_nooption(env_list, &head, &cnt);
+	while (--cnt > 0)
 	{
 		*env_list = head;
 		get_min(&min, *env_list);
@@ -86,7 +93,6 @@ int	export_nooption(t_env_list **env_list, int fd)
 		}
 		min->write_flg = true;
 		write_env_exportver(min, fd);
-		cnt--;
 	}
 	*env_list = head;
 	return (SUCCESS);

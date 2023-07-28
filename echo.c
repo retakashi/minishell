@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 12:41:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/28 16:31:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "execve_cmd.h"
+#include "libft/libft.h"
 
 static bool	should_putstr(t_word_list *word)
 {
@@ -38,7 +38,7 @@ static bool	is_echo_option_n(char *str)
 	return (true);
 }
 
-int	echo_cmd(t_word_list *word_list, int fd)
+void	echo_cmd(t_word_list *word_list, int fd)
 {
 	int	opt_flg;
 
@@ -58,5 +58,4 @@ int	echo_cmd(t_word_list *word_list, int fd)
 	}
 	if (opt_flg == 0)
 		ft_putstr_fd("\n", fd);
-	return (SUCCESS);
 }

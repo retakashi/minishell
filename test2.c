@@ -62,7 +62,7 @@ void last(int *p,char **envp)
 void middle(int *prev,int *p,char **envp)
 {
      int fd=open("file3",O_RDWR);
-    char *argv[5]={"ls","-l",NULL};
+    char *argv[5]={"cat",NULL};
     dup2(prev[0],STDIN_FILENO);
     close(prev[1]);
     close(prev[0]);
@@ -71,7 +71,7 @@ void middle(int *prev,int *p,char **envp)
     close(p[0]);
      dup2(fd,STDOUT_FILENO);
      close(fd);
-   execve("/bin/ls",argv,envp); 
+   execve("/bin/cat",argv,envp); 
 }
 
 void parent(int *arr)
