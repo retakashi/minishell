@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 19:59:45 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/29 13:29:30 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,12 @@ char					*duplicate(char *content, char *line, unsigned int n);
 //split_str.c
 char					**split_str(char *str, char *charset);
 //get_env.c
-t_env_list				*init_minishell(char **envp, t_env_list **env_list_head);
-//change_line.c
-char					*change_line(char *line, t_env_list *env_list);
+t_env_list				*init_minishell(char **envp,
+							t_env_list **env_list_head);
+//change_line_1.c
+char					**make_strlist(char *line);
 
+//change_line_2.c
+char					*change_line(char *line, t_env_list *env_list);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:43:55 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/29 14:25:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 int	main(int argc, char **argv, char **env)
 {
 	char		*line;
+	char		*new_line;
 	t_env_list	*env_list;
 
 	if (argc > 3)
@@ -35,9 +36,8 @@ int	main(int argc, char **argv, char **env)
 		if (*line)
 		{
 			env_list = init_minishell(env, &env_list);
-			line = change_line(line, env_list);
-			printf("%s \n", line);
-			// parse_line(line);
+			new_line = change_line(line, env_list);
+			parse_line(new_line);
 			add_history(line);
 		}
 	}
