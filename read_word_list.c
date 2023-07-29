@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 21:38:55 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 00:37:08 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	is_word_list_flag(t_word_list *word_list, int flag)
 	return (false);
 }
 
-int	pipe_cnt(t_word_list *word_list)
+int	cnt_pipe(t_word_list *word_list)
 {
 	int	cnt;
 
@@ -74,7 +74,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 		free_all_list(word_list, env_list, here_list);
 		put_error_exit("failed to get heredoc_list");
 	}
-	cnt = pipe_cnt(*word_list);
+	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list,flg_struct));
 	else
@@ -100,10 +100,10 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	}
 }
 
-__attribute__((destructor))
-static void destructor() {
-    system("leaks -q minishell");
-}
+// __attribute__((destructor))
+// static void destructor() {
+//     system("leaks -q minishell");
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -115,25 +115,23 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 0 || argv == NULL)
 		return (0);
 	init_minishell(envp, &env_list_head, &word_head, &here_list_head);
-	// while (1)
-	// {
-	// 	line = readline("minishell$ ");
-		line = "< file1 export";
-		// if (line == NULL)
-		// 	break ;
+	while (1)
+	{
+		line = readline("minishell$ ");
+		// line = "< file1 export";
+		if (line == NULL)
+			break ;
 		if (*line)
 		{
 			// parse_line(line);
 			// add_history(line);
-			// get_word_list(&word_head, line);
-			// get_command(&word_head);
 			word_head = parse_line(line);
 			read_word_list(&word_head, &env_list_head, &here_list_head);
 		}
-		// free(line);
+		free(line);
 		free_word_list(&word_head);
 		free_here_list(&here_list_head);
-	// }
+	}
 	free_env_list(&env_list_head);
 	return (0);
 }

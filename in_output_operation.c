@@ -20,24 +20,24 @@ static int	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
 	{
 		if (here_list != NULL && here_list->here_fd == fd_struct->in_fd)
 			if (close(here_list->here_fd) < 0)
-				return (FAILURE);
+				return (ft_perror("close"));
 		fd_struct->in_fd = get_fd(filename, flg);
 	}
 	else if (flg == out_file)
 	{
 		if (fd_struct->out_fd != STDOUT_FILENO)
 			if (close(fd_struct->out_fd) < 0)
-				return (FAILURE);
+				return (ft_perror("close"));
 		fd_struct->out_fd = get_fd(filename, flg);
 	}
 	else
 	{
 		if (here_list != NULL && fd_struct->in_fd != STDIN_FILENO)
 			if (close(fd_struct->in_fd) < 0)
-				return (FAILURE);
+				return (ft_perror("close"));
 		fd_struct->in_fd = get_fd(here_list->here_file_name, flg);
 	}
-	return(SUCCESS);
+	return (SUCCESS);
 }
 
 static int	error_check_fd(t_fd *fd_struct)
@@ -49,10 +49,22 @@ static int	error_check_fd(t_fd *fd_struct)
 	return (SUCCESS);
 }
 
-int	change_exit_error_flg(int *exit_error_flg)
+int	change_exit_flg(int *exit_flg)
 {
-	*exit_error_flg = true;
+	*exit_flg = true;
 	return (FAILURE);
+}
+
+int	here_file_unlink(t_here_list *here_list, int *exit_flg)
+{
+	if (here_list == NULL)
+		return (SUCCESS);
+	if (here_list != NULL && unlink(here_list->here_file_name) < 0)
+	{
+		ft_perror("unlink");
+		return (change_exit_flg(exit_flg));
+	}
+	return (SUCCESS);
 }
 
 static void	init_fd_struct(t_fd *fd_struct)
@@ -62,28 +74,26 @@ static void	init_fd_struct(t_fd *fd_struct)
 }
 
 int	in_output_operation(t_word_list *word_list, t_here_list *here_list,
-		t_fd *fd_struct, int *exit_error_flg)
+		t_fd *fd_struct, int *exit_flg)
 {
 	init_fd_struct(fd_struct);
 	while (word_list != NULL && word_list->flag != pipe_char)
 	{
-		if (word_list->flag == in_file && update_fd(word_list->word,
-				here_list, fd_struct, in_file) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+		if (word_list->flag == in_file && update_fd(word_list->word, here_list,
+				fd_struct, in_file) == FAILURE)
+			return (change_exit_flg(exit_flg));
 		else if (word_list->flag == out_file && update_fd(word_list->word,
 				here_list, fd_struct, out_file) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+			return (change_exit_flg(exit_flg));
 		else if (word_list->flag == append_file && update_fd(word_list->word,
 				here_list, fd_struct, append_file) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+			return (change_exit_flg(exit_flg));
 		else if (word_list->flag == heredoc && update_fd(word_list->word,
 				here_list, fd_struct, in_file) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+			return (change_exit_flg(exit_flg));
 		if (error_check_fd(fd_struct) == FAILURE)
 			return (ft_perror(word_list->word));
 		word_list = word_list->next;
 	}
-	if (here_list != NULL && unlink(here_list->here_file_name) < 0)
-		return (change_exit_error_flg(exit_error_flg));
-	return (SUCCESS);
+	return (here_file_unlink(here_list, exit_flg));
 }

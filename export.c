@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 00:54:13 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/29 18:37:21 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	add_env_list(t_env_list **env_list, char *str)
 
 	new = NULL;
 	if (new_env_node(&new, str) == FAILURE)
-		return (FAILURE);
+		return (ft_perror("new_env_node"));
 	if (*env_list == NULL)
 		*env_list = new;
 	else
@@ -37,7 +37,7 @@ static int	update_env_str(t_env_list **env_list, char *str)
 	free((*env_list)->env_str);
 	(*env_list)->env_str = ft_strdup(&str[name_len + 1]);
 	if ((*env_list)->env_str == NULL)
-		return (FAILURE);
+		return (ft_perror("ft_strdup"));
 	return (SUCCESS);
 }
 
@@ -61,7 +61,7 @@ static bool	is_valid_identifier(char *str)
 }
 
 int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
-		int *exit_error_flg)
+		int *exit_flg)
 {
 	t_env_list	*head;
 
@@ -76,10 +76,10 @@ int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 			return (export_error_update_exit_status(word_list->word, env_list));
 		if (search_env_name_advance_env_list(word_list->word, env_list) == true
 			&& update_env_str(env_list, word_list->word) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+			return (change_exit_flg(exit_flg));
 		if (search_env_name_advance_env_list(word_list->word, env_list) == false
 			&& add_env_list(env_list, word_list->word) == FAILURE)
-			return (change_exit_error_flg(exit_error_flg));
+			return (change_exit_flg(exit_flg));
 		word_list = word_list->next;
 	}
 	*env_list = head;
