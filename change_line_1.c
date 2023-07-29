@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/29 13:28:38 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/29 17:54:08 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char	*copy_str(char *line, char *str)
 	i = 0;
 	while (str[i] != '\0' && str[i] != '$')
 	{
+		line[i] = str[i];
 		if (str[i] == '\'')
 		{
-			line[i] = str[i];
 			i++;
 			while (str[i] != '\'' && str[i] != '\0')
 			{
@@ -57,11 +57,9 @@ char	*copy_str(char *line, char *str)
 				i++;
 			}
 		}
-		else
-		{
-			line[i] = str[i];
-			i++;
-		}
+		if (str[i] == '$')
+			break ;
+		i++;
 	}
 	line[i] = '\0';
 	return (line);
@@ -89,7 +87,7 @@ char	*count_s_str(char **line)
 	if (str == NULL)
 		return (NULL);
 	str = copy_str(str, *line);
-	*line += i;
+	(*line) += i;
 	return (str);
 }
 
@@ -141,5 +139,11 @@ char	**make_strlist(char *line)
 		line++;
 	}
 	max_str[i] = NULL;
+	i = 0;
+	// while (max_str[i])
+	// {
+	// 	printf("max_str[%i] = %s\n", i, max_str[i]);
+	// 	i++;
+	// }
 	return (max_str);
 }

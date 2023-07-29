@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/29 14:25:28 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/29 17:58:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 	str = ft_strtrim(str, "\"");
 	while (env_list)
 	{
-		if (ft_strncmp(str, env_list->env_name, ft_strlen(str)) == 0)
+		if (ft_strncmp(env_list->env_name, str, ft_strlen(env_list->env_name)) == 0)
 		{
 			if (d == '\0')
 				line = ft_strjoin(line, env_list->env_str);
@@ -36,6 +36,7 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		}
 		env_list = env_list->next;
 	}
+	// line = ft_strjoin(line, " ");
 	return (line);
 }
 
@@ -51,7 +52,10 @@ char *joint_array(char **result, t_env_list *env_list)
 		if (result[i][0] == '$')
 			line = joint_d_str(line, result[i], env_list);
 		else if (result[i] != NULL && result[i][0] != '$')
+		{
 			line = ft_strjoin(line, result[i]);
+			// line = ft_strjoin(line, result[i]);
+		}
 		i++;
 	}
 	return (line);

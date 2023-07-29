@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:04:45 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/29 17:26:17 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_word_list	*parse_line(char *line)
 	t_word_list	*string;
 	t_word_list	*tmp;
 
+	if (line == NULL)
+		return (NULL);
 	if (check_sp(line))
 		return (NULL);
 	/*ここに環境変装の展開を入れるgetenvにするかリスト型で持つかあとで決める
@@ -42,7 +44,6 @@ t_word_list	*parse_line(char *line)
 	print_words(tmp);
 	printf( "\n ++++++++++++++       +++++++++++++++\n");
 	string = set_flags(string);
-	print_words(tmp);
 	return(string);
 }
 
