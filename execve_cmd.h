@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 00:55:39 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 03:09:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define SUCCESS 0
@@ -65,16 +67,38 @@ typedef struct s_fd
 typedef struct s_flg
 {
 	int					builtin_flg;
-	int					exit_error_flg;
+	int					exit_flg;
 }						t_flg;
-typedef struct s_proccess_data
+typedef struct s_
 {
 	int					**pipe_2darr;
 	char				**env_2darr;
 	pid_t				pid;
 	int					i;
 	int					pipe_cnt;
-}						t_proccess_data;
+}						t_;
+
+typedef struct s_cmd
+{
+	char				**path;
+	char				**cmd_argv;
+	char				*cmd_path;
+}						t_cmd;
+
+typedef struct s_p_data
+{
+	char				***pipe_2darr;
+	int					i;
+	int					cnt;
+}						t_p_data;
+
+typedef struct s_child
+{
+	t_fd				fd_struct;
+	t_flg				flg_struct;
+	t_here_list			*tmp;
+	t_word_list			*tmp_word;
+}						t_child;
 
 typedef enum s_flags
 {
@@ -122,7 +146,7 @@ int						main_builtin(t_word_list **word_list,
 							t_flg flg_struct);
 // cd_and_pwd.c
 int						cd_cmd(t_word_list *word_list, t_env_list **env_list);
-int						pwd_cmd(int fd, int *exit_error_flg);
+int						pwd_cmd(int fd, int *exit_flg);
 // command.c
 void					get_command(t_word_list **head);
 // echo.c
@@ -132,7 +156,7 @@ int						env_cmd(t_env_list **env_list, int fd);
 // error.c
 int						put_error(char *str);
 int						ft_perror(char *str);
-void					command_error(char *str);
+int						command_error(char *str);
 int						update_exit_status(t_env_list **env_list);
 void					put_error_exit(char *str);
 // execve_cmd_utils.c
@@ -145,12 +169,13 @@ void					exit_cmd(t_word_list **word_list,
 							t_env_list **env_list);
 // export_nooption.c
 int						export_nooption(t_env_list **env_list, int fd);
-//export_utils.c
-void	write_env_exportver(t_env_list *env_list, int fd);
-bool	search_env_name_advance_env_list(char *str, t_env_list **env_list);
+// export_utils.c
+void					write_env_exportver(t_env_list *env_list, int fd);
+bool					search_env_name_advance_env_list(char *str,
+							t_env_list **env_list);
 // export.c
 int						export_cmd(t_word_list *word_list,
-							t_env_list **env_list, int fd, int *exit_error_flg);
+							t_env_list **env_list, int fd, int *exit_flg);
 // fork_execve_cmd.c
 int						fork_execve_cmd(t_word_list *word_list,
 							t_env_list **env_list, t_here_list *here_list,
@@ -184,8 +209,8 @@ char					*get_file_name(int i);
 // in_output_operation.c
 int						in_output_operation(t_word_list *word_list,
 							t_here_list *here_list, t_fd *fd_struct,
-							int *exit_error_flg);
-int						change_exit_error_flg(int *exit_error_flg);
+							int *exit_flg);
+int						change_exit_flg(int *exit_flg);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
@@ -193,22 +218,18 @@ int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
 // proccess.c
 void					child_execve_cmd(t_word_list *word_list,
-							t_env_list **env_list, t_here_list *here_list,
-							t_proccess_data pro_data);
-void					parent(t_proccess_data pro_data);
+							t_env_list **env_list, t_here_list *here_list, t_);
+void					parent(t_);
 int						in_out_file_dup2(t_fd fd_struct);
 // unset.c
 void					unset_cmd(t_word_list *word_list,
 							t_env_list **env_list);
 void					first_execve_cmd(t_word_list *word_list,
-							t_env_list **env_list, t_here_list *here_list,
-							t_proccess_data pro_data);
+							t_env_list **env_list, t_here_list *here_list, t_);
 void					middle_execve_cmd(t_word_list *word_list,
-							t_env_list **env_list, t_here_list *here_list,
-							t_proccess_data pro_data);
+							t_env_list **env_list, t_here_list *here_list, t_);
 void					last_execve_cmd(t_word_list *word_list,
-							t_env_list **env_list, t_here_list *here_list,
-							t_proccess_data pro_data);
+							t_env_list **env_list, t_here_list *here_list, t_);
 
 typedef struct s_dollar
 {
