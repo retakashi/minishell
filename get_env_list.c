@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 23:02:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:30:12 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ int	new_env_node(t_env_list **node, char *envp)
 
 	*node = malloc(sizeof(t_env_list));
 	if (*node == NULL)
-		return (FAILURE);
+		return (ft_perror("malloc"));
 	len = get_name_len(envp);
 	(*node)->env_name = malloc(sizeof(char) * (len + 1));
 	if ((*node)->env_name == NULL)
-		return (FAILURE);
+		return (ft_perror("malloc"));
 	ft_strlcpy((*node)->env_name, envp, len + 1);
 	if (ft_strchr(envp, '='))
 	{
 		(*node)->env_str = ft_strdup(&envp[len + 1]);
 		if ((*node)->env_str == NULL)
-			return (FAILURE);
+			return (ft_perror("ft_strdup"));
 	}
 	else
 		(*node)->env_str = NULL;
@@ -55,7 +55,7 @@ static int	new_node_noenvp(t_env_list **node)
 {
 	*node = malloc(sizeof(t_env_list));
 	if (*node == NULL)
-		return (FAILURE);
+		return (ft_perror("malloc"));
 	(*node)->env_name = NULL;
 	(*node)->env_str = NULL;
 	(*node)->write_flg = false;

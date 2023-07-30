@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 00:31:24 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:30:33 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,39 +39,33 @@ bool	is_builtin(t_word_list *word_list, int *builtin_flg)
 	return (true);
 }
 
-static void	init_execve_builtin(t_word_list **word_list,
-		t_word_list **word_head, int *exit_error_flg)
-{
-	*exit_error_flg = false;
-	*word_head = *word_list;
-	while (*word_list != NULL && (*word_list)->flag != command)
-		*word_list = (*word_list)->next;
-}
+// static void	init_execve_builtin(t_word_list **word_list,
+// 		t_word_list **word_head, int *exit_flg)
+// {
+// 	*exit_flg = false;
+// 	*word_head = *word_list;
+// 	while (*word_list != NULL && (*word_list)->flag != command)
+// 		*word_list = (*word_list)->next;
+// }
 
-void	free_exit_builtinver(t_word_list *word_head, t_env_list **env_list)
-{
-	free_word_env_list(&word_head, env_list);
-	exit(EXIT_FAILURE);
-}
-
-int	execve_builtin(t_word_list **word_list, t_env_list **env_list,
+int	execve_builtin(t_word_list *word_list, t_env_list **env_list,
 		t_fd fd_struct, t_flg *flg_struct)
 {
 	if (flg_struct->builtin_flg == echo_no)
-		echo_cmd(*word_list, fd_struct.out_fd);
+		echo_cmd(word_list, fd_struct.out_fd);
 	else if (flg_struct->builtin_flg == cd_no)
-		return (cd_cmd(*word_list, env_list));
+		return (cd_cmd(word_list, env_list));
 	else if (flg_struct->builtin_flg == pwd_no)
-		return (pwd_cmd(fd_struct.out_fd, flg_struct->exit_error_flg));
+		return (pwd_cmd(fd_struct.out_fd, &flg_struct->exit_flg));
 	else if (flg_struct->builtin_flg == export_no)
-		return (export_cmd(*word_list, env_list, fd_struct.out_fd,
-				flg_struct->exit_error_flg));
+		return (export_cmd(word_list, env_list, fd_struct.out_fd,
+				&flg_struct->exit_flg));
 	else if (flg_struct->builtin_flg == unset_no)
-		unset_cmd(*word_list, env_list);
+		unset_cmd(word_list, env_list);
 	else if (flg_struct->builtin_flg == env_no)
 		return (env_cmd(env_list, fd_struct.out_fd));
 	else if (flg_struct->builtin_flg == exit_no)
-	exit_cmd(word_list,env_list);
+		exit_cmd(&word_list, env_list);
 	return (SUCCESS);
 }
 
@@ -81,20 +75,16 @@ int	main_builtin(t_word_list **word_list, t_env_list **env_list,
 	t_fd	fd_struct;
 	int		ret;
 
-	flg_struct.exit_error_flg = false;
+	flg_struct.exit_flg = false;
 	ret = in_output_operation(*word_list, *here_list, &fd_struct,
-		&flg_struct.exit_error_flg);
-	free_here_list(here_list);
-	if (flg_struct.exit_error_flg == true)
-	{
-		free_all_list(word_list, env_list, here_list);
-		put_error_exit("failed to in_output operation");
-	}
+		&flg_struct.exit_flg);
+	if (flg_struct.exit_flg == true)
+		free_list_exit(word_list, env_list, here_list);
 	if (ret == FAILURE)
 		return (update_exit_status(env_list));
-	flg_struct.exit_error_flg = false;
-	execve_builtin(word_list, env_list, fd_struct, &flg_struct);
-	if (flg_struct.exit_error_flg == true)
-		free_exit_builtinver(word_list, env_list);
+	flg_struct.exit_flg = false;
+	execve_builtin(*word_list, env_list, fd_struct, &flg_struct);
+	if (flg_struct.exit_flg == true)
+		free_list_exit(word_list, env_list, here_list);
 	return (SUCCESS);
 }

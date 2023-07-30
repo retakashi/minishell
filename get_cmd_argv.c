@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:09:23 by reira             #+#    #+#             */
-/*   Updated: 2023/07/26 15:10:56 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:42:21 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve_cmd.h"
 #include "libft/libft.h"
+
+static bool	is_cmd_arg_flg(int flg)
+{
+	if (flg == command || flg == option || flg == arguments)
+		return (true);
+	return (false);
+}
 
 static int	cnt_cmd_argv(t_word_list *word_list)
 {
@@ -28,7 +35,7 @@ static int	cnt_cmd_argv(t_word_list *word_list)
 	return (cnt);
 }
 
-char	**get_cmd_argv(t_word_list *word_list)
+char	**get_cmd_argv(t_word_list *word_list, int *err_flg)
 {
 	char	**ans;
 	int		cnt;
@@ -37,21 +44,17 @@ char	**get_cmd_argv(t_word_list *word_list)
 	cnt = cnt_cmd_argv(word_list);
 	ans = ft_calloc(cnt + 1, sizeof(char *));
 	if (ans == NULL)
-		put_error_exit("failed to get_cmd_argv");
+		return (perror_change_err_flg("ft_calloc", err_flg));
 	i = 0;
 	while (i < cnt && word_list != NULL && word_list->flag != pipe_char)
 	{
-		if (word_list->flag == command)
+		if (is_cmd_arg_flg(word_list->flag) == true)
+		{
 			ans[i] = ft_strdup(word_list->word);
-		else if (word_list->flag == option)
-			ans[i] = ft_strdup(word_list->word);
-		else if (word_list->flag == arguments)
-			ans[i] = ft_strdup(word_list->word);
-		if ((word_list->flag == command || word_list->flag == option
-				|| word_list->flag == arguments) && ans[i] == NULL)
-			put_error_exit("failed to get_cmd_argv");
-		if (ans[i] != NULL)
+			if (ans[i] == NULL)
+				return (perror_change_err_flg("ft_calloc", err_flg));
 			i++;
+		}
 		word_list = word_list->next;
 	}
 	return (ans);

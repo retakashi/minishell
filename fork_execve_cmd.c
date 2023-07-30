@@ -3,119 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   fork_execve_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 13:17:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:04:19 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve_cmd.h"
 #include "libft/libft.h"
 
-int	init_fork_execve_cmd(t_proccess_data *pro_data, t_env_list *env_list,
-		int pipe_cnt)
-{
-	get_pipe_2darr(&pro_data->pipe_2darr, pipe_cnt);
-	if (pro_data->pipe_2darr == NULL)
-		return (FAILURE);
-	pro_data->env_2darr = NULL;
-	if (env_list != NULL)
-		pro_data->env_2darr = get_env_2darr(env_list);
-	if (env_list != NULL && pro_data->env_2darr == NULL)
-		return (FAILURE);
-	pro_data->pipe_cnt = pipe_cnt;
-	return (SUCCESS);
-}
-
-void	advance_list_to_pipe_char(t_word_list **word_list)
-{
-	while (*word_list != NULL && (*word_list)->flag != pipe_char)
-		*word_list = (*word_list)->next;
-	if (*word_list != NULL)
-		*word_list = (*word_list)->next;
-}
-
-void	child_execve_cmd_nopipe(t_word_list *word_list, t_env_list **env_list,
-		t_here_list *here_list)
-{
-	t_fd	fd_struct;
-	char	**env_2darr;
-	int exit_error_flg;
-
-	if (in_output_operation(word_list, here_list, &fd_struct,
-			&exit_error_flg) == FAILURE)
-		exit(EXIT_FAILURE);
-	if (in_out_file_dup2(fd_struct) < 0)
-		put_error_exit("dup2");
-	env_2darr = get_env_2darr(*env_list);
-	get_cmdpath_execve(word_list, env_2darr);
-}
-
-int	execve_cmd_nopipe(t_word_list *word_list, t_env_list **env_list,
-		t_here_list *here_list)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
-		put_error_exit("fork");
-	if (pid == 0)
-		child_execve_cmd_nopipe(word_list, env_list, here_list);
-	else
-	{
-		if (wait(NULL) < 0)
-			put_error_exit("wait");
-	}
-	return (SUCCESS);
-}
-
-void	child_wait(int cnt)
+int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 {
 	int	i;
 
+	*pipe_2darr = malloc(sizeof(int *) * (pipe_cnt));
+	if (*pipe_2darr == NULL)
+		return (ft_perror("malloc"));
 	i = 0;
-	while (i < cnt + 1)
+	while (i < pipe_cnt)
 	{
-		if (wait(NULL) < 0)
-			put_error_exit("wait");
+		(*pipe_2darr)[i] = malloc(sizeof(int) * 2);
+		if ((*pipe_2darr)[i] == NULL)
+		{
+			while ((*pipe_2darr)[i] != NULL)
+				free((*pipe_2darr)[i++]);
+			free(*pipe_2darr);
+			*pipe_2darr = NULL;
+			return (ft_perror("malloc"));
+		}
 		i++;
 	}
+	return (SUCCESS);
 }
 
-int	fork_execve_cmd(t_word_list *word_list, t_env_list **env_list,
-		t_here_list *here_list, int pipe_cnt)
-{
-	t_proccess_data	pro_data;
+// typedef struct s_p_data
+// {
+// 	char				**pipe_2darr;
+// 	int					i;
+// 	int					cnt;
+// }						t_p_data;
 
-	if (init_fork_execve_cmd(&pro_data, *env_list, pipe_cnt) == FAILURE)
-		put_error_exit("failed to init_ford_execve_cmd");
-	pro_data.i = 0;
+int	fork_execve_cmd(t_word_list **word_list, t_env_list **env_list,
+		t_here_list **here_list, int pipe_cnt)
+{
+	t_p_data	p_data;
+
 	if (pipe_cnt == 0)
-		return (execve_cmd_nopipe(word_list, env_list, here_list));
-	while (pro_data.i < pipe_cnt + 1)
-	{
-		if (pro_data.i < pipe_cnt && pipe(pro_data.pipe_2darr[pro_data.i]) < 0)
-			put_error_exit("pipe");
-		pro_data.pid = fork();
-		if (pro_data.pid < 0)
-			put_error_exit("fork");
-		if (pro_data.pid == 0)
-			child_execve_cmd(word_list, env_list, here_list, pro_data);
-		else
-			parent(pro_data);
-		pro_data.i++;
-		advance_list_to_pipe_char(&word_list);
-	}
-	child_wait(pipe_cnt);
-	if(here_list!=NULL)
-	{
-		while(here_list!=NULL)
-		{
-			if(unlink(here_list->here_file_name)<0)
-			put_error_exit("unlink");
-			here_list=here_list->next;
-		}
-	}
+		return (execve_one_cmd(word_list, env_list, here_list));
+	if (get_pipe_2darr(&p_data.pipe_2darr, pipe_cnt) == FAILURE)
+		free_list_exit(word_list, env_list, here_list);
+	p_data.cnt = pipe_cnt;
+	execve_some_cmds(word_list, env_list, here_list, p_data);
 	return (SUCCESS);
 }
