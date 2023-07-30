@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_one_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 03:19:27 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:43:11 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 	int	wstatus;
 
 	if (wait(&wstatus) < 0)
-		free_all_list(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, here_list);
 	(*env_list)->exit_status = WIFEXITED(wstatus);
 }
 
@@ -31,10 +31,12 @@ void	prepare_execve_cmd(t_word_list **word_list, t_env_list **env_list,
 	int		err_flg;
 
 	err_flg = false;
-	env_2darr = get_env_2darr(*env_list);
+	env_2darr = get_env_2darr(*env_list, &err_flg);
 	if (err_flg == true)
-		free_exit(word_list, env_list, here_list);
-	cmd_argv = get_cmd_argv(*word_list);
+		free_list_exit(word_list, env_list, here_list);
+	cmd_argv = get_cmd_argv(*word_list,&err_flg);
+	if (err_flg == true)
+		free_list_exit(word_list, env_list, here_list);
 	free_all_list(word_list, env_list, here_list);
 	execve_cmd(env_2darr, cmd_argv);
 }
@@ -69,7 +71,7 @@ int	execve_one_cmd(t_word_list **word_list, t_env_list **env_list,
 
 	pid = fork();
 	if (pid < 0)
-		perror_free_exit("fork", word_list, env_list, here_list);
+		perror_free_list_exit("fork", word_list, env_list, here_list);
 	if (pid == 0)
 		child_execve(word_list, env_list, here_list);
 	else

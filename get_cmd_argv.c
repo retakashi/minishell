@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:09:23 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 20:40:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:42:21 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	cnt_cmd_argv(t_word_list *word_list)
 	return (cnt);
 }
 
-char	**get_cmd_argv(t_word_list *word_list, int err_flg)
+char	**get_cmd_argv(t_word_list *word_list, int *err_flg)
 {
 	char	**ans;
 	int		cnt;

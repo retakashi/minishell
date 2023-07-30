@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/29 00:37:43 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:03:15 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,23 @@ static bool	is_valid_number(char *word, long long *num)
 	return (true);
 }
 
-static void	free_list_exit(t_word_list **word_list, t_env_list **env_list,
+static void	exit_end(t_word_list **word_list, t_env_list **env_list,
 		int num, char *error_msg)
 {
 	if (error_msg == NULL && num == 0)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		free_word_env_list(word_list, env_list);
+		free_all_list(word_list, env_list,NULL);
 		exit(EXIT_SUCCESS);
 	}
 	else if (error_msg != NULL)
 	{
 		exit_error(error_msg);
-		free_word_env_list(word_list, env_list);
+		free_all_list(word_list, env_list,NULL);
 		exit(2);
 	}
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	free_word_env_list(word_list, env_list);
+	free_all_list(word_list, env_list,NULL);
 	exit(num);
 }
 
@@ -66,18 +66,18 @@ void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 
 	head = *word_list;
 	if ((*word_list)->next == NULL)
-		free_list_exit(word_list, env_list, 0, NULL);
+		exit_end(word_list, env_list, 0, NULL);
 	num = 0;
 	*word_list = (*word_list)->next;
 	if (is_valid_number((*word_list)->word, &num) == false)
 	{
 		error_str = (*word_list)->word;
 		*word_list = head;
-		free_list_exit(word_list, env_list, 0, error_str);
+		exit_end(word_list, env_list, 0, error_str);
 	}
 	if (num > 255 || num < -255)
 		num = num % 256;
 	if (num < 0)
 		num += 256;
-	free_list_exit(word_list, env_list, (int)num, NULL);
+	exit_end(word_list, env_list, (int)num, NULL);
 }

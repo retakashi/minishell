@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 21:31:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 23:17:00 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:46:24 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ char	*get_cmd_path(char **path, int i, char **env_2darr, char **cmd_argv)
 	slash_join = ft_strjoin(path[i], "/");
 	if (slash_join == NULL)
 	{
-		free_2darr(path);
+		free_char_2darr(&path);
 		perror_free_2darr_exit("ft_strjoin", &env_2darr, &cmd_argv);
 	}
 	cmd_join = ft_strjoin(slash_join, cmd_argv[0]);
 	if (cmd_join == NULL)
 	{
 		free(slash_join);
-		free_2darr(path);
+		free_char_2darr(&path);
 		perror_free_2darr_exit("ft_strjoin", &env_2darr, &cmd_argv);
 	}
 	return (cmd_join);
@@ -76,6 +76,7 @@ void	execve_cmd(char **env_2darr, char **cmd_argv)
 		i++;
 	}
 	command_error(cmd_argv[0]);
-	free_2darr(env_2darr, cmd_argv);
+	free_char_2darr(&env_2darr);
+	free_char_2darr(&cmd_argv);
 	exit(127);
 }

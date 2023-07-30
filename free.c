@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 23:15:07 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 17:48:57 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,29 @@ void	free_here_list(t_here_list **list)
 	*list = NULL;
 }
 
-void	free_2darr(char ***arr)
+void	free_all_list(t_word_list **word_list, t_env_list **env_list,
+		t_here_list **here_list)
+{
+	free_word_list(word_list);
+	free_env_list(env_list);
+	free_here_list(here_list);
+}
+
+void	free_int_2darr(int ***arr, int cnt)
+{
+	int	i;
+
+	i = 0;
+	while (i < cnt)
+	{
+		free((*arr)[i]);
+		i++;
+	}
+	free(*arr);
+	*arr = NULL;
+}
+
+void	free_char_2darr(char ***arr)
 {
 	size_t	i;
 
