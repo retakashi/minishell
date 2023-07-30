@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/29 17:54:08 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/30 15:41:39 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*copy_str(char *line, char *str)
 				line[i] = str[i];
 				i++;
 			}
+			line[i] = str[i];
 		}
 		if (str[i] == '$')
 			break ;
@@ -96,14 +97,15 @@ char	*count_d_str(char **str)
 	int		i;
 	char	*line;
 
-	i = 0;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0')
+	i = 1;
+	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0' && (*str)[i] != '$')
 		i++;
 	line = malloc (sizeof (char) * (i + 1));
 	if (line == NULL)
 		return (NULL);
-	i = 0;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0')
+	line[0] = (*str)[0];
+	i = 1;
+	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0' && (*str)[i] != '$')
 	{
 		line[i] = (*str)[i];
 		i++;
@@ -136,14 +138,15 @@ char	**make_strlist(char *line)
 		}
 		if (*line == '\0')
 			break ;
-		line++;
+		if (*line != '$')
+			line++;
 	}
 	max_str[i] = NULL;
 	i = 0;
-	// while (max_str[i])
-	// {
-	// 	printf("max_str[%i] = %s\n", i, max_str[i]);
-	// 	i++;
-	// }
+	while (max_str[i])
+	{
+		printf("max_str[%i] = %s\n", i, max_str[i]);
+		i++;
+	}
 	return (max_str);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
+#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/29 13:13:54 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/07/30 16:26:51 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 CC = cc
 NAME = $(NAME)
 NAME	 =	minishell
-CFLAGS	 =	-Wall -Werror -Wextra 
+CFLAGS	 =	-Wall -Werror -Wextra -fsanitize=address
 
 SRCS	=	main.c \
 			parse_line.c \
