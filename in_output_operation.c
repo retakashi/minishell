@@ -23,7 +23,7 @@ static int	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
 				return (ft_perror("close"));
 		fd_struct->in_fd = get_fd(filename, flg);
 	}
-	else if (flg == out_file)
+	else if (flg == out_file || flg == append_file)
 	{
 		if (fd_struct->out_fd != STDOUT_FILENO)
 			if (close(fd_struct->out_fd) < 0)
@@ -40,7 +40,7 @@ static int	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
 	return (SUCCESS);
 }
 
-static int	error_check_fd(t_fd *fd_struct)
+static int	is_valid_fd(t_fd *fd_struct)
 {
 	if (fd_struct->in_fd < 0)
 		return (FAILURE);
@@ -89,9 +89,9 @@ int	in_output_operation(t_word_list *word_list, t_here_list *here_list,
 				here_list, fd_struct, append_file) == FAILURE)
 			return (change_exit_flg(exit_flg));
 		else if (word_list->flag == heredoc && update_fd(word_list->word,
-				here_list, fd_struct, in_file) == FAILURE)
+				here_list, fd_struct, heredoc) == FAILURE)
 			return (change_exit_flg(exit_flg));
-		if (error_check_fd(fd_struct) == FAILURE)
+		if (is_valid_fd(fd_struct) == FAILURE)
 			return (ft_perror(word_list->word));
 		word_list = word_list->next;
 	}

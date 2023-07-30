@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execve_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 21:31:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 18:46:24 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 23:03:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execve_cmd.h"
 #include "libft/libft.h"
 
-char	*get_cmd_path(char **path, int i, char **env_2darr, char **cmd_argv)
+char	*get_cmd_path(char **path, int i, char **cmd_argv, char **env_2darr)
 {
 	char	*slash_join;
 	char	*cmd_join;
@@ -31,6 +31,7 @@ char	*get_cmd_path(char **path, int i, char **env_2darr, char **cmd_argv)
 		free_char_2darr(&path);
 		perror_free_2darr_exit("ft_strjoin", &env_2darr, &cmd_argv);
 	}
+	free(slash_join);
 	return (cmd_join);
 }
 
@@ -58,9 +59,7 @@ void	execve_cmd(char **env_2darr, char **cmd_argv)
 	char	*cmd_path;
 	char	**path;
 	int		i;
-	int		err_flg;
 
-	err_flg = false;
 	path = extract_path_from_env_2darr(env_2darr, cmd_argv);
 	i = 0;
 	while (path[i] != NULL)

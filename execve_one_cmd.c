@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_one_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 17:43:11 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 22:55:46 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 	int	wstatus;
 
 	if (wait(&wstatus) < 0)
-		free_list_exit(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
 	(*env_list)->exit_status = WIFEXITED(wstatus);
 }
 
@@ -33,10 +33,10 @@ void	prepare_execve_cmd(t_word_list **word_list, t_env_list **env_list,
 	err_flg = false;
 	env_2darr = get_env_2darr(*env_list, &err_flg);
 	if (err_flg == true)
-		free_list_exit(word_list, env_list, here_list);
-	cmd_argv = get_cmd_argv(*word_list,&err_flg);
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+	cmd_argv = get_cmd_argv(*word_list, &err_flg);
 	if (err_flg == true)
-		free_list_exit(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
 	free_all_list(word_list, env_list, here_list);
 	execve_cmd(env_2darr, cmd_argv);
 }
@@ -50,12 +50,14 @@ static void	child_execve(t_word_list **word_list, t_env_list **env_list,
 	flg_struct.exit_flg = false;
 	if (in_output_operation(*word_list, *here_list, &fd_struct,
 			&flg_struct.exit_flg) == FAILURE)
-		free_list_exit(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+	if (is_word_list_flag(*word_list, command) == false)
+		free_list_exit(word_list, env_list, here_list,EXIT_SUCCESS);
 	if (is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 	{
-		if (execve_builtin(*word_list, env_list, fd_struct,
+		if (execute_builtin(*word_list, env_list, fd_struct,
 				&flg_struct) == FAILURE || flg_struct.exit_flg == true)
-			free_list_exit(word_list, env_list, here_list);
+			free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
 	}
 	else
 	{

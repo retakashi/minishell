@@ -13,20 +13,6 @@
 #include "execve_cmd.h"
 #include "libft/libft.h"
 
-void	put_pipe_error_exit(t_p_data p_data, t_word_list **word_list,
-		t_env_list **env_list, t_here_list **here_list)
-{
-	ft_perror("pipe");
-	free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-}
-
-void	put_fork_error_exit(t_p_data p_data, t_word_list **word_list,
-		t_env_list **env_list, t_here_list **here_list)
-{
-	ft_perror("fork");
-	free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-}
-
 void	wait_update_status(int cnt, t_word_list **word_list,
 		t_env_list **env_list, t_here_list **here_list)
 {
@@ -39,7 +25,7 @@ void	wait_update_status(int cnt, t_word_list **word_list,
 		if (wait(&wstatus) < 0)
 		{
 			ft_perror("wait");
-			free_list_exit(word_list, env_list, here_list);
+			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 		}
 	}
 	(*env_list)->exit_status = WEXITSTATUS(wstatus);
@@ -74,10 +60,11 @@ void	advance_word_list(t_word_list *word_list, t_word_list **tmp, int start)
 		}
 	}
 	*tmp = word_list;
+	// printf("start %d word %s\n",start,(*tmp)->word);
 }
 
 void	prepare_execve_some_cmds(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list, int start)
+		int start)
 {
 	char		**env_2darr;
 	char		**cmd_argv;
@@ -88,11 +75,11 @@ void	prepare_execve_some_cmds(t_word_list **word_list, t_env_list **env_list,
 	err_flg = false;
 	env_2darr = get_env_2darr(*env_list, &err_flg);
 	if (err_flg == true)
-		free_list_exit(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	cmd_argv = get_cmd_argv(*word_list, &err_flg);
 	if (err_flg == true)
-		free_list_exit(word_list, env_list, here_list);
-	free_all_list(word_list, env_list, here_list);
+		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
+	free_all_list(word_list, env_list, NULL);
 	execve_cmd(env_2darr, cmd_argv);
 }
 
@@ -114,19 +101,22 @@ void	child_execve_cmds(t_word_list **word_list, t_env_list **env_list,
 	if (in_output_operation(child.tmp_word, child.tmp, &child.fd_struct,
 			&child.flg_struct.exit_flg) == FAILURE)
 		free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-	dup2_close_pipe(p_data, word_list, env_list, here_list);
+	free_here_list(here_list);
+	dup2_pipe(p_data, word_list, env_list);
+	close_pipe(p_data, word_list, env_list);
 	free_int_2darr(&p_data.pipe_2darr, p_data.cnt);
 	if (is_builtin(child.tmp_word, &child.flg_struct.builtin_flg) == true)
 	{
-		if (execve_builtin(*word_list, env_list, child.fd_struct,
+		//⇩ここで１つの関数にする
+		if (execute_builtin(*word_list, env_list, child.fd_struct,
 				&child.flg_struct) == FAILURE
 			|| child.flg_struct.exit_flg == true)
-			free_list_exit(word_list, env_list, here_list);
+			free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	}
 	else
 	{
-		in_out_file_dup2(child.fd_struct, word_list, env_list, here_list);
-		prepare_execve_some_cmds(word_list, env_list, here_list, p_data.i);
+		in_out_file_dup2(child.fd_struct, word_list, env_list);
+		prepare_execve_some_cmds(word_list, env_list, p_data.i);
 	}
 }
 
@@ -155,8 +145,8 @@ void	execve_some_cmds(t_word_list **word_list, t_env_list **env_list,
 {
 	pid_t	pid;
 
-	p_data.i = -1;
-	while (++p_data.i < p_data.cnt + 1)
+	p_data.i = 0;
+	while (p_data.i <= p_data.cnt)
 	{
 		if (p_data.i < p_data.cnt && pipe(p_data.pipe_2darr[p_data.i]) < 0)
 			put_pipe_error_exit(p_data, word_list, env_list, here_list);
@@ -167,6 +157,7 @@ void	execve_some_cmds(t_word_list **word_list, t_env_list **env_list,
 			child_execve_cmds(word_list, env_list, here_list, p_data);
 		else
 			parent_close(word_list, env_list, here_list, p_data);
+		p_data.i++;
 	}
 	wait_update_status(p_data.cnt, word_list, env_list, here_list);
 }

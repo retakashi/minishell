@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:01:19 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 18:04:53 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 22:32:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "libft/libft.h"
 
 void	free_list_exit(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list)
+		t_here_list **here_list,int exit_status)
 {
 	free_all_list(word_list, env_list, here_list);
-	exit(EXIT_FAILURE);
+	exit(exit_status);
 }
 
 void	perror_free_list_exit(char *str, t_word_list **word_list,

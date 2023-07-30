@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 17:48:57 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 21:46:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_word_list(t_word_list **list)
 	t_word_list	*node;
 	t_word_list	*next;
 
-	if (*list == NULL)
+	if (list == NULL)
 		return ;
 	node = *list;
 	while (node != NULL)
@@ -36,7 +36,7 @@ void	free_env_list(t_env_list **list)
 	t_env_list	*node;
 	t_env_list	*next;
 
-	if (*list == NULL)
+	if (list == NULL)
 		return ;
 	node = *list;
 	while (node != NULL)
@@ -55,7 +55,7 @@ void	free_here_list(t_here_list **list)
 	t_here_list	*node;
 	t_here_list	*next;
 
-	if (*list == NULL)
+	if (list == NULL)
 		return ;
 	node = *list;
 	next = NULL;

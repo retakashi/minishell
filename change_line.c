@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 21:01:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/30 22:55:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char *change_line(char *line, t_env_list *env_list)
 		return (line);
 	new_line = make_strlist(line, env_list);
 	if(new_line!=NULL)
-	printf("hello\n");
+	return(NULL);
 	// printf("come here :%s \n %s\n", new_line, env_list->env_str);
 	return (line);
 }

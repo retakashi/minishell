@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+         #
+#    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/07/30 19:14:25 by rtakashi         ###   ########.fr        #
+#    Updated: 2023/07/30 23:14:03 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = libft/libft.a
 GNL = ../gnl/get_next_line.c ../gnl/get_next_line_utils.c
 SRCS = builtin_error.c builtin.c cd_and_pwd.c child_utils.c command.c echo.c env.c error.c execve_cmd_utils.c execve_cmd.c execve_one_cmd.c \

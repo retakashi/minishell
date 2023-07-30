@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_cmd.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 17:56:15 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 23:29:48 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	env_error_update_exit_status(char *str,
 									t_env_list **env_list);
 // builtin.c
 bool					is_builtin(t_word_list *word_list, int *builtin_flg);
-int						execve_builtin(t_word_list *word_list,
+int						execute_builtin(t_word_list *word_list,
 							t_env_list **env_list, t_fd fd_struct,
 							t_flg *flg_struct);
 int						main_builtin(t_word_list **word_list,
@@ -141,19 +141,15 @@ int						cd_cmd(t_word_list *word_list, t_env_list **env_list);
 int						pwd_cmd(int fd, int *exit_flg);
 //child_utils.c
 void					in_out_file_dup2(t_fd fd_struct,
-							t_word_list **word_list, t_env_list **env_list,
-							t_here_list **here_list);
+							t_word_list **word_list, t_env_list **env_list);
 void					close_middle_pipe(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
-							t_here_list **here_list);
+							t_word_list **word_list, t_env_list **env_list);
 void					close_pipe(t_p_data p_data, t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list);
+							t_env_list **env_list);
 void					dup2_middle_pipe(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
-							t_here_list **here_list);
+							t_word_list **word_list, t_env_list **env_list);
 void					dup2_close_pipe(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
-							t_here_list **here_list);
+							t_word_list **word_list, t_env_list **env_list);
 // command.c
 void					get_command(t_word_list **head);
 // echo.c
@@ -191,7 +187,7 @@ void					search_here_list_child_num(t_here_list *here_list,
 void					advance_word_list(t_word_list *word_list,
 							t_word_list **tmp, int start);
 void					prepare_execve_some_cmds(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list,
+							t_env_list **env_list,
 							int start);
 void					child_execve_cmds(t_word_list **word_list,
 							t_env_list **env_list, t_here_list **here_list,
@@ -223,7 +219,7 @@ int						fork_execve_cmd(t_word_list **word_list,
 							int pipe_cnt);
 //free_exit.c
 void					free_list_exit(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list);
+							t_env_list **env_list, t_here_list **here_list,int exit_status);
 void					perror_free_list_exit(char *str,
 							t_word_list **word_list, t_env_list **env_list,
 							t_here_list **here_list);
@@ -271,8 +267,7 @@ void					ft_get_env(char *str, t_env_list *env_list,
 int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
 //read_word_list.c
-bool					is_word_list_flag(t_word_list *word_list, int flag);
-int						cnt_pipe(t_word_list *word_list);
+bool	is_word_list_flag(t_word_list *word_list, int flag);
 void					get_here_list_child_num(t_word_list *word_list,
 							t_here_list **here_list);
 int						read_word_list(t_word_list **word_list,
@@ -281,12 +276,8 @@ void					init_minishell(char **envp, t_env_list **env_list_head,
 							t_word_list **word_list_head,
 							t_here_list **here_list);
 // unset.c
-void					get_prev_node(t_env_list **env_list,
-							t_word_list *word_list);
 bool					search_env_name(t_word_list *word_list,
 							t_env_list *env_list);
-void					remove_node(t_word_list *remove_word,
-							t_env_list **env_list, t_env_list **head);
 void					unset_cmd(t_word_list *word_list,
 							t_env_list **env_list);
 

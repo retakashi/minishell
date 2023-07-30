@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 18:15:57 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/30 22:16:05 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	update_here_file(t_here_list **node, char *eof)
 	free((*node)->here_file_name);
 	new_name = get_file_name(1);
 	if (new_name == NULL)
-		return (ft_perror("failed to get file name"));
+		return (ft_perror("failed to get file_name"));
 	(*node)->here_file_name = ft_strdup(new_name);
 	if (new_name == NULL)
 	{
@@ -61,7 +61,7 @@ static int	new_here_node(t_here_list **new, char *eof)
 		return (ft_perror("malloc"));
 	name = get_file_name(0);
 	if (name == NULL)
-		return (FAILURE);
+		return (ft_perror("failed to get file_name"));
 	(*new)->here_file_name = ft_strdup(name);
 	if (name == NULL)
 	{
@@ -70,7 +70,7 @@ static int	new_here_node(t_here_list **new, char *eof)
 	}
 	free(name);
 	if (get_heredoc_file(new, eof) == FAILURE)
-		return (ft_perror("failed to get heredoc_file"));
+		return (FAILURE);
 	(*new)->child_num = 0;
 	(*new)->next = NULL;
 	return (SUCCESS);
