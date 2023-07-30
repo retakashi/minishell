@@ -6,7 +6,7 @@
 #    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/07/30 16:26:51 by sraza            ###   ########.fr        #
+#    Updated: 2023/07/30 16:59:43 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@
 CC = cc
 NAME = $(NAME)
 NAME	 =	minishell
-CFLAGS	 =	-Wall -Werror -Wextra -fsanitize=address
+CFLAGS	 =	-Wall -Werror -Wextra 
+# -fsanitize=address -g
 
 SRCS	=	main.c \
 			parse_line.c \

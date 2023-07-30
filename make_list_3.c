@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/23 13:34:00 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:30:53 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,24 @@ int	is_meta(char *str)
 		meta_num = input;
 	return (meta_num);
 }
+
+// int	is_meta(char *str)
+// {
+// 	t_flags	meta_num;
+
+// 	meta_num = 0;
+// 	if (ft_strncmp(str, "|", ft_strlen(str)) == 0)
+// 		meta_num = pipe_char;
+// 	else if (ft_strncmp(str, ">>", ft_strlen(str)))
+// 		meta_num = append;
+// 	else if (ft_strncmp(str, ">", ft_strlen(str)))
+// 		meta_num = output;
+// 	else if (ft_strncmp(str, "<<", ft_strlen(str)))
+// 		meta_num = heredoc;
+// 	else if (ft_strncmp(str, "<", ft_strlen(str)))
+// 		meta_num = input;
+// 	return (meta_num);
+// }
 
 t_word_list	*split_list(t_word_list *string, char *flag)
 {
@@ -53,7 +71,6 @@ t_word_list	*split_list(t_word_list *string, char *flag)
 		string->next = new;
 		string = string->next;
 		string->next = tmp2;
-		return (tmp);
 	}
 	string->word = ft_strdup(split[0]);
 	new = ft_newlst(flag);
@@ -87,16 +104,17 @@ t_word_list	*find_meta(t_word_list *string)
 	while (string != NULL)
 	{
 		flag = is_meta(string->word);
+		printf("flag : %d\n", flag);
 		if (flag == 5 && (ft_strlen(string->word) > 1))
 			string = split_list(string, "|");
-		if (flag == 6 && (ft_strlen(string->word) > 1))
-			string = split_list(string, ">");
 		if (flag == 7 && (ft_strlen(string->word) > 2))
 			string = split_list(string, ">>");
-		if (flag == 8 && (ft_strlen(string->word) > 1))
-			string = split_list(string, "<");
+		if (flag == 6 && (ft_strlen(string->word) > 1))
+			string = split_list(string, ">");
 		if (flag == 9 && (ft_strlen(string->word) > 2))
 			string = split_list(string, "<<");
+		if (flag == 8 && (ft_strlen(string->word) > 1))
+			string = split_list(string, "<");
 		if (flag == 0 || (ft_strlen(string->word) <= 2))
 			string = string->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:04:23 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/15 15:06:04 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/30 16:51:10 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**split_str(char *str, char *charset)
 
 	i = 0;
 	strings_count = count_str(str, charset);
-	result = malloc(sizeof(char *) * strings_count + 1);
+	result = malloc(sizeof(char *) * strings_count + 2);
 	if (result == NULL)
 		return (0);
 	while (*str != '\0')

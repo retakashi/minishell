@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/29 17:26:17 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/07/30 17:25:44 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_word_list	*parse_line(char *line)
 	tmp = string;
 	printf( "\n ---------------       ----------------\n");
 	print_words(tmp);
-	printf( "\n ++++++++++++++       +++++++++++++++\n");
-	string = set_flags(string);
+	// printf( "\n ++++++++++++++       +++++++++++++++\n");
+	// string = set_flags(string);
 	return(string);
 }
 

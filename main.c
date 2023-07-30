@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 16:30:07 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/30 18:24:17 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	main(int argc, char **argv, char **env)
 		{
 			env_list = init_minishell(env, &env_list);
 			new_line = change_line(line, env_list);
-			string = parse_line(new_line);
-			print_words(string);
+			string = parse_line(line);
+			// print_words(string);
 			add_history(line);
 		}
 	}
