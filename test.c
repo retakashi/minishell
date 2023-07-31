@@ -11,21 +11,31 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// typedef struct s_data
-// {
-//     char **arg;
-// } t_data;
 
-void	test(char **ans)
+int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 {
-	// data.argが指すポインタが3つの要素を持つ配列を解放
-	for (int i = 0; i < 3; i++)
+	int	i;
+
+	*pipe_2darr = malloc(sizeof(int *) * (pipe_cnt));
+	if (*pipe_2darr == NULL)
+		return (1);
+	i = 0;
+	while (i < pipe_cnt)
 	{
-		free(ans[i]);
+		(*pipe_2darr)[i] = malloc(sizeof(int) * 2);
+		if(i==3)
+		(*pipe_2darr)[i]=NULL;
+		if ((*pipe_2darr)[i]==NULL)
+		{
+			while (i>0)
+				free((*pipe_2darr)[i--]);
+			free(*pipe_2darr);
+			*pipe_2darr = NULL;
+			return (1);
+		}
+		i++;
 	}
-	// data.argが指すポインタが2つの要素を持つ配列を解放
-	free(ans);
-	ans = NULL;
+	return (0);
 }
 
 // __attribute__((destructor))
@@ -35,17 +45,17 @@ void	test(char **ans)
 
 int	main(int argc, char **argv)
 {
-	char	**ans;
-	int		i;
+	int	**ans;
 
-	i = 0;
-	ans = calloc(3, sizeof(char *));
-	while (i < 2)
-	{
-		ans[i] = strdup("hello");
-		i++;
-	}
-	test(ans);
-    // printf("%s\n",ans[0]);
+	ans=NULL;
+	get_pipe_2darr(&ans,5);
+	if (ans != NULL)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            free(ans[i]);
+        }
+        free(ans);
+    }
 	return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 18:08:32 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static int	update_here_file(t_here_list **node, char *eof)
@@ -18,16 +18,16 @@ static int	update_here_file(t_here_list **node, char *eof)
 	char	*new_name;
 
 	if (unlink((*node)->here_file_name) < 0)
-		return (FAILURE);
+		return (ft_perror("unlink"));
 	free((*node)->here_file_name);
 	new_name = get_file_name(1);
 	if (new_name == NULL)
-		return (FAILURE);
+		return (ft_perror("failed to get file_name"));
 	(*node)->here_file_name = ft_strdup(new_name);
 	if (new_name == NULL)
 	{
 		free(new_name);
-		return (FAILURE);
+		return (ft_perror("ft_strdup"));
 	}
 	free(new_name);
 	if (get_heredoc_file(node, eof) == FAILURE)
@@ -58,15 +58,15 @@ static int	new_here_node(t_here_list **new, char *eof)
 
 	*new = malloc(sizeof(t_here_list));
 	if (*new == NULL)
-		return (FAILURE);
+		return (ft_perror("malloc"));
 	name = get_file_name(0);
 	if (name == NULL)
-		return (FAILURE);
+		return (ft_perror("failed to get file_name"));
 	(*new)->here_file_name = ft_strdup(name);
 	if (name == NULL)
 	{
 		free(name);
-		return (FAILURE);
+		return (ft_perror("ft_strdup"));
 	}
 	free(name);
 	if (get_heredoc_file(new, eof) == FAILURE)

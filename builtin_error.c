@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 00:45:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 00:46:37 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 int	cd_error(char *str)
@@ -40,12 +40,12 @@ int	export_error_update_exit_status(char *str, t_env_list **env_list)
 	return (FAILURE);
 }
 
-int	env_error_update_exit_status(char *str, t_env_list **env_head)
+int	env_error_update_exit_status(char *str, t_env_list **env_list)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	if (*env_head != NULL)
-		(*env_head)->exit_status = 127;
+	if (*env_list != NULL)
+		(*env_list)->exit_status = 127;
 	return (FAILURE);
 }

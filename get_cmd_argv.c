@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:09:23 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 20:40:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static bool	is_cmd_arg_flg(int flg)
@@ -35,7 +35,7 @@ static int	cnt_cmd_argv(t_word_list *word_list)
 	return (cnt);
 }
 
-char	**get_cmd_argv(t_word_list *word_list, int err_flg)
+char	**get_cmd_argv(t_word_list *word_list, int *err_flg)
 {
 	char	**ans;
 	int		cnt;
