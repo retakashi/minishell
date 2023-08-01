@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,41 +12,31 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// typedef struct s_data
-// {
-//     char **arg;
-// } t_data;
+int		g_sig_num;
 
-void	test(char **ans)
+void	signal_handler(int sig)
 {
-	// data.argが指すポインタが3つの要素を持つ配列を解放
-	for (int i = 0; i < 3; i++)
-	{
-		free(ans[i]);
-	}
-	// data.argが指すポインタが2つの要素を持つ配列を解放
-	free(ans);
-	ans = NULL;
+	g_sig_num = sig;
+	signal(sig, SIG_DFL);
 }
 
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q a.out");
-// }
-
-int	main(int argc, char **argv)
+int	main(void)
 {
-	char	**ans;
-	int		i;
-
-	i = 0;
-	ans = calloc(3, sizeof(char *));
-	while (i < 2)
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
 	{
-		ans[i] = strdup("hello");
-		i++;
+		perror("signal");
+		exit(0);
 	}
-	test(ans);
-    // printf("%s\n",ans[0]);
+	if (signal(SIGQUIT, signal_handler) == SIG_ERR)
+	{
+		perror("signal");
+		exit(0);
+	}
+	fprintf(stderr, "hogehoge\n");
+	while (1)
+	{
+		sleep(1);
+		fprintf(stderr, "g_sig %d\n", g_sig_num);
+	}
 	return (0);
 }
