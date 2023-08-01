@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 15:41:39 by sraza            ###   ########.fr       */
+/*   Updated: 2023/07/31 23:56:01 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,8 @@ int	count_env_mark(char *line)
 	count_env = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '\'')
-		{
-			i++;
-			while (line[i] != '\'')
-				i++;
-		}
 		if (line[i] == '$')
-		{
 			count_env++;
-			while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0')
-				i++;
-			if (line[i] == '\0')
-				break ;
-		}
 		i++;
 	}
 	return (count_env);
@@ -98,14 +86,16 @@ char	*count_d_str(char **str)
 	char	*line;
 
 	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0' && (*str)[i] != '$')
+	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
+		(*str)[i] != '\0' && (*str)[i] != '$')
 		i++;
 	line = malloc (sizeof (char) * (i + 1));
 	if (line == NULL)
 		return (NULL);
 	line[0] = (*str)[0];
 	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' && (*str)[i] != '\0' && (*str)[i] != '$')
+	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
+		(*str)[i] != '\0' && (*str)[i] != '$')
 	{
 		line[i] = (*str)[i];
 		i++;
@@ -136,9 +126,7 @@ char	**make_strlist(char *line)
 			max_str[i] = count_d_str(&line);
 			i++;
 		}
-		if (*line == '\0')
-			break ;
-		if (*line != '$')
+		if (*line != '$' && *line != '\0')
 			line++;
 	}
 	max_str[i] = NULL;

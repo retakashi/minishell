@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/30 18:30:53 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/01 00:16:45 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ int	is_meta(char *str)
 // 	t_flags	meta_num;
 
 // 	meta_num = 0;
-// 	if (ft_strncmp(str, "|", ft_strlen(str)) == 0)
+// 	if (ft_strncmp(str, "|", 1) == 0)
 // 		meta_num = pipe_char;
-// 	else if (ft_strncmp(str, ">>", ft_strlen(str)))
+// 	else if (ft_strncmp(str, ">>", 2) == 0)
 // 		meta_num = append;
-// 	else if (ft_strncmp(str, ">", ft_strlen(str)))
+// 	else if (ft_strncmp(str, ">", 1) == 0)
 // 		meta_num = output;
-// 	else if (ft_strncmp(str, "<<", ft_strlen(str)))
+// 	else if (ft_strncmp(str, "<<", 2) == 0)
 // 		meta_num = heredoc;
-// 	else if (ft_strncmp(str, "<", ft_strlen(str)))
+// 	else if (ft_strncmp(str, "<", 1) == 0)
 // 		meta_num = input;
 // 	return (meta_num);
 // }
@@ -103,6 +103,7 @@ t_word_list	*find_meta(t_word_list *string)
 	string = argument_flag(string);
 	while (string != NULL)
 	{
+		
 		flag = is_meta(string->word);
 		printf("flag : %d\n", flag);
 		if (flag == 5 && (ft_strlen(string->word) > 1))

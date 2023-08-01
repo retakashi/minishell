@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 16:23:47 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/01 00:00:36 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 	str = ft_strtrim(str, "$");
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->env_name, str, ft_strlen(env_list->env_name)) == 0)
+		if (ft_strncmp(env_list->env_name, str,
+				ft_strlen(env_list->env_name)) == 0)
 		{
 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
 				line = ft_strjoin(line, env_list->env_str);
-			else 
-				line = joint_two_d(line, str, env_list->env_name, env_list->env_str);
+			else
+				line = joint_two_d(line, str, env_list->env_name,
+						env_list->env_str);
 			break ;
 		}
 		env_list = env_list->next;
@@ -45,7 +47,7 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 	return (line);
 }
 
-char *joint_array(char **result, t_env_list *env_list)
+char	*joint_array(char **result, t_env_list *env_list)
 {
 	int		i;
 	char	*line;
@@ -66,11 +68,11 @@ char *joint_array(char **result, t_env_list *env_list)
 	return (line);
 }
 
-char *change_line(char *line, t_env_list *env_list)
+char	*change_line(char *line, t_env_list *env_list)
 {
-	int i;
-	char **result;
-	char *new_line;
+	int		i;
+	char	**result;
+	char	*new_line;
 
 	i = 0;
 	while (line[i] != '$' && line[i] != '\0')
