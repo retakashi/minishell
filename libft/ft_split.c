@@ -3,108 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 22:15:15 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/06 18:59:08 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/23 12:00:26 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/09 22:50:31 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-static size_t	word_count(char const *s, char c);
-static size_t	word_len_count(char const *s, size_t i, char c);
-static char		**ft_free(char **ans);
+static	int	check_sep(char s, char c);
+static	int	count_str(char *str, char charset);
+static	char	*add_str(char *str, char charset);
 
-char	**ft_split(char const *s, char c)
+static	int	check_sep(char s, char c)
 {
-	char	**ans;
-	size_t	i;
-	size_t	j;
-
-	if (s == NULL)
-		return (NULL);
-	ans = (char **)ft_calloc(sizeof(char *), word_count(s, c) + 1);
-	if (ans == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (j < word_count(s, c))
-	{
-		while (s[i] == c && s[i] != '\0')
-			i++;
-		if (s[i] != c && s[i] != '\0')
-		{
-			ans[j] = ft_substr(s + i, 0, word_len_count(s, i, c));
-			if (ans[j] == NULL)
-				return (ft_free(ans));
-			j++;
-		}
-		i += word_len_count(s, i, c);
-	}
-	return (ans);
+	if (s == c)
+		return (1);
+	return (0);
 }
 
-static size_t	word_count(char const *s, char c)
+static	int	count_str(char *str, char charset)
 {
-	size_t	word;
-	size_t	i;
+	int	count;
 
-	i = 0;
-	word = 0;
-	while (s[i] != '\0')
+	count = 0;
+	while (*str != '\0')
 	{
-		if (s[i] != c && s[i] != '\0')
-			word++;
-		while (s[i] != c && s[i] != '\0')
-			i++;
-		while (s[i] == c && s[i] != '\0')
-			i++;
+		while (*str != '\0' && check_sep(*str, charset) == 1)
+			str++;
+		if (*str != '\0')
+			count++;
+		while (*str != '\0' && check_sep(*str, charset) == 0)
+			str++;
 	}
-	return (word);
+	return (count);
 }
 
-static size_t	word_len_count(char const *s, size_t i, char c)
+static	char	*add_str(char *str, char charset)
 {
-	size_t	word_len;
+	int		i;
+	int		add_count;
+	char	*add;
 
-	word_len = 0;
-	while (s[i] != c && s[i] != '\0')
+	i = 0;
+	add_count = 0;
+	while (str[add_count] && check_sep(str[add_count], charset) == 0)
+		add_count ++;
+	add = malloc(sizeof(char) * (add_count + 1));
+	if (add == NULL)
+		return (NULL);
+	while (i < add_count)
 	{
-		word_len++;
+		add[i] = str[i];
 		i++;
 	}
-	return (word_len);
+	add[i] = '\0';
+	return (add);
 }
 
-static char	**ft_free(char **ans)
+static	void	*ft_free(char **result)
 {
 	size_t	i;
 
 	i = 0;
-	while (ans[i] != NULL)
+	while (result[i] != NULL)
 	{
-		free(ans[i]);
+		free(result[i]);
+		result[i] = NULL;
 		i++;
 	}
-	free(ans);
+	free(result);
+	result[i] = NULL;
 	return (NULL);
 }
 
-// #include <stdio.h>
-// #include <string.h>
+char	**ft_split(char const *s, char c)
+{
+	size_t	i;
+	char	**result;
 
-// int	main(void)
-// {
-// 	size_t	i;
-// 	size_t	word;
-// 	char	**ans;
-// 	char	s[]= "aaa42atokyoaahelloaaworlda";
-// 	i = 0;
-// 	word = word_count(s, 'a');
-// 	ans = ft_split(s, 'a');
-// 	while (i < word)
-// 		printf("%s\n", ans[i++]);
-// system("leaks a.out");
-// 	return (0);
-// }
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	result = malloc(sizeof(char *) * (count_str((char *)s, c) + 1));
+	if (result == NULL)
+		return (NULL);
+	while (*s != '\0')
+	{
+		while (*s != '\0' && check_sep(*s, c) == 1)
+			s++;
+		if (*s != '\0')
+		{
+			result[i] = add_str((char *)s, c);
+			if (result[i++] == NULL)
+				return (ft_free(result));
+		}
+		while (*s != '\0' && check_sep(*s, c) == 0)
+			s++;
+	}
+	result[i] = NULL;
+	return (result);
+}

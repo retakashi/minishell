@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:51:53 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 18:07:39 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"execve_cmd.h"
-#include"libft/libft.h"
+#include"minishell.h"
+
 t_word_list	*find_syntax_er(t_word_list	*string)
 {
 	// t_word_list	*tmp;
@@ -23,6 +23,9 @@ t_word_list	*find_syntax_er(t_word_list	*string)
 
 t_word_list	*redirect_command(t_word_list *tmp)
 {
+	tmp->flag = is_just_meta(tmp->word);
+	if (tmp->flag != 0)
+		return (tmp);
 	if (tmp->next != NULL)
 		tmp->next->flag = tmp->flag + 5;
 	if (tmp->next != NULL && tmp->next->next != NULL)
@@ -37,10 +40,10 @@ t_word_list	*set_flags_per_list(t_word_list	*tmp)
 {
 	if (tmp->flag == 5 && tmp->next != NULL)
 	{
-		if (is_meta(tmp->next->word) > 5 && is_meta(tmp->next->word) < 10)
+		if (is_just_meta(tmp->next->word) > 5 && is_just_meta(tmp->next->word) < 10)
 		{
 			tmp = tmp->next;
-			tmp->flag = is_meta(tmp->word);
+			tmp->flag = is_just_meta(tmp->word);
 			tmp = redirect_command(tmp);
 		}
 		else
@@ -49,7 +52,7 @@ t_word_list	*set_flags_per_list(t_word_list	*tmp)
 	if (tmp->flag == 1 && tmp->next != NULL && tmp->next->word[0] == '-')
 		tmp->next->flag = 2;
 	if (tmp->flag == 1 && tmp->next != NULL && tmp->next->word[0] != '-' &&
-		!(is_meta(tmp->next->word) > 3 && is_meta(tmp->next->word) < 15))
+		!(is_just_meta(tmp->next->word) > 3 && is_just_meta(tmp->next->word) < 15))
 		tmp->next->flag = 3;
 	if (tmp->flag > 5 && tmp->flag < 10 && tmp->next != NULL)
 		tmp->next->flag = tmp->flag + 5;
@@ -58,27 +61,45 @@ t_word_list	*set_flags_per_list(t_word_list	*tmp)
 	return (tmp);
 }
 
+t_word_list	*set_meta_flags(t_word_list	*string)
+{
+	t_word_list	*tmp;
+	int			flag;
+
+	tmp = string;
+	while (string)
+	{
+		flag = is_just_meta(string->word);
+		if (flag != 0)
+			string->flag = flag;
+		string = string->next;
+	}
+	return (tmp);
+}
+
 t_word_list	*set_flags(t_word_list	*string)
 {
 	t_word_list	*tmp;
 
 	tmp = string;
-	string = find_syntax_er(string);
-	if (is_meta(tmp->word) == 0)
+	
+	if (is_just_meta(tmp->word) == 0)
 		tmp->flag = 1;
 	else
-		tmp->flag = is_meta(tmp->word);
+		tmp->flag = is_just_meta(tmp->word);
 	if (string->flag > 5 && string->flag < 10)
 		tmp = redirect_command(tmp);
+	string = find_syntax_er(string);
 	while (tmp != NULL)
 	{
 		if (tmp->flag == 0)
 		{
-			if (is_meta(tmp->word) != 0)
-				tmp->flag = is_meta(tmp->word);
+			if (is_just_meta(tmp->word) != 0)
+				tmp->flag = is_just_meta(tmp->word);
 		}
 		tmp = set_flags_per_list(tmp);
 		tmp = tmp->next;
 	}
+	string = set_meta_flags(string);
 	return (string);
 }

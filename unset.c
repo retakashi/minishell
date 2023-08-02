@@ -6,14 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/28 17:00:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:49:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
-void	get_prev_node(t_env_list **env_list, t_word_list *word_list)
+static void	get_prev_node(t_env_list **env_list, t_word_list *word_list)
 {
 	t_env_list	*prev;
 
@@ -37,7 +37,7 @@ bool	search_env_name(t_word_list *word_list, t_env_list *env_list)
 	return (true);
 }
 
-void	remove_node(t_word_list *remove_word, t_env_list **env_list,
+static void	remove_node(t_word_list *remove_word, t_env_list **env_list,
 		t_env_list **head)
 {
 	t_env_list	*remove_node;
@@ -54,7 +54,7 @@ void	remove_node(t_word_list *remove_word, t_env_list **env_list,
 		(*env_list)->next = remove_node->next;
 	}
 	free(remove_node->env_name);
-	free(remove_node->env_str);
+	free(remove_node->env_value);
 	free(remove_node);
 }
 

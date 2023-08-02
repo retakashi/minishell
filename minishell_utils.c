@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 21:02:22 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 
 void	ft_get_env(char *str, t_env_list *env_list, t_env_list **tmp)
 {

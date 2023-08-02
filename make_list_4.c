@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 11:58:42 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:51:48 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 10:35:02 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"execve_cmd.h"
-#include"libft/libft.h"
+#include"minishell.h"
+
 t_word_list	*argument_flag(t_word_list *string)
 {
 	t_word_list	*tmp;
@@ -29,5 +29,6 @@ t_word_list	*argument_flag(t_word_list *string)
 			tmp->flag = 3;
 		tmp = tmp->next;
 	}
+	tmp = string;
 	return (string);
 }

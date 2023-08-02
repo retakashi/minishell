@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:48:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/29 00:53:56 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 18:05:02 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static void	init_write_flg(t_env_list **env_list)
@@ -18,6 +18,7 @@ static void	init_write_flg(t_env_list **env_list)
 	t_env_list	*head;
 
 	head = *env_list;
+	*env_list = (*env_list)->next;
 	while (*env_list != NULL)
 	{
 		(*env_list)->write_flg = false;
@@ -30,8 +31,7 @@ static int	cnt_envp_list(t_env_list *env_list)
 {
 	int	cnt;
 
-	if (env_list == NULL)
-		return (0);
+	env_list = env_list->next;
 	cnt = 0;
 	while (env_list != NULL)
 	{
@@ -51,7 +51,6 @@ static void	get_min(t_env_list **min, t_env_list *env_list)
 static void	init_export_nooption(t_env_list **env_list, t_env_list **head,
 		int *cnt)
 {
-	*cnt = 0;
 	*cnt = cnt_envp_list(*env_list);
 	*head = *env_list;
 	init_write_flg(env_list);
@@ -63,7 +62,7 @@ int	export_nooption(t_env_list **env_list, int fd)
 	t_env_list	*head;
 	t_env_list	*min;
 
-	if (*env_list == NULL || (*env_list)->env_name == NULL)
+	if ((*env_list)->next == NULL)
 		return (env_error_update_exit_status("export", env_list));
 	init_export_nooption(env_list, &head, &cnt);
 	while (--cnt > 0)

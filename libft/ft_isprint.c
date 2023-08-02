@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 17:08:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/01/15 21:34:14 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/12 20:07:41 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/01/15 20:45:12 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 int	ft_isprint(int c)
 {
-	return (' ' <= c && '~' >= c);
+	if (c >= 32 && c <= 126)
+	{
+		return (1);
+	}
+	return (0);
 }

@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/28 20:51:35 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 10:17:34 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"execve_cmd.h"
-#include"libft/libft.h"
-// t_word_list	*first_list_quotes(t_word_list	*string)
-// {
-// 	char	**split;
-// 	char	flag;
-// 	size_t	i;
-// 	t_word_list	*new;
-
-// 	i = 0;
-// 	while (string->word[i] != '\0' &&
-// 		(string->word[i] == '"' || string->word[i] == '\''))
-// 		i++;
-// 	if (string->word[i] != '\0' && i != ft_strlen(string->word))
-// 	{
-// 		flag = string->word[i];
-// 		split = ft_split(string->word, flag);
-// 	}
-// 	else 
-// 		return (string);
-// 	new = ft_newlst(split[0]);
-// 	new->next = string;
-// 	free(string->word);
-// 	string->word = ft_strdup(split[1]);
-// 	return (new);
-// }
+#include"minishell.h"
 
 t_word_list	*make_first_list(char **line)
 {
@@ -57,7 +32,6 @@ t_word_list	*make_first_list(char **line)
 		i++;
 	}
 	string = creat_list(*line, i);
-	// string = first_list_quotes(string);
 	*line += i;
 	while (**line == ' ' || **line == '\t')
 		(*line)++;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 17:28:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/07 16:17:46 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/10 16:36:10 by sraza             #+#    #+#             */
+/*   Updated: 2023/02/05 13:51:33 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -21,17 +21,3 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-// #include <string.h>
-// #include<stdio.h>
-
-// int	main(void)
-// {
-// 	char dst1[]="42tokyo";
-// 	char dst2[]="42tokyo";
-// 	printf("%zu\n", ft_strlen(dst1));
-// 	printf("%zu\n", strlen(dst2));
-// 	printf("%zu\n", ft_strlen(NULL));
-// 	printf("%zu\n", strlen(NULL));
-// 	return (0);
-// }

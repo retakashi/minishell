@@ -3,30 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:12:55 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/12 20:42:09 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/02/01 20:27:19 by sraza             #+#    #+#             */
+/*   Updated: 2023/02/01 21:55:04 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 int	ft_lstsize(t_list *lst)
 {
-	int		cnt;
-	t_list	*node;
+	int	i;
 
+	i = 0;
 	if (lst == NULL)
 		return (0);
-	if (lst->next == NULL)
-		return (1);
-	cnt = 0;
-	node = lst;
-	while (node != NULL)
+	while (lst != NULL)
 	{
-		node = node->next;
-		cnt++;
+		lst = lst->next;
+		i++;
 	}
-	return (cnt);
+	return (i);
 }

@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/07/29 18:37:21 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 22:26:35 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static int	add_env_list(t_env_list **env_list, char *str)
@@ -27,16 +27,16 @@ static int	add_env_list(t_env_list **env_list, char *str)
 	return (SUCCESS);
 }
 
-static int	update_env_str(t_env_list **env_list, char *str)
+static int	update_env_value(t_env_list **env_list, char *word)
 {
 	size_t	name_len;
 
-	if (!ft_strchr(str, '='))
+	if (!ft_strchr(word, '='))
 		return (SUCCESS);
-	name_len = get_name_len(str);
-	free((*env_list)->env_str);
-	(*env_list)->env_str = ft_strdup(&str[name_len + 1]);
-	if ((*env_list)->env_str == NULL)
+	name_len = get_name_len(word);
+	free((*env_list)->env_value);
+	(*env_list)->env_value = ft_strdup(&word[name_len + 1]);
+	if ((*env_list)->env_value == NULL)
 		return (ft_perror("ft_strdup"));
 	return (SUCCESS);
 }
@@ -75,7 +75,7 @@ int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 		if (is_valid_identifier(word_list->word) == false)
 			return (export_error_update_exit_status(word_list->word, env_list));
 		if (search_env_name_advance_env_list(word_list->word, env_list) == true
-			&& update_env_str(env_list, word_list->word) == FAILURE)
+			&& update_env_value(env_list, word_list->word) == FAILURE)
 			return (change_exit_flg(exit_flg));
 		if (search_env_name_advance_env_list(word_list->word, env_list) == false
 			&& add_env_list(env_list, word_list->word) == FAILURE)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/30 18:03:15 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static bool	is_valid_number(char *word, long long *num)
@@ -65,7 +65,7 @@ void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 	char		*error_str;
 
 	head = *word_list;
-	if ((*word_list)->next == NULL)
+	if ((*word_list)->next == NULL||(*word_list)->next->flag==pipe_char)
 		exit_end(word_list, env_list, 0, NULL);
 	num = 0;
 	*word_list = (*word_list)->next;

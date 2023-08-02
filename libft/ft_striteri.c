@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/21 21:36:54 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/07 17:00:10 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/26 18:32:49 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/08 20:17:59 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	size_t	i;
 
-	if (s == NULL || f == NULL)
+	if (!s || !f)
 		return ;
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
-		f((unsigned int)i, &s[i]);
+		f(i, &s[i]);
 		i++;
 	}
 }

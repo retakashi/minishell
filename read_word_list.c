@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 19:09:45 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/03 01:59:56 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
+#include "minishell.h"
 
-bool	is_word_list_flag(t_word_list *word_list, int flag)
+bool	find_flg(t_word_list *word_list, int find_flg)
 {
 	while (word_list != NULL)
 	{
-		if (word_list->flag == flag)
+		if (word_list->flag == find_flg)
 			return (true);
 		word_list = word_list->next;
 	}
 	return (false);
 }
 
-int	cnt_pipe(t_word_list *word_list)
+static int	cnt_pipe(t_word_list *word_list)
 {
 	int	cnt;
 
@@ -38,28 +39,33 @@ int	cnt_pipe(t_word_list *word_list)
 	return (cnt);
 }
 
-void	get_here_list_child_num(t_word_list *word_list, t_here_list **here_list)
+void	set_child_num(t_word_list *word_list, t_here_list **here_list)
 {
-	int	flg;
-	int	i;
+	int			flg;
+	int			i;
+	t_here_list	*head;
 
 	i = 0;
-	while (word_list != NULL)
+	head = *here_list;
+	while (word_list != NULL && *here_list != NULL)
 	{
 		flg = false;
 		while (word_list != NULL && word_list->flag != pipe_char)
 		{
 			if (flg == false && word_list->flag == heredoc)
 			{
-				(*here_list)->child_num = i;
+					(*here_list)->child_num = i;
 				flg = true;
 			}
 			word_list = word_list->next;
 		}
 		i++;
-		if (word_list != NULL)
-			word_list = word_list->next;
+		if(flg==true)
+		*here_list = (*here_list)->next;
+		if(word_list!=NULL)
+		word_list = word_list->next;
 	}
+	*here_list = head;
 }
 
 int	read_word_list(t_word_list **word_list, t_env_list **env_list,
@@ -68,18 +74,17 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	int		cnt;
 	t_flg	flg_struct;
 
-	if (is_word_list_flag(*word_list, eof_num) == true
-		&& get_here_list(*word_list, here_list) == FAILURE)
-		perror_free_list_exit("failed to get heredoc_list", word_list, env_list,
-				here_list);
+	if (find_flg(*word_list, eof_num) == true && get_here_list(*word_list,
+			here_list) == FAILURE)
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
 	else
 	{
 		if (here_list != NULL)
-			get_here_list_child_num(*word_list, here_list);
-		if (fork_execve_cmd(word_list, env_list, here_list, cnt) == FAILURE)
+			set_child_num(*word_list, here_list);
+		if (main_execute_cmd(word_list, env_list, here_list, cnt) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -109,27 +114,29 @@ int	main(int argc, char **argv, char **envp)
 	t_env_list	*env_list_head;
 	t_here_list	*here_list_head;
 	char		*line;
+	char		*new_line;
 
 	if (argc == 0 || argv == NULL)
 		return (0);
 	init_minishell(envp, &env_list_head, &word_head, &here_list_head);
-	// while (1)
-	// {
-		// line = readline("minishell$ ");
-		line = "ls | ls";
-		// if (line == NULL)
-		// 	break ;
+	while (1)
+	{
+		line = readline("minishell$ ");
+		// line = "<< eof";
+		if (line == NULL)
+			break ;
 		if (*line)
 		{
 			// parse_line(line);
 			// add_history(line);
-			word_head = parse_line(line);
+			new_line = change_line(line, env_list_head);
+			word_head = parse_line(new_line);
 			read_word_list(&word_head, &env_list_head, &here_list_head);
 		}
-		// free(line);
+		free(line);
 		free_word_list(&word_head);
 		free_here_list(&here_list_head);
-	// }
+	}
 	free_env_list(&env_list_head);
 	return (0);
 }

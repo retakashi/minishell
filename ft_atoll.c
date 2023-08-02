@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 17:33:52 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 17:34:28 by reira            ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 static bool	check_sign(char c, int *neg)
