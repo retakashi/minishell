@@ -6,20 +6,19 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/31 21:50:42 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 01:59:56 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
-#include "./minishell_sraza/minishell.h"
-#include "./minishell_sraza/libft/libft.h"
+#include "minishell.h"
 
-bool	is_word_list_flag(t_word_list *word_list, int flag)
+bool	find_flg(t_word_list *word_list, int find_flg)
 {
 	while (word_list != NULL)
 	{
-		if (word_list->flag == flag)
+		if (word_list->flag == find_flg)
 			return (true);
 		word_list = word_list->next;
 	}
@@ -40,28 +39,33 @@ static int	cnt_pipe(t_word_list *word_list)
 	return (cnt);
 }
 
-void	get_here_list_child_num(t_word_list *word_list, t_here_list **here_list)
+void	set_child_num(t_word_list *word_list, t_here_list **here_list)
 {
-	int	flg;
-	int	i;
+	int			flg;
+	int			i;
+	t_here_list	*head;
 
 	i = 0;
-	while (word_list != NULL)
+	head = *here_list;
+	while (word_list != NULL && *here_list != NULL)
 	{
 		flg = false;
 		while (word_list != NULL && word_list->flag != pipe_char)
 		{
 			if (flg == false && word_list->flag == heredoc)
 			{
-				(*here_list)->child_num = i;
+					(*here_list)->child_num = i;
 				flg = true;
 			}
 			word_list = word_list->next;
 		}
 		i++;
-		if (word_list != NULL)
-			word_list = word_list->next;
+		if(flg==true)
+		*here_list = (*here_list)->next;
+		if(word_list!=NULL)
+		word_list = word_list->next;
 	}
+	*here_list = head;
 }
 
 int	read_word_list(t_word_list **word_list, t_env_list **env_list,
@@ -70,8 +74,8 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	int		cnt;
 	t_flg	flg_struct;
 
-	if (is_word_list_flag(*word_list, eof_num) == true
-		&& get_here_list(*word_list, here_list) == FAILURE)
+	if (find_flg(*word_list, eof_num) == true && get_here_list(*word_list,
+			here_list) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
@@ -79,7 +83,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	else
 	{
 		if (here_list != NULL)
-			get_here_list_child_num(*word_list, here_list);
+			set_child_num(*word_list, here_list);
 		if (main_execute_cmd(word_list, env_list, here_list, cnt) == FAILURE)
 			return (FAILURE);
 	}

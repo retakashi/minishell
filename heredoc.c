@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 01:40:03 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	get_here_list(t_word_list *word_list, t_here_list **here_list)
 			node->next = new;
 			node = new;
 		}
-		if (create_or_update_here_node(&word_list, &here_flg) == UPDATE
+		else if (create_or_update_here_node(&word_list, &here_flg) == UPDATE
 			&& update_here_file(&node, word_list->word) == FAILURE)
 			return (FAILURE);
 		if (word_list != NULL)

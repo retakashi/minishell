@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/28 20:54:59 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 21:09:07 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_word_list
 typedef struct s_env_list
 {
 	char				*env_name;
-	char				*env_str;
+	char				*env_value;
 	int					write_flg;
 	int					exit_status;
 	struct s_env_list	*next;
@@ -57,8 +57,8 @@ typedef enum s_flags
 	meta_char = 10,
 	out_file,
 	append_file,
-	intput_file,
-	heredoc_file = 14,
+	in_file,
+	eof_num = 14,
 }			t_flags;
 
 //parse_line.c
@@ -78,8 +78,7 @@ t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
 //make_list3.c
 t_word_list				*find_meta(t_word_list *string);
-t_word_list				*split_list(t_word_list *string, char *flag);
-int						is_meta(char *str);
+int						is_just_meta(char *str);
 //make_list4.c
 t_word_list				*argument_flag(t_word_list *string);
 
@@ -90,8 +89,13 @@ void					*ft_free_line2(char **result);
 char					*duplicate(char *content, char *line, unsigned int n);
 //split_str.c
 char					**split_str(char *str, char *charset);
-//change_line.c
-char					*change_line(char *line, t_env_list *env_list);
+//get_env.c
+// t_env_list				*init_minishell(char **envp,
+// 							t_env_list **env_list_head);
+//change_line_1.c
+char					**make_strlist(char *line);
 
+//change_line_2.c
+char					*change_line(char *line, t_env_list *env_list);
 
 #endif

@@ -17,6 +17,7 @@ void	put_pipe_error_exit(t_p_data p_data, t_word_list **word_list,
 		t_env_list **env_list, t_here_list **here_list)
 {
 	ft_perror("pipe");
+	unlink_here_list(here_list);
 	free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
 }
 
@@ -24,6 +25,7 @@ void	put_fork_error_exit(t_p_data p_data, t_word_list **word_list,
 		t_env_list **env_list, t_here_list **here_list)
 {
 	ft_perror("fork");
+	unlink_here_list(here_list);
 	free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
 }
 

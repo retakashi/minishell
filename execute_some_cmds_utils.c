@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:34:57 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 18:36:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 02:11:11 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	advance_word_list(t_word_list *word_list, t_word_list **tmp, int start)
 	*tmp = word_list;
 }
 
-void	search_here_list_child_num(t_here_list *here_list, t_here_list **tmp,
+void	find_child_num(t_here_list *here_list, t_here_list **tmp,
 		int i)
 {
 	*tmp = NULL;
@@ -42,6 +42,26 @@ void	search_here_list_child_num(t_here_list *here_list, t_here_list **tmp,
 			*tmp = here_list;
 		here_list = here_list->next;
 	}
+}
+
+bool find_flg_until_pipe(t_word_list *word_list, int find_flg,int cnt)
+{
+	int i;
+
+	i=0;
+	while(word_list!=NULL&&i<cnt)
+	{
+		if(word_list->flag==pipe_char)
+		i++;
+		word_list=word_list->next;
+	}
+	while(word_list!=NULL&&word_list->flag!=pipe_char)
+	{
+		if(word_list->flag==find_flg)
+		return(true);
+		word_list=word_list->next;
+	}
+	return(false);
 }
 
 void	execute_builtin_cmdsver(t_fd fd_struct, t_flg flg_struct,

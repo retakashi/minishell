@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:52:37 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,29 @@ int	new_env_node(t_env_list **node, char *envp)
 	ft_strlcpy((*node)->env_name, envp, len + 1);
 	if (ft_strchr(envp, '='))
 	{
-		(*node)->env_str = ft_strdup(&envp[len + 1]);
-		if ((*node)->env_str == NULL)
+		(*node)->env_value = ft_strdup(&envp[len + 1]);
+		if ((*node)->env_value == NULL)
 			return (ft_perror("ft_strdup"));
 	}
 	else
-		(*node)->env_str = NULL;
+		(*node)->env_value = NULL;
 	(*node)->write_flg = false;
-	(*node)->exit_status = 0;
 	(*node)->next = NULL;
 	return (SUCCESS);
 }
 
-static int	new_node_noenvp(t_env_list **node)
+static int	set_exit_status(t_env_list **node)
 {
 	*node = malloc(sizeof(t_env_list));
 	if (*node == NULL)
 		return (ft_perror("malloc"));
-	(*node)->env_name = NULL;
-	(*node)->env_str = NULL;
-	(*node)->write_flg = false;
-	(*node)->exit_status = 0;
+	(*node)->env_name = ft_strdup("exit_status");
+	if ((*node)->env_name == NULL)
+		return (ft_perror("ft_strdup"));
+	(*node)->env_value = ft_strdup("0");
+	if ((*node)->env_value == NULL)
+		return (ft_perror("ft_strdup"));
+	(*node)->write_flg = true;
 	(*node)->next = NULL;
 	return (SUCCESS);
 }
@@ -70,12 +72,12 @@ int	get_env_list(char **envp, t_env_list **head)
 	t_env_list	*node;
 	size_t		i;
 
-	if (envp == NULL)
-		return (new_node_noenvp(&node));
-	if (new_env_node(&node, envp[0]) == FAILURE)
+	if (set_exit_status(&node) == FAILURE)
 		return (FAILURE);
+	if (envp == NULL)
+		return (SUCCESS);
 	*head = node;
-	i = 1;
+	i = 0;
 	while (envp[i] != NULL)
 	{
 		if (new_env_node(&new, envp[i]) == FAILURE)
