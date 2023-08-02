@@ -3,47 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 17:12:54 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/06 18:50:56 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/23 20:27:37 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/06 10:02:40 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static	size_t	ft_begin(const char *s, const char *set)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+
+	len = ft_strlen(set);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		j = 0;
+		while (set[j] != '\0')
+		{
+			if (s[i] == set[j])
+				break ;
+			j++;
+		}
+		if (j == (len) && s[i] != set[j])
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+static	size_t	ft_end(const char *s, const char *set)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	size_t	str_len;
+
+	str_len = ft_strlen(s);
+	len = ft_strlen(set);
+	i = 0;
+	while (i < str_len)
+	{
+		j = 0;
+		while (set[j] != '\0')
+		{
+			if (s[str_len - 1 - i] == set[j])
+				break ;
+			j++;
+		}
+		if ((j == len) && s[str_len - 1 - i] != set[j])
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+static	char	*ft_trimalloc(char *trim, size_t head,
+					size_t tail, size_t str_len)
+{
+	if (str_len < head + tail)
+		trim = malloc(sizeof(char) * (1));
+	else
+		trim = malloc(sizeof(char) * (str_len - (head + tail) + 1));
+	return (&*trim);
+}
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	s1_len;
 	size_t	head;
 	size_t	tail;
-	char	*ans;
+	size_t	str_len;
+	char	*trim;
+	size_t	i;
 
-	head = 0;
-	tail = 0;
 	if (s1 == NULL)
 		return (NULL);
 	if (set == NULL)
-		return (ft_strdup(s1));
-	s1_len = ft_strlen(s1);
-	while (head < s1_len && ft_strchr(set, s1[head]))
-		head++;
-	while (tail < s1_len && ft_strchr(set, s1[s1_len - tail]))
-		tail++;
-	if (head == tail && head == s1_len)
-		return (ft_strdup(""));
-	ans = ft_substr(s1 + head, 0, s1_len - (head + tail) + 1);
-	return (ans);
+		return ((char *)s1);
+	str_len = ft_strlen(s1);
+	head = ft_begin(s1, set);
+	tail = ft_end(s1, set);
+	trim = NULL;
+	trim = ft_trimalloc(trim, head, tail, str_len);
+	if (trim == NULL)
+		return (NULL);
+	i = 0;
+	while (head + i < str_len - tail)
+	{
+		trim[i] = s1[head + i];
+		i++;
+	}
+	trim[i] = '\0';
+	return (trim);
 }
-
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	char	s1[]="aa42tokyoahelloaaaaa";
-// 	char	set[]= "a";
-// printf("%s\n", ft_strtrim(s1, set));
-// printf("%s\n", ft_strtrim(NULL, set));
-// printf("%s\n", ft_strtrim(NULL, NULL));
-// printf("%s\n", ft_strtrim(s1, NULL));
-// 	return (0);
-// }

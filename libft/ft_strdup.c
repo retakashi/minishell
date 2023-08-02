@@ -3,37 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 20:09:38 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/01 21:35:41 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/14 20:20:51 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/08 19:54:15 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *src)
 {
-	char	*str;
-	size_t	str_len;
+	char		*t;
+	size_t		len;
+	size_t		i;
 
-	str_len = ft_strlen(s1) + 1;
-	str = (char *)ft_calloc(sizeof(char), str_len);
-	if (str == NULL)
+	len = ft_strlen(src);
+	t = malloc(sizeof(char) * (len + 1));
+	if (t == NULL)
 		return (NULL);
-	ft_strlcpy(str, s1, str_len);
-	return (str);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		t[i] = src[i];
+		i++;
+	}
+	t[i] = '\0';
+	return (t);
 }
-
-// int	main(void)
-// {
-// 	char	*s1;
-// 	char	*s2;
-
-// 	char src[]="42tokyo";
-// 	s1 = strdup(src);
-// 	s2 = ft_strdup(src);
-// 	printf("strdup= %s\n", s1);
-// 	printf("ft_strdup= %s\n", s2);
-// 	return (0);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:59:13 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:20:19 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:17:52 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*get_next_line(int fd, int *flg)
 
 // __attribute__((destructor)) static void destructor()
 // {
-// 	system("leaks -q a.out");
+// 	system("leaks -q a.output");
 // }
 
 // int	main(void)

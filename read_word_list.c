@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 23:15:25 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/01 17:16:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 bool	is_word_list_flag(t_word_list *word_list, int flag)
@@ -70,7 +70,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 
 	if (is_word_list_flag(*word_list, eof_num) == true
 		&& get_here_list(*word_list, here_list) == FAILURE)
-		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
@@ -78,7 +78,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	{
 		if (here_list != NULL)
 			get_here_list_child_num(*word_list, here_list);
-		if (fork_execve_cmd(word_list, env_list, here_list, cnt) == FAILURE)
+		if (main_execute_cmd(word_list, env_list, here_list, cnt) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -108,26 +108,28 @@ int	main(int argc, char **argv, char **envp)
 	t_env_list	*env_list_head;
 	t_here_list	*here_list_head;
 	char		*line;
+	char		*new_line;
 
 	if (argc == 0 || argv == NULL)
 		return (0);
 	init_minishell(envp, &env_list_head, &word_head, &here_list_head);
 	while (1)
 	{
-	line = readline("minishell$ ");
-	// line = "<< eof";
-	if (line == NULL)
-		break ;
-	if (*line)
-	{
-		// parse_line(line);
-		// add_history(line);
-		word_head = parse_line(line);
-		read_word_list(&word_head, &env_list_head, &here_list_head);
-	}
-	free(line);
-	free_word_list(&word_head);
-	free_here_list(&here_list_head);
+		line = readline("minishell$ ");
+		// line = "<< eof";
+		if (line == NULL)
+			break ;
+		if (*line)
+		{
+			// parse_line(line);
+			// add_history(line);
+			new_line = change_line(line, env_list_head);
+			word_head = parse_line(new_line);
+			read_word_list(&word_head, &env_list_head, &here_list_head);
+		}
+		free(line);
+		free_word_list(&word_head);
+		free_here_list(&here_list_head);
 	}
 	free_env_list(&env_list_head);
 	return (0);
