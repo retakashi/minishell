@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 10:30:07 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/02 15:49:38 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_word_list	*find_syntax_er(t_word_list	*string)
 
 t_word_list	*redirect_command(t_word_list *tmp)
 {
+	tmp->flag = is_just_meta(tmp->word);
+	if (tmp->flag != 0)
+		return (tmp);
 	if (tmp->next != NULL)
 		tmp->next->flag = tmp->flag + 5;
 	if (tmp->next != NULL && tmp->next->next != NULL)
@@ -58,11 +61,26 @@ t_word_list	*set_flags_per_list(t_word_list	*tmp)
 	return (tmp);
 }
 
+t_word_list	*set_meta_flags(t_word_list	*string)
+{
+	t_word_list	*tmp;
+
+	tmp = string;
+	while (string)
+	{
+		string->flag = is_just_meta(string->word);
+		string = string->next;
+	}
+	return (tmp);
+}
+
 t_word_list	*set_flags(t_word_list	*string)
 {
 	t_word_list	*tmp;
 
 	tmp = string;
+	
+	string = set_meta_flags(string);
 	if (is_just_meta(tmp->word) == 0)
 		tmp->flag = 1;
 	else

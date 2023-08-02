@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 14:27:06 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/02 14:37:16 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ t_word_list	*parse_line(char *line)
 		return (NULL);
 	if (check_sp(line))
 		return (NULL);
-	/*ここに環境変装の展開を入れるgetenvにするかリスト型で持つかあとで決める
-		mallocして文字列の長さを変えていくようにする
-	*/
 	string = make_list(line);
 	tmp = string;
 	// print_words(tmp);
