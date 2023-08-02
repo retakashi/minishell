@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/01 20:26:03 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/02 10:30:07 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ t_word_list	*set_flags(t_word_list	*string)
 	t_word_list	*tmp;
 
 	tmp = string;
-	string = find_syntax_er(string);
 	if (is_just_meta(tmp->word) == 0)
 		tmp->flag = 1;
 	else
 		tmp->flag = is_just_meta(tmp->word);
 	if (string->flag > 5 && string->flag < 10)
 		tmp = redirect_command(tmp);
+	string = find_syntax_er(string);
 	while (tmp != NULL)
 	{
 		if (tmp->flag == 0)

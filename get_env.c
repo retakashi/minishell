@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 21:10:19 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/25 19:51:53 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/02 09:45:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,8 @@ void	get_env_list(char **envp, t_env_list **head)
 
 t_env_list	*init_minishell(char **envp, t_env_list **env_list_head)
 {
-	// t_env_list *env_list;
-
 	*env_list_head = NULL;
 	if (envp != NULL)
 		get_env_list(envp, env_list_head);
-	// env_list = *env_list_head;
-	// while (env_list != NULL)
-	// {
-	// 	printf("env_name = %s  \n env_str = %s\n\n", env_list->env_name, env_list->env_str);
-	// 	env_list = env_list->next;
-	// }
 	return (*env_list_head);
 }
-
-// int main (int argc, char ** argv, char **env)
-// {
-// 	t_env_list *env_list;
-
-// 	init_minishell(env, &env_list);
-// 	while (env_list != NULL)
-// 	{
-// 		printf("env_name = %s  \n env_str = %s\n\n", env_list->env_name, env_list->env_str);
-// 		env_list = env_list->next;
-// 	}
-// 	return(0);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/01 21:35:05 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/02 14:26:52 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,11 @@ char	*give_flag(int i)
 
 t_word_list	*divide_meta_str(t_word_list *string, int flag)
 {
-	t_word_list	*tmp;
 	t_word_list	*tmp2;
 	t_word_list	*new;
 	char		*char_flag;
 
 	char_flag = give_flag(flag);
-	tmp = string;
 	tmp2 = string->next;
 	string->word = (string->word + ft_strlen(char_flag));
 	new = ft_newlst(string->word);
@@ -113,7 +111,7 @@ int	is_just_str(t_word_list *string)
 		i++;
 		while (string->word[i] != '"' && string->word[i] != '\0')
 			i++;
-		if (string->word[i] == '"' && string->word[i + 1] != '\0')
+		if (string->word[i] == '"' && string->word[i + 1] == '\0')
 			return (1);
 	}
 	if (string->word[i] == '\'')
@@ -121,10 +119,11 @@ int	is_just_str(t_word_list *string)
 		i++;
 		while (string->word[i] != '\'' && string->word[i] != '\0')
 			i++;
-		if (string->word[i] == '\'' && string->word[i + 1] != '\0')
+		if (string->word[i] == '\'' && string->word[i + 1] == '\0')
 			return (1);
 	}
-	while (ft_isalnum(string->word[i]) && string->word[i] != '\0')
+	// while (ft_isalnum(string->word[i]) && string->word[i] != '\0')
+	while ((ft_isalnum(string->word[i]) || (is_include_meta(&string->word[i])) == 0) && string->word[i] != '\0')
 		i++;
 	if (string->word[i] == '\0')
 		return (1);
@@ -150,11 +149,9 @@ t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
 {
 	int			i;
 	int			j;
-	t_word_list	*tmp;
 	t_word_list	*new;
 	char		*str;
 
-	tmp = string;
 	j = 0;
 	i = len_of_str_meta(string->word);
 	str = malloc(sizeof (char) * (i + 1));
@@ -195,7 +192,7 @@ t_word_list	*find_meta(t_word_list *string)
 	while (string != NULL)
 	{
 		string = split_argument(string);
-		printf("string->word = %s \n", string->word);
+		printf( "\nstring->word = %s\n", string->word);
 		string = string->next;
 	}
 	return (tmp);

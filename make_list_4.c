@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 11:58:42 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/23 17:16:11 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/02 10:35:02 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ t_word_list	*argument_flag(t_word_list *string)
 			tmp->flag = 3;
 		tmp = tmp->next;
 	}
+	tmp = string;
 	return (string);
 }
