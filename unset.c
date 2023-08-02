@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:49:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	remove_node(t_word_list *remove_word, t_env_list **env_list,
 		(*env_list)->next = remove_node->next;
 	}
 	free(remove_node->env_name);
-	free(remove_node->env_str);
+	free(remove_node->env_value);
 	free(remove_node);
 }
 

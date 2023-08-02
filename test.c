@@ -12,37 +12,18 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-
-void	test(char **ans)
-{
-	// data.argが指すポインタが3つの要素を持つ配列を解放
-	for (int i = 0; i < 3; i++)
-	{
-		free(ans[i]);
-	}
-	// data.argが指すポインタが2つの要素を持つ配列を解放
-	free(ans);
-	ans = NULL;
-}
-
 // __attribute__((destructor))
 // static void destructor() {
 //     system("leaks -q a.out");
 // }
 
-int	main(int argc, char **argv)
+int	main()
 {
-	char	**ans;
-	int		i;
-
-	i = 0;
-	ans = calloc(3, sizeof(char *));
-	while (i < 2)
-	{
-		ans[i] = strdup("hello");
-		i++;
-	}
-	test(ans);
-    // printf("%s\n",ans[0]);
+	char *line;
+	line=readline("prompt ");
+	if(line[0]=='\0')
+	printf("hello\n");
+	else
+	printf("p %p\n",line);
 	return (0);
 }

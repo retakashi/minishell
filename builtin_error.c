@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 00:45:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:59:27 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	env_error_update_exit_status(char *str, t_env_list **env_list)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	if (*env_list != NULL)
-		(*env_list)->exit_status = 127;
+	(*env_list)->env_value = ft_strdup("127");
+	if ((*env_list)->env_value == NULL)
+		return (ft_perror("ft_strdup"));
 	return (FAILURE);
 }

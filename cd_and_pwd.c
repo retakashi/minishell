@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 21:55:32 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	move_to_home(t_env_list **env_list)
 		put_error("cd: HOME not set\n");
 		return (update_exit_status(env_list));
 	}
-	if (chdir(node->env_str) < 0)
+	if (chdir(node->env_value) < 0)
 	{
-		cd_error(node->env_str);
+		cd_error(node->env_value);
 		return (update_exit_status(env_list));
 	}
 	return (SUCCESS);
@@ -37,17 +37,16 @@ int	cd_cmd(t_word_list *word_list, t_env_list **env_list)
 	word_list = word_list->next;
 	if (word_list == NULL)
 		return (move_to_home(env_list));
+	if (word_list->next != NULL && word_list->flag != pipe_char)
+	{
+		put_error("cd: too many arguments\n");
+		return (update_exit_status(env_list));
+	}
 	if (ft_strcmp(word_list->word, "~") == 0)
 		return (move_to_home(env_list));
 	if (chdir(word_list->word) < 0)
 	{
 		cd_error(word_list->word);
-		return (update_exit_status(env_list));
-	}
-	word_list = word_list->next;
-	if (word_list != NULL && word_list->flag != pipe_char)
-	{
-		put_error("cd: too many arguments\n");
 		return (update_exit_status(env_list));
 	}
 	return (SUCCESS);

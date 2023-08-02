@@ -13,25 +13,39 @@
 #include "execute_cmd.h"
 #include "libft/libft.h"
 
+int	unlink_here_list(t_here_list **here_list)
+{
+	t_here_list	*head;
+
+	if (here_list == NULL)
+		return (SUCCESS);
+	head = *here_list;
+	while (*here_list != NULL)
+	{
+		if (unlink((*here_list)->here_file_name) < 0)
+			return (ft_perror("unlink"));
+		*here_list = (*here_list)->next;
+	}
+	*here_list = head;
+	return (SUCCESS);
+}
+
 static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	int			wstatus;
-	t_here_list	*head;
 
 	if (wait(&wstatus) < 0)
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	(*env_list)->exit_status = WIFEXITED(wstatus);
-	if (*here_list != NULL)
 	{
-		head = *here_list;
-		while (*here_list != NULL)
-		{
-			if (unlink((*here_list)->here_file_name) < 0)
-				free_list_exit(word_list, env_list, &head, EXIT_FAILURE);
-			*here_list = (*here_list)->next;
-		}
+		ft_perror("wait");
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
+	(*env_list)->env_value = ft_itoa(WIFEXITED(wstatus));
+	if ((*env_list)->env_value == NULL)
+	{
+		ft_perror("ft_strdup");
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	}	
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
@@ -58,11 +72,11 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	t_flg	flg_struct;
 
 	flg_struct.exit_flg = false;
-	if (get_fd_struct(*word_list, *here_list, &fd_struct,
+	if (set_redirection(*word_list, *here_list, &fd_struct,
 			&flg_struct.exit_flg) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	free_here_list(here_list);
-	if (is_word_list_flag(*word_list, command) == false)
+	if (find_flg(*word_list, command) == false)
 		free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 	if (is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 	{
@@ -86,7 +100,7 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (pid < 0)
 	{
 		ft_perror("fork");
-		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
 	if (pid == 0)
 		child_execute(word_list, env_list, here_list);

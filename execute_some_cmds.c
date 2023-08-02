@@ -34,20 +34,22 @@ static void	parent_close(t_word_list **word_list, t_env_list **env_list,
 static void	wait_update_status(int cnt, t_word_list **word_list,
 		t_env_list **env_list, t_here_list **here_list)
 {
-	int	i;
 	int	wstatus;
 
-	i = 0;
-	while (i <= cnt)
+	while (cnt-- >= 0)
 	{
 		if (wait(&wstatus) < 0)
 		{
 			ft_perror("wait");
 			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 		}
-		i++;
 	}
-	(*env_list)->exit_status = WEXITSTATUS(wstatus);
+	(*env_list)->env_value = ft_itoa(WEXITSTATUS(wstatus));
+	if ((*env_list)->env_value == NULL)
+	{
+		ft_perror("ft_strdup");
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	}
 }
 
 static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
@@ -70,10 +72,10 @@ static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
 	execve_cmd(env_2darr, cmd_argv);
 }
 
-//t_child ↓
+// t_child ↓
 // 	t_fd				fd_struct;
 // 	t_flg				flg_struct;
-// 	t_here_list			*tmp;
+// 	t_here_list			*tmp_here;
 // 	t_word_list			*tmp_word;
 
 static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
@@ -82,10 +84,12 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 	t_child	child;
 
 	advance_word_list(*word_list, &child.tmp_word, p_data.i);
-	search_here_list_child_num(*here_list, &child.tmp, p_data.i);
-	if (get_fd_struct(child.tmp_word, child.tmp, &child.fd_struct,
+	find_child_num(*here_list, &child.tmp_here, p_data.i);
+	if (set_redirection(child.tmp_word, child.tmp_here, &child.fd_struct,
 			&child.flg_struct.exit_flg) == FAILURE)
 		free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
+	if (find_flg_until_pipe(*word_list, command, p_data.i) == false)
+		free_list_exit(word_list, env_list, here_list, EXIT_SUCCESS);
 	free_here_list(here_list);
 	dup2_pipe(p_data, word_list, env_list);
 	close_pipe(p_data, word_list, env_list);

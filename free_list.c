@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 17:52:52 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_env_list(t_env_list **list)
 	{
 		next = node->next;
 		free(node->env_name);
-		free(node->env_str);
+		free(node->env_value);
 		free(node);
 		node = next;
 	}
@@ -76,32 +76,4 @@ void	free_all_list(t_word_list **word_list, t_env_list **env_list,
 	free_word_list(word_list);
 	free_env_list(env_list);
 	free_here_list(here_list);
-}
-
-void	free_int_2darr(int ***arr, int cnt)
-{
-	int	i;
-
-	i = 0;
-	while (i < cnt)
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-	*arr = NULL;
-}
-
-void	free_char_2darr(char ***arr)
-{
-	size_t	i;
-
-	i = 0;
-	while ((*arr)[i] != NULL)
-	{
-		free((*arr)[i]);
-		i++;
-	}
-	free(*arr);
-	*arr = NULL;
 }

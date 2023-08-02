@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 00:38:37 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,20 @@ char	*get_file_name(int i)
 
 static int	write_to_heredocfile(char *eof, int fd)
 {
-	int		flg;
 	char	*line;
-	size_t	eof_len;
 
-	flg = 0;
 	line = NULL;
-	eof_len = ft_strlen(eof);
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		line = get_next_line(STDOUT_FILENO, &flg);
-		if (flg == 0 && line == NULL)
-			return (FAILURE);
-		if ((flg == 1 && line == NULL) || (ft_strncmp(line, eof, eof_len) == 0
-				&& line[eof_len] == '\n'))
+		line = readline("> ");
+		if (line == NULL)
+		{
+			if (errno == ENOMEM)
+				return (FAILURE);
+			else
+				break ;
+		}
+		if (ft_strcmp(line, eof) == 0)
 			break ;
 		ft_putstr_fd(line, fd);
 		free(line);

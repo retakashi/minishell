@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:01:19 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 18:47:19 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 22:48:09 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 
 void	free_list_exit(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list,int exit_status)
+		t_here_list **here_list, int exit_status)
 {
 	free_all_list(word_list, env_list, here_list);
 	exit(exit_status);

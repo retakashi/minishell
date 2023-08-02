@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:26:52 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 17:28:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main_builtin(t_word_list **word_list, t_env_list **env_list,
 	int		ret;
 
 	flg_struct.exit_flg = false;
-	ret = get_fd_struct(*word_list, *here_list, &fd_struct,
+	ret = set_redirection(*word_list, *here_list, &fd_struct,
 		&flg_struct.exit_flg);
 	if (flg_struct.exit_flg == true)
 		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);

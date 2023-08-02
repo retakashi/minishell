@@ -13,7 +13,7 @@
 #ifndef EXECUTE_CMD_H
 # define EXECUTE_CMD_H
 
-# include "common.h"
+# include "minishell.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -66,9 +66,18 @@ typedef struct s_child
 {
 	t_fd				fd_struct;
 	t_flg				flg_struct;
-	t_here_list			*tmp;
+	t_here_list			*tmp_here;
 	t_word_list			*tmp_word;
 }						t_child;
+
+typedef struct s_env_2d
+{
+	char				**ans;
+	int					cnt;
+	int					i;
+	size_t				name_len;
+	size_t				str_len;
+}						t_env_2d;
 
 typedef enum e_builtin_no
 {
@@ -123,6 +132,7 @@ void					execve_cmd(char **env_2darr, char **cmd_argv);
 // execute_one_cmd.c
 int						execute_one_cmd(t_word_list **word_list,
 							t_env_list **env_list, t_here_list **here_list);
+int						unlink_here_list(t_here_list **here_list);
 // execute_some_cmds_error.c
 void					put_pipe_error_exit(t_p_data p_data,
 							t_word_list **word_list, t_env_list **env_list,
@@ -139,11 +149,12 @@ void					execute_some_cmds(t_word_list **word_list,
 // execute_some_cmds_utils.c
 void					advance_word_list(t_word_list *word_list,
 							t_word_list **tmp, int start);
-void					search_here_list_child_num(t_here_list *here_list,
+void					find_child_num(t_here_list *here_list,
 							t_here_list **tmp, int i);
 void					execute_builtin_cmdsver(t_fd fd_struct,
 							t_flg flg_struct, t_word_list **word_list,
 							t_env_list **env_list);
+bool find_flg_until_pipe(t_word_list *word_list, int find_flg,int cnt);
 // exit.c
 void					exit_cmd(t_word_list **word_list,
 							t_env_list **env_list);
@@ -151,7 +162,7 @@ void					exit_cmd(t_word_list **word_list,
 int						export_nooption(t_env_list **env_list, int fd);
 // export_utils.c
 void					write_env_exportver(t_env_list *env_list, int fd);
-bool					search_env_name_advance_env_list(char *str,
+bool					search_env_name_advance_env_list(char *word,
 							t_env_list **env_list);
 // export.c
 int						export_cmd(t_word_list *word_list,
@@ -195,20 +206,20 @@ int						get_heredoc_file(t_here_list **node, char *eof);
 // heredoc.c
 int						get_here_list(t_word_list *word_list,
 							t_here_list **here_list);
-// get_fd_struct.c
-int						get_fd_struct(t_word_list *word_list,
+// set_redirection.c
+int						set_redirection(t_word_list *word_list,
 							t_here_list *here_list, t_fd *fd_struct,
 							int *exit_flg);
 int						change_exit_flg(int *exit_flg);
-int						here_file_unlink(t_here_list *here_list, int *exit_flg);
+int						unlink_here_file(t_here_list *here_list, int *exit_flg);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
 int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
 // read_word_list.c
-bool					is_word_list_flag(t_word_list *word_list, int flag);
-void					get_here_list_child_num(t_word_list *word_list,
+bool					find_flg(t_word_list *word_list, int flag);
+void					set_child_num(t_word_list *word_list,
 							t_here_list **here_list);
 int						read_word_list(t_word_list **word_list,
 							t_env_list **env_list, t_here_list **here_list);
