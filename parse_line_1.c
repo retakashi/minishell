@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 15:49:38 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/02 18:07:39 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,14 @@ t_word_list	*set_flags_per_list(t_word_list	*tmp)
 t_word_list	*set_meta_flags(t_word_list	*string)
 {
 	t_word_list	*tmp;
+	int			flag;
 
 	tmp = string;
 	while (string)
 	{
-		string->flag = is_just_meta(string->word);
+		flag = is_just_meta(string->word);
+		if (flag != 0)
+			string->flag = flag;
 		string = string->next;
 	}
 	return (tmp);
@@ -80,7 +83,6 @@ t_word_list	*set_flags(t_word_list	*string)
 
 	tmp = string;
 	
-	string = set_meta_flags(string);
 	if (is_just_meta(tmp->word) == 0)
 		tmp->flag = 1;
 	else
@@ -98,5 +100,6 @@ t_word_list	*set_flags(t_word_list	*string)
 		tmp = set_flags_per_list(tmp);
 		tmp = tmp->next;
 	}
+	string = set_meta_flags(string);
 	return (string);
 }
