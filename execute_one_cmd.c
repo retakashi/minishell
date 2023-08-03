@@ -33,19 +33,28 @@ int	unlink_here_list(t_here_list **here_list)
 static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
-	int			wstatus;
+	int		wstatus;
+	char	*status;
 
 	if (wait(&wstatus) < 0)
 	{
 		ft_perror("wait");
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
-	(*env_list)->env_value = ft_itoa(WIFEXITED(wstatus));
+	status = ft_itoa(WEXITSTATUS(wstatus));
+	if (status == NULL)
+	{
+		ft_perror("ft_itoa");
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	}
+	free((*env_list)->env_value);
+	(*env_list)->env_value = ft_strdup(status);
+	free(status);
 	if ((*env_list)->env_value == NULL)
 	{
 		ft_perror("ft_strdup");
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}	
+	}
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
@@ -62,6 +71,8 @@ static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
 	if (err_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	free_all_list(word_list, env_list, NULL);
+	printf("g_sig %d\n",g_sig);
+	reset_signal();
 	execve_cmd(env_2darr, cmd_argv);
 }
 
