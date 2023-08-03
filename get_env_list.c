@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
-/*   Updated: 2023/08/02 16:52:37 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 06:13:55 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	new_env_node(t_env_list **node, char *envp)
 	return (SUCCESS);
 }
 
-static int	set_exit_status(t_env_list **node)
+static int	get_exit_status(t_env_list **node)
 {
 	*node = malloc(sizeof(t_env_list));
 	if (*node == NULL)
@@ -72,7 +72,7 @@ int	get_env_list(char **envp, t_env_list **head)
 	t_env_list	*node;
 	size_t		i;
 
-	if (set_exit_status(&node) == FAILURE)
+	if (get_exit_status(&node) == FAILURE)
 		return (FAILURE);
 	if (envp == NULL)
 		return (SUCCESS);

@@ -6,13 +6,15 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/03 01:59:56 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 17:56:55 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
 #include "minishell.h"
+
+int			g_sig;
 
 bool	find_flg(t_word_list *word_list, int find_flg)
 {
@@ -38,6 +40,14 @@ static int	cnt_pipe(t_word_list *word_list)
 	}
 	return (cnt);
 }
+static void	advance_to_here_word_list(t_here_list **here_list,
+		t_word_list **word_list, int flg)
+{
+	if (flg == true)
+		*here_list = (*here_list)->next;
+	if (*word_list != NULL)
+		*word_list = (*word_list)->next;
+}
 
 void	set_child_num(t_word_list *word_list, t_here_list **here_list)
 {
@@ -54,16 +64,13 @@ void	set_child_num(t_word_list *word_list, t_here_list **here_list)
 		{
 			if (flg == false && word_list->flag == heredoc)
 			{
-					(*here_list)->child_num = i;
+				(*here_list)->child_num = i;
 				flg = true;
 			}
 			word_list = word_list->next;
 		}
 		i++;
-		if(flg==true)
-		*here_list = (*here_list)->next;
-		if(word_list!=NULL)
-		word_list = word_list->next;
+		advance_to_here_word_list(here_list, &word_list, flg);
 	}
 	*here_list = head;
 }
@@ -96,9 +103,12 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	*word_list_head = NULL;
 	*env_list_head = NULL;
 	*here_list = NULL;
-	if (envp != NULL && get_env_list(envp, env_list_head) == FAILURE)
+	g_sig = 0;
+	set_signal_handler();
+	if (get_env_list(envp, env_list_head) == FAILURE)
 	{
 		free_env_list(env_list_head);
+		ft_perror("failed to get env list");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -122,12 +132,18 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		// line = "<< eof";
 		if (line == NULL)
-			break ;
+		{
+			if (errno == ENOMEM)
+				exit(EXIT_FAILURE);
+			else
+			{
+				ft_putstr_fd("exit\n", STDOUT_FILENO);
+				exit(EXIT_SUCCESS);
+			}
+		}
 		if (*line)
 		{
-			// parse_line(line);
 			// add_history(line);
 			new_line = change_line(line, env_list_head);
 			word_head = parse_line(new_line);

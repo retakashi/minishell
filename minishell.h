@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 21:09:07 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 19:54:59 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_env_list
 	char				*env_name;
 	char				*env_value;
 	int					write_flg;
-	int					exit_status;
 	struct s_env_list	*next;
 }						t_env_list;
 

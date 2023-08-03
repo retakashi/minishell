@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -154,7 +155,8 @@ void					find_child_num(t_here_list *here_list,
 void					execute_builtin_cmdsver(t_fd fd_struct,
 							t_flg flg_struct, t_word_list **word_list,
 							t_env_list **env_list);
-bool find_flg_until_pipe(t_word_list *word_list, int find_flg,int cnt);
+bool					find_flg_until_pipe(t_word_list *word_list,
+							int find_flg, int cnt);
 // exit.c
 void					exit_cmd(t_word_list **word_list,
 							t_env_list **env_list);
@@ -212,6 +214,12 @@ int						set_redirection(t_word_list *word_list,
 							int *exit_flg);
 int						change_exit_flg(int *exit_flg);
 int						unlink_here_file(t_here_list *here_list, int *exit_flg);
+// signal.c
+void					set_signal_handler(void);
+void					signal_handler(int sig);
+void					reset_signal(void);
+void					signal_handler_here(int sig);
+void					signal_heredoc(void);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
