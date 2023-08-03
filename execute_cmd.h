@@ -36,7 +36,6 @@
 # define READ 0
 # define WRITE 1
 
-extern int				g_sig;
 typedef struct s_here_list
 {
 	int					here_fd;
@@ -219,6 +218,8 @@ int						unlink_here_file(t_here_list *here_list, int *exit_flg);
 void					set_signal_handler(void);
 void					signal_handler(int sig);
 void					reset_signal(void);
+void					signal_handler_here(int sig);
+void					signal_heredoc(void);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
