@@ -69,6 +69,7 @@ static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
 	if (err_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	free_all_list(word_list, env_list, NULL);
+	reset_signal();
 	execve_cmd(env_2darr, cmd_argv);
 }
 

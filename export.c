@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/08/02 22:26:35 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/03 18:58:01 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 			return (change_exit_flg(exit_flg));
 		word_list = word_list->next;
 	}
-	*env_list = head;
+	*env_list = head;	
 	return (SUCCESS);
 }
