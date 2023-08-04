@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 18:16:01 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/03 19:33:17 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# define SUCCESS 0
+# define FAILURE -1
 # include"./libft/libft.h"
 
 typedef struct s_word_list
@@ -31,7 +36,7 @@ typedef struct s_word_list
 typedef struct s_env_list
 {
 	char				*env_name;
-	char				*env_str;
+	char				*env_value;
 	int					write_flg;
 	int					exit_status;
 	struct s_env_list	*next;
@@ -93,7 +98,7 @@ char					**split_str(char *str, char *charset);
 t_env_list				*init_minishell(char **envp,
 							t_env_list **env_list_head);
 //change_line_1.c
-char					**make_strlist(char *line);
+char					**make_strlist(char *line, t_env_list *env_list);
 
 //change_line_2.c
 char					*change_line(char *line, t_env_list *env_list);

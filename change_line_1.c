@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/31 23:56:01 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/03 19:47:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,28 @@ char	*count_d_str(char **str)
 	return (line);
 }
 
-char	**make_strlist(char *line)
+char	**give_d_hatena(char **result,  t_env_list *env_list)
+{
+	int	i;
+	int	len_status;
+
+	i = 0;
+	len_status = ft_strlen(env_list->exit_status);
+	while (result[i])
+	{
+		if (ft_strncmp(result[i], "$?", ft_strlen(result[i])) == 0)
+		{
+			free(result[i]);
+			result[i] = malloc(sizeof (char) * (len_status + 1));
+			result[i] = duplicate(result[i], env_list->exit_status, len_status) ;
+			break ;
+		}
+		i++;
+	}
+	return (result);
+}
+
+char	**make_strlist(char *line, t_env_list *env_list)
 {
 	char	**max_str;
 	int		i;
@@ -131,10 +152,13 @@ char	**make_strlist(char *line)
 	}
 	max_str[i] = NULL;
 	i = 0;
+	max_str = give_d_hatena(max_str, env_list);
 	while (max_str[i])
 	{
 		printf("max_str[%i] = %s\n", i, max_str[i]);
 		i++;
 	}
+	if (env_list == NULL)
+		return (max_str);
 	return (max_str);
 }

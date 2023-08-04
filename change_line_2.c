@@ -6,20 +6,20 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/01 00:00:36 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/03 19:32:52 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*joint_two_d(char *line, char *str, char *env_name, char *env_str)
+char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 {
 	while (*str == *env_name)
 	{
 		str++;
 		env_name++;
 	}
-	line = ft_strjoin(line, env_str);
+	line = ft_strjoin(line, env_value);
 	if (ft_isalnum(*str) || *str == '_')
 		return (line);
 	return (ft_strjoin(line, str));
@@ -36,10 +36,10 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 				ft_strlen(env_list->env_name)) == 0)
 		{
 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
-				line = ft_strjoin(line, env_list->env_str);
+				line = ft_strjoin(line, env_list->env_value);
 			else
 				line = joint_two_d(line, str, env_list->env_name,
-						env_list->env_str);
+						env_list->env_value);
 			break ;
 		}
 		env_list = env_list->next;
@@ -79,7 +79,7 @@ char	*change_line(char *line, t_env_list *env_list)
 		i++;
 	if (i == (int)ft_strlen(line))
 		return (line);
-	result = make_strlist(line);
+	result = make_strlist(line, env_list);
 	new_line = joint_array(result, env_list);
 	ft_free_line2(result);
 	printf("new_line : %s \n ", new_line);
