@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/03 19:33:17 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/04 12:51:50 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,17 @@ typedef enum s_flags
 	eof_num = 14,
 }			t_flags;
 
-//parse_line.c
+//parse_line_1.c
 t_word_list				*parse_line(char *line);
 void					print_words(t_word_list *string);
 
-//parse_line_1.c
+//parse_line_2.c
 t_word_list				*set_flags(t_word_list	*string);
+
+//parse_line_3.c
+char					*count_s_str(char **line);
+char					*copy_str(char *line, char *str);
+
 //make_list.c
 t_word_list				*make_list(char *line);
 
@@ -81,19 +86,24 @@ int						dquotes_sprt(char *line);
 int						squotes_sprt(char *line);
 t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
+
 //make_list3.c
 t_word_list				*find_meta(t_word_list *string);
-int						is_just_meta(char *str);
+
 //make_list4.c
 t_word_list				*argument_flag(t_word_list *string);
-
-//is_something.c
+t_word_list				*divide_meta_str(t_word_list *string, int flag);
+char					*give_flag(int i);
+int						is_include_meta(char *str);
+int						is_just_meta(char *str);
 
 //utils.c
 void					*ft_free_line2(char **result);
 char					*duplicate(char *content, char *line, unsigned int n);
+
 //split_str.c
 char					**split_str(char *str, char *charset);
+
 //get_env.c
 t_env_list				*init_minishell(char **envp,
 							t_env_list **env_list_head);
@@ -102,5 +112,9 @@ char					**make_strlist(char *line, t_env_list *env_list);
 
 //change_line_2.c
 char					*change_line(char *line, t_env_list *env_list);
+
+//change_line_3.c
+char					*count_s_str(char **line);
+char					*copy_str(char *line, char *str);
 
 #endif

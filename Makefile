@@ -6,7 +6,7 @@
 #    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/30 10:05:15 by razasharuku       #+#    #+#              #
-#    Updated: 2023/08/01 20:46:11 by sraza            ###   ########.fr        #
+#    Updated: 2023/08/04 12:38:43 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ CFLAGS	 =	-Wall -Werror -Wextra -fsanitize=address -g
 SRCS	=	main.c \
 			parse_line.c \
 			parse_line_1.c \
-			is_something.c \
 			make_list_1.c \
 			make_list_2.c \
 			make_list_3.c \
@@ -28,6 +27,7 @@ SRCS	=	main.c \
 			get_env.c \
 			change_line_1.c \
 			change_line_2.c \
+			change_line_3.c \
 			split_str.c
 
 OBJS = ${SRCS:%.c=%.o}

@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/04 12:16:59 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/04 12:40:56 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_word_list	*ft_newlst(char *content)
 
 int	dquotes_sprt(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	line++;
@@ -42,7 +42,7 @@ int	dquotes_sprt(char *line)
 
 int	squotes_sprt(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	line++;
@@ -68,7 +68,6 @@ t_word_list	*creat_list(char *line, int i)
 		i++;
 	content = malloc(sizeof (char) * (i + 1));
 	content = duplicate(content, line, i);
-
 	new = ft_newlst(content);
 	free(content);
 	return (new);
