@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 12:51:50 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/04 15:44:31 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ void					print_words(t_word_list *string);
 t_word_list				*set_flags(t_word_list	*string);
 
 //parse_line_3.c
-char					*count_s_str(char **line);
-char					*copy_str(char *line, char *str);
+t_word_list				*check_error(t_word_list *string);
 
 //make_list.c
 t_word_list				*make_list(char *line);
