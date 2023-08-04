@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/02 14:26:33 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/04 12:16:59 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	dquotes_sprt(char *line)
 
 	i = 0;
 	line++;
-	while (*line != '"')
+	while (*line != '"' && *line != '\0')
 	{
 		i++;
 		line++;
@@ -46,7 +46,7 @@ int	squotes_sprt(char *line)
 
 	i = 0;
 	line++;
-	while (*line != '\'')
+	while (*line != '\'' && *line != '\0')
 	{
 		i++;
 		line++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/03 19:47:25 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/04 12:09:14 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,29 @@ char	*count_d_str(char **str)
 	return (line);
 }
 
-char	**give_d_hatena(char **result,  t_env_list *env_list)
+char	**give_d_hatena(char **result, char *exit_status, char *d_hatena)
 {
-	int	i;
-	int	len_status;
+	int		i;
+	int		j;
+	size_t	len_status;
 
 	i = 0;
-	len_status = ft_strlen(env_list->exit_status);
+	len_status = ft_strlen(exit_status);
 	while (result[i])
 	{
-		if (ft_strncmp(result[i], "$?", ft_strlen(result[i])) == 0)
+		j = 0;
+		while (result[i][j])
 		{
-			free(result[i]);
-			result[i] = malloc(sizeof (char) * (len_status + 1));
-			result[i] = duplicate(result[i], env_list->exit_status, len_status) ;
-			break ;
+			if (result[i][j] != d_hatena[j])
+				break ;
+			if (j == 1 && result[i][j + 1] == '\0')
+			{
+				free(result[i]);
+				result[i] = malloc(sizeof (char) * (len_status + 1));
+				result[i] = duplicate(result[i], exit_status, len_status) ;
+				return (result);
+			}
+			j++;
 		}
 		i++;
 	}
@@ -151,14 +159,12 @@ char	**make_strlist(char *line, t_env_list *env_list)
 			line++;
 	}
 	max_str[i] = NULL;
+	max_str = give_d_hatena(max_str, ft_itoa(env_list->exit_status), "$?");
 	i = 0;
-	max_str = give_d_hatena(max_str, env_list);
 	while (max_str[i])
 	{
 		printf("max_str[%i] = %s\n", i, max_str[i]);
 		i++;
 	}
-	if (env_list == NULL)
-		return (max_str);
 	return (max_str);
 }
