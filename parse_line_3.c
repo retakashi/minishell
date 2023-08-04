@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 16:18:13 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/04 18:11:54 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	one_string(t_word_list *string)
 		printf("syntax error near unexpected token '%s'\n", string->word);
 	else
 		printf("syntax error near unexpected token `newline'\n");		
-	exit(0);
+	// exit(0);
 }
 
 
