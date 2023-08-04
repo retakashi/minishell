@@ -94,18 +94,20 @@ typedef enum e_builtin_no
 // builtin_error.c
 int						cd_error(char *str);
 void					exit_error(char *str);
-int						export_error_update_exit_status(char *str,
-							t_env_list **env_list);
-int						env_error_update_exit_status(char *str,
-							t_env_list **env_list);
+int	export_error_update_exit_status(char *str,
+									t_env_list **env_list);
+int	env_error_update_exit_status(char *str,
+									t_env_list **env_list);
 // builtin.c
 bool					is_builtin(t_word_list *word_list, int *builtin_flg);
-int						execute_builtin(t_word_list *word_list,
-							t_env_list **env_list, t_fd fd_struct,
-							t_flg *flg_struct);
-int						main_builtin(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list,
-							t_flg flg_struct);
+int	execute_builtin(t_word_list *word_list,
+					t_env_list **env_list,
+					t_fd fd_struct,
+					t_flg *flg_struct);
+int	main_builtin(t_word_list **word_list,
+					t_env_list **env_list,
+					t_here_list **here_list,
+					t_flg flg_struct);
 // cd_and_pwd.c
 int						cd_cmd(t_word_list *word_list, t_env_list **env_list);
 int						pwd_cmd(int fd, int *exit_flg);
@@ -131,55 +133,68 @@ int						update_exit_status(t_env_list **env_list);
 // execve.c
 void					execve_cmd(char **env_2darr, char **cmd_argv);
 // execute_one_cmd.c
-int						execute_one_cmd(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list);
+int	execute_one_cmd(t_word_list **word_list,
+					t_env_list **env_list,
+					t_here_list **here_list);
 int						unlink_here_list(t_here_list **here_list);
 // execute_some_cmds_error.c
-void					put_pipe_error_exit(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
+void	put_pipe_error_exit(t_p_data p_data,
+							t_word_list **word_list,
+							t_env_list **env_list,
 							t_here_list **here_list);
-void					put_fork_error_exit(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
+void	put_fork_error_exit(t_p_data p_data,
+							t_word_list **word_list,
+							t_env_list **env_list,
 							t_here_list **here_list);
 void					put_error_exit_cmdsver(char *err_msg, t_p_data p_data,
 							t_word_list **word_list, t_env_list **env_list);
 // execute_some_cmds.c
-void					execute_some_cmds(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list,
-							t_p_data p_data);
+void	execute_some_cmds(t_word_list **word_list,
+						t_env_list **env_list,
+						t_here_list **here_list,
+						t_p_data p_data);
 // execute_some_cmds_utils.c
-void					advance_word_list(t_word_list *word_list,
-							t_word_list **tmp, int start);
-void					find_child_num(t_here_list *here_list,
-							t_here_list **tmp, int i);
-void					execute_builtin_cmdsver(t_fd fd_struct,
-							t_flg flg_struct, t_word_list **word_list,
-							t_env_list **env_list);
-bool					find_flg_until_pipe(t_word_list *word_list,
-							int find_flg, int cnt);
+void	advance_word_list(t_word_list *word_list,
+						t_word_list **tmp,
+						int start);
+void	find_child_num(t_here_list *here_list,
+					t_here_list **tmp,
+					int i);
+void	execute_builtin_cmdsver(t_fd fd_struct,
+								t_flg flg_struct,
+								t_word_list **word_list,
+								t_env_list **env_list);
+bool	find_flg_until_pipe(t_word_list *word_list,
+							int find_flg,
+							int cnt);
 // exit.c
-void					exit_cmd(t_word_list **word_list,
-							t_env_list **env_list);
+void	exit_cmd(t_word_list **word_list,
+				t_env_list **env_list);
 // export_nooption.c
 int						export_nooption(t_env_list **env_list, int fd);
 // export_utils.c
 void					write_env_exportver(t_env_list *env_list, int fd);
-bool					search_env_name_advance_env_list(char *word,
-							t_env_list **env_list);
+bool	search_env_name_advance_env_list(char *word,
+										t_env_list **env_list);
 // export.c
-int						export_cmd(t_word_list *word_list,
-							t_env_list **env_list, int fd, int *exit_flg);
+int	export_cmd(t_word_list *word_list,
+				t_env_list **env_list,
+				int fd,
+				int *exit_flg);
 // main_execute_cmd.c
-int						main_execute_cmd(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list,
-							int pipe_cnt);
+int	main_execute_cmd(t_word_list **word_list,
+						t_env_list **env_list,
+						t_here_list **here_list,
+						int pipe_cnt);
 // free_exit.c
-void					free_list_exit(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list,
-							int exit_status);
-void					free_list_pipe2darr_exit(t_p_data p_data,
-							t_word_list **word_list, t_env_list **env_list,
-							t_here_list **here_list);
+void	free_list_exit(t_word_list **word_list,
+					t_env_list **env_list,
+					t_here_list **here_list,
+					int exit_status);
+void	free_list_pipe2darr_exit(t_p_data p_data,
+								t_word_list **word_list,
+								t_env_list **env_list,
+								t_here_list **here_list);
 void					free_2darr_exit(char ***arr, char ***arr2);
 void					perror_free_2darr_exit(char *err_msg, char ***arr,
 							char ***arr2);
@@ -190,8 +205,9 @@ void					free_char_2darr(char ***arr);
 void					free_word_list(t_word_list **list);
 void					free_env_list(t_env_list **list);
 void					free_here_list(t_here_list **list);
-void					free_all_list(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list);
+void	free_all_list(t_word_list **word_list,
+					t_env_list **env_list,
+					t_here_list **here_list);
 // ft_atoll.c
 long long				ft_atoll(char *str, int *error_flg);
 // get_cmd_argv.c
@@ -206,20 +222,25 @@ int						get_env_list(char **envp, t_env_list **head);
 char					*get_file_name(int i);
 int						get_heredoc_file(t_here_list **node, char *eof);
 // heredoc.c
-int						get_here_list(t_word_list *word_list,
-							t_here_list **here_list);
+void					get_here_list(t_word_list **word_list,
+							t_here_list **here_list, t_env_list **env_list);
+int	main_heredoc(t_word_list **word_list,
+					t_here_list **here_list,
+					t_env_list **env_list);
 // set_redirection.c
-int						set_redirection(t_word_list *word_list,
-							t_here_list *here_list, t_fd *fd_struct,
-							int *exit_flg);
+int	set_redirection(t_word_list *word_list,
+					t_here_list *here_list,
+					t_fd *fd_struct,
+					int *exit_flg);
 int						change_exit_flg(int *exit_flg);
 int						unlink_here_file(t_here_list *here_list, int *exit_flg);
 // signal.c
-void					set_signal_handler(void);
-void					signal_handler(int sig);
-void					reset_signal(void);
-void					signal_handler_here(int sig);
-void					signal_heredoc(void);
+void	handle_sigint(int sig);
+void	handle_sigint_heredoc(int sig);
+void	set_signal_heredoc(void);
+void	set_signal_handler(void);
+void	set_signal_execve(void);
+void	handle_execve(int sig);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);
@@ -227,16 +248,17 @@ int						ft_strcmp(char *s1, char *s2);
 int						get_fd(char *file_name, int flg);
 // read_word_list.c
 bool					find_flg(t_word_list *word_list, int flag);
-void					set_child_num(t_word_list *word_list,
-							t_here_list **here_list);
-int						read_word_list(t_word_list **word_list,
-							t_env_list **env_list, t_here_list **here_list);
+void	set_child_num(t_word_list *word_list,
+					t_here_list **here_list);
+int	read_word_list(t_word_list **word_list,
+					t_env_list **env_list,
+					t_here_list **here_list);
 void					init_minishell(char **envp, t_env_list **env_list_head,
 							t_word_list **word_list_head,
 							t_here_list **here_list);
 // unset.c
-bool					search_env_name(t_word_list *word_list,
-							t_env_list *env_list);
-void					unset_cmd(t_word_list *word_list,
-							t_env_list **env_list);
+bool	search_env_name(t_word_list *word_list,
+						t_env_list *env_list);
+void	unset_cmd(t_word_list *word_list,
+				t_env_list **env_list);
 #endif
