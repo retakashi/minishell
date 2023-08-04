@@ -16,14 +16,3 @@
 // static void destructor() {
 //     system("leaks -q a.out");
 // }
-
-int	main()
-{
-	char *line;
-	line=readline("prompt ");
-	if(line[0]=='\0')
-	printf("hello\n");
-	else
-	printf("p %p\n",line);
-	return (0);
-}

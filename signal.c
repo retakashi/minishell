@@ -3,26 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/03 21:42:59 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/04 18:07:26 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
 
-volatile sig_atomic_t g_sig;
-
-void	reset_signal(void)
-{
-	printf("hello\n");
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void	signal_handler(int sig)
+void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -33,20 +24,40 @@ void	signal_handler(int sig)
 	}
 }
 
-void	signal_handler_here(int sig)
+void	handle_execve(int sig)
 {
 	if (sig == SIGINT)
-		g_sig = 1;
+		signal(SIGINT, SIG_IGN);
+	else if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	}
 }
 
-void	signal_heredoc(void)
+void	handle_sigint_heredoc(int sig)
 {
-	signal(SIGINT, signal_handler_here);
-	signal(SIGQUIT, signal_handler);
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd(">\n", STDOUT_FILENO);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	set_signal_heredoc(void)
+{
+	signal(SIGINT, handle_sigint_heredoc);
+	signal(SIGQUIT, handle_sigint);
 }
 
 void	set_signal_handler(void)
 {
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigint);
+}
+
+void	set_signal_execve(void)
+{
+	signal(SIGINT, handle_execve);
+	signal(SIGQUIT, handle_execve);
 }

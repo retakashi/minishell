@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/03 17:56:55 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/04 17:52:01 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
 #include "minishell.h"
-
-int			g_sig;
 
 bool	find_flg(t_word_list *word_list, int find_flg)
 {
@@ -40,8 +38,10 @@ static int	cnt_pipe(t_word_list *word_list)
 	}
 	return (cnt);
 }
+
 static void	advance_to_here_word_list(t_here_list **here_list,
-		t_word_list **word_list, int flg)
+										t_word_list **word_list,
+										int flg)
 {
 	if (flg == true)
 		*here_list = (*here_list)->next;
@@ -81,9 +81,15 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	int		cnt;
 	t_flg	flg_struct;
 
-	if (find_flg(*word_list, eof_num) == true && get_here_list(*word_list,
-			here_list) == FAILURE)
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	if (find_flg(*word_list, eof_num) == true)
+	{
+		if (main_heredoc(word_list,
+							here_list,
+							env_list) == FAILURE)
+			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+		if (*here_list == NULL)
+			return (SUCCESS);
+	}
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
@@ -103,7 +109,6 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	*word_list_head = NULL;
 	*env_list_head = NULL;
 	*here_list = NULL;
-	g_sig = 0;
 	set_signal_handler();
 	if (get_env_list(envp, env_list_head) == FAILURE)
 	{
@@ -138,7 +143,7 @@ int	main(int argc, char **argv, char **envp)
 				exit(EXIT_FAILURE);
 			else
 			{
-				ft_putstr_fd("exit\n", STDOUT_FILENO);
+				ft_putstr_fd("minishell$ exit\n", STDOUT_FILENO);
 				exit(EXIT_SUCCESS);
 			}
 		}
@@ -147,6 +152,7 @@ int	main(int argc, char **argv, char **envp)
 			// add_history(line);
 			new_line = change_line(line, env_list_head);
 			word_head = parse_line(new_line);
+			set_signal_handler();
 			read_word_list(&word_head, &env_list_head, &here_list_head);
 		}
 		free(line);

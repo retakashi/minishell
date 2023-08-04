@@ -36,6 +36,7 @@ static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 	int		wstatus;
 	char	*status;
 
+	set_signal_execve();
 	if (wait(&wstatus) < 0)
 	{
 		ft_perror("wait");
@@ -55,6 +56,7 @@ static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 		ft_perror("ft_strdup");
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
+	set_signal_handler();
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
@@ -71,7 +73,6 @@ static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
 	if (err_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	free_all_list(word_list, env_list, NULL);
-	reset_signal();
 	execve_cmd(env_2darr, cmd_argv);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/08/03 01:40:03 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/04 18:32:18 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,35 +82,47 @@ static int	create_head_node(t_here_list **node, t_word_list **word_list,
 	while (*word_list != NULL && (*word_list)->flag != eof_num)
 		*word_list = (*word_list)->next;
 	if (new_here_node(node, (*word_list)->word) == FAILURE)
-		return (FAILURE);
+		return (ft_perror("failed to new here node"));
 	*word_list = (*word_list)->next;
 	*here_flg = true;
 	return (SUCCESS);
 }
 
-int	get_here_list(t_word_list *word_list, t_here_list **here_list)
+void	get_here_list(t_word_list **word_list, t_here_list **here_list,
+		t_env_list **env_list)
 {
 	t_here_list	*new;
 	t_here_list	*node;
+	t_word_list	*tmp_word;
 	int			here_flg;
 
-	if (create_head_node(&node, &word_list, &here_flg) == FAILURE)
-		return (FAILURE);
+	set_signal_heredoc();
+	tmp_word = *word_list;
+	if (create_head_node(&node, &tmp_word, &here_flg) == FAILURE)
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	*here_list = node;
-	while (word_list != NULL)
+	while (tmp_word != NULL)
 	{
-		if (create_or_update_here_node(&word_list, &here_flg) == CREATE)
+		if (create_or_update_here_node(&tmp_word, &here_flg) == CREATE)
 		{
-			if (new_here_node(&new, word_list->word) == FAILURE)
-				return (FAILURE);
+			if (new_here_node(&new, tmp_word->word) == FAILURE)
+				free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 			node->next = new;
 			node = new;
 		}
-		else if (create_or_update_here_node(&word_list, &here_flg) == UPDATE
-			&& update_here_file(&node, word_list->word) == FAILURE)
-			return (FAILURE);
-		if (word_list != NULL)
-			word_list = word_list->next;
+		else if (create_or_update_here_node(&tmp_word, &here_flg) == UPDATE
+				&& update_here_file(&node, tmp_word->word) == FAILURE)
+			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+		if (tmp_word != NULL)
+			tmp_word = tmp_word->next;
 	}
+	free_list_exit(word_list, env_list, here_list, EXIT_SUCCESS);
+}
+
+int	main_heredoc(t_word_list **word_list,
+					t_here_list **here_list,
+					t_env_list **env_list)
+{
+		get_here_list(word_list, here_list, env_list);
 	return (SUCCESS);
 }

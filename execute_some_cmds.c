@@ -16,6 +16,7 @@
 static void	parent_close(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
+	set_signal_execve();
 	if (p_data.i > 0 && p_data.i <= p_data.cnt)
 	{
 		if (close(p_data.pipe_2darr[p_data.i - 1][READ]) < 0)
@@ -69,7 +70,6 @@ static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
 	if (err_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	free_all_list(word_list, env_list, NULL);
-	reset_signal();
 	execve_cmd(env_2darr, cmd_argv);
 }
 
@@ -125,4 +125,5 @@ void	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 		p_data.i++;
 	}
 	wait_update_status(p_data.cnt, word_list, env_list, here_list);
+	set_signal_handler();
 }
