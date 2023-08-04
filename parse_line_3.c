@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 15:56:02 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/04 16:18:13 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ t_word_list	*check_error(t_word_list *string)
 	s_len = len_of_string(string);
 	if (s_len == 1 && is_just_meta(string->word) != 0)
 		one_string(string);
-	
+	// while (string)
+	// {
+	// 	command_
+	// }
 
 	return (string);
 }
