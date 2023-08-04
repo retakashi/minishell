@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:28:09 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 12:36:59 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/04 14:08:07 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ char	*count_s_str(char **line)
 	if (str == NULL)
 		return (NULL);
 	str = copy_str(str, *line);
-	(*line) += i;
+	(*line) += i - 1;
 	return (str);
 }
