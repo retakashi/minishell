@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 17:52:01 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:25:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
 #include "minishell.h"
+
+volatile sig_atomic_t	g_sig;
 
 bool	find_flg(t_word_list *word_list, int find_flg)
 {
@@ -40,8 +42,7 @@ static int	cnt_pipe(t_word_list *word_list)
 }
 
 static void	advance_to_here_word_list(t_here_list **here_list,
-										t_word_list **word_list,
-										int flg)
+		t_word_list **word_list, int flg)
 {
 	if (flg == true)
 		*here_list = (*here_list)->next;
@@ -83,13 +84,12 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 
 	if (find_flg(*word_list, eof_num) == true)
 	{
-		if (main_heredoc(word_list,
-							here_list,
-							env_list) == FAILURE)
+		if (get_here_list(*word_list, here_list) == FAILURE)
 			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-		if (*here_list == NULL)
-			return (SUCCESS);
 	}
+	// set_sigint();
+	if(g_sig==SIGINT)
+	return(SUCCESS);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
@@ -109,7 +109,7 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	*word_list_head = NULL;
 	*env_list_head = NULL;
 	*here_list = NULL;
-	set_signal_handler();
+	set_sigint();
 	if (get_env_list(envp, env_list_head) == FAILURE)
 	{
 		free_env_list(env_list_head);
@@ -150,9 +150,9 @@ int	main(int argc, char **argv, char **envp)
 		if (*line)
 		{
 			// add_history(line);
+			g_sig = 0;
 			new_line = change_line(line, env_list_head);
 			word_head = parse_line(new_line);
-			set_signal_handler();
 			read_word_list(&word_head, &env_list_head, &here_list_head);
 		}
 		free(line);

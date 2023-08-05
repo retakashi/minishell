@@ -222,11 +222,7 @@ int						get_env_list(char **envp, t_env_list **head);
 char					*get_file_name(int i);
 int						get_heredoc_file(t_here_list **node, char *eof);
 // heredoc.c
-void					get_here_list(t_word_list **word_list,
-							t_here_list **here_list, t_env_list **env_list);
-int	main_heredoc(t_word_list **word_list,
-					t_here_list **here_list,
-					t_env_list **env_list);
+int	get_here_list(t_word_list *word_list, t_here_list **here_list);
 // set_redirection.c
 int	set_redirection(t_word_list *word_list,
 					t_here_list *here_list,
@@ -235,12 +231,10 @@ int	set_redirection(t_word_list *word_list,
 int						change_exit_flg(int *exit_flg);
 int						unlink_here_file(t_here_list *here_list, int *exit_flg);
 // signal.c
+void	handle_signal_execve(int sig);
+int	set_signal_execve(void);
 void	handle_sigint(int sig);
-void	handle_sigint_heredoc(int sig);
-void	set_signal_heredoc(void);
-void	set_signal_handler(void);
-void	set_signal_execve(void);
-void	handle_execve(int sig);
+int	set_sigint(void);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);

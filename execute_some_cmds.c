@@ -125,5 +125,5 @@ void	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 		p_data.i++;
 	}
 	wait_update_status(p_data.cnt, word_list, env_list, here_list);
-	set_signal_handler();
+	set_sigint();
 }

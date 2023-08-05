@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_heredoc_file.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/08/04 18:31:52 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:37:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "gnl/get_next_line.h"
 #include "libft/libft.h"
+
+volatile sig_atomic_t	g_sig;
+
+static bool	ft_eof_cmp(char *line, char *eof)
+{
+	size_t	eof_len;
+
+	eof_len = ft_strlen(eof);
+	if (ft_strncmp(line, eof, eof_len) == 0 && line[eof_len] == '\n')
+		return (true);
+	return (false);
+}
 
 char	*get_file_name(int i)
 {
@@ -38,24 +50,24 @@ char	*get_file_name(int i)
 static int	write_to_heredocfile(char *eof, int fd)
 {
 	char	*line;
+	int		flg;
 
 	line = NULL;
+	flg = 0;
 	while (1)
 	{
-		line = readline("> ");
-		if (line == NULL)
-		{
-			if (errno == ENOMEM)
-				return (FAILURE);
-			else
-				break ;
-		}
-		if (ft_strcmp(line, eof) == 0)
+		ft_putstr_fd("> ", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO, &flg);
+		if (g_sig == SIGINT && flg == 0 && line == NULL)
+			return (SUCCESS);
+		if (g_sig == 0 && flg == 0 && line == NULL)
+			return (FAILURE);
+		if ((flg == 1 && line == NULL) || ft_eof_cmp(line, eof) == true)
 			break ;
 		ft_putstr_fd(line, fd);
 		free(line);
 	}
-	if (line != NULL)
+	if (g_sig == 0 && line != NULL)
 		free(line);
 	return (SUCCESS);
 }
@@ -65,10 +77,10 @@ int	get_heredoc_file(t_here_list **node, char *eof)
 	(*node)->here_fd = get_fd((*node)->here_file_name, heredoc);
 	if ((*node)->here_fd < 0)
 		return (ft_perror((*node)->here_file_name));
-	printf("node %s\n",(*node)->here_file_name);
 	if (write_to_heredocfile(eof, (*node)->here_fd) == FAILURE)
 		return (ft_perror("failed to write to heredocfile"));
 	if (close((*node)->here_fd) < 0)
 		return (ft_perror("close"));
+	set_sigint();
 	return (SUCCESS);
 }

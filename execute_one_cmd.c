@@ -56,7 +56,7 @@ static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
 		ft_perror("ft_strdup");
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
-	set_signal_handler();
+	set_sigint();
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
