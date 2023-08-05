@@ -6,12 +6,14 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/08/03 01:40:03 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/05 18:36:18 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "libft/libft.h"
+
+volatile sig_atomic_t	g_sig;
 
 static int	update_here_file(t_here_list **node, char *eof)
 {
@@ -82,7 +84,7 @@ static int	create_head_node(t_here_list **node, t_word_list **word_list,
 	while (*word_list != NULL && (*word_list)->flag != eof_num)
 		*word_list = (*word_list)->next;
 	if (new_here_node(node, (*word_list)->word) == FAILURE)
-		return (FAILURE);
+		return (ft_perror("failed to new here node"));
 	*word_list = (*word_list)->next;
 	*here_flg = true;
 	return (SUCCESS);
@@ -97,7 +99,7 @@ int	get_here_list(t_word_list *word_list, t_here_list **here_list)
 	if (create_head_node(&node, &word_list, &here_flg) == FAILURE)
 		return (FAILURE);
 	*here_list = node;
-	while (word_list != NULL)
+	while (word_list != NULL && g_sig != SIGINT)
 	{
 		if (create_or_update_here_node(&word_list, &here_flg) == CREATE)
 		{
@@ -111,6 +113,15 @@ int	get_here_list(t_word_list *word_list, t_here_list **here_list)
 			return (FAILURE);
 		if (word_list != NULL)
 			word_list = word_list->next;
+	}
+	if (g_sig == SIGINT)
+	{
+		while (*here_list != NULL)
+		{
+			if (unlink((*here_list)->here_file_name) < 0)
+				return (ft_perror("unlink"));
+			*here_list = (*here_list)->next;
+		}
 	}
 	return (SUCCESS);
 }
