@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 02:21:09 by reira             #+#    #+#             */
-/*   Updated: 2023/07/30 03:20:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/05 18:47:50 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 #include "libft/libft.h"
 
 void	in_out_file_dup2(t_fd fd_struct, t_word_list **word_list,

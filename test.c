@@ -16,14 +16,19 @@
 // static void destructor() {
 //     system("leaks -q a.out");
 // }
+volatile sig_atomic_t  g_sig;
 
-int	main()
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+
+void handler(int sig) {
+    (void)sig;
+}
+
+int main()
 {
-	char *line;
-	line=readline("prompt ");
-	if(line[0]=='\0')
-	printf("hello\n");
-	else
-	printf("p %p\n",line);
-	return (0);
+    sigaction(SIGINT, & (struct sigaction) { .sa_handler = handler }, NULL);
+    read(0, (char [2]){}, 2);
+    perror("read");
 }

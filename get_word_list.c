@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 16:23:36 by reira             #+#    #+#             */
-/*   Updated: 2023/07/28 21:06:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/05 18:47:50 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "execve_cmd.h"
+#include "execute_cmd.h"
 
 void	new_word_node(t_word_list **node, char *argv)
 {
