@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 15:58:13 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/06 16:30:23 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **env)
 			// printf("env->value = %s \n", env_list->env_value);
 			new_line = change_line(line, env_list);
 			parse_line(new_line, env_list);
+			free(new_line);
 			add_history(line);
 		}
 	}
