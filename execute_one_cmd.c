@@ -15,34 +15,16 @@
 
 volatile sig_atomic_t	g_sig;
 
-int	unlink_here_list(t_here_list **here_list)
-{
-	t_here_list	*head;
-
-	if (here_list == NULL)
-		return (SUCCESS);
-	head = *here_list;
-	while (*here_list != NULL)
-	{
-		if (unlink((*here_list)->here_file_name) < 0)
-			return (ft_perror("unlink"));
-		*here_list = (*here_list)->next;
-	}
-	*here_list = head;
-	return (SUCCESS);
-}
-
-static int	parent_wait(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list)
+static int	parent_wait()
 {
 	int	wstatus;
 
-	// char *status;
-	set_signal_parent();
+	if (set_signal_parent() == FAILURE)
+		return (ft_perror("failed to set signal parent"));
 	if (wait(&wstatus) < 0)
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+		return (ft_perror("wait"));
 	if (set_sigint() == FAILURE)
-		exit(FAILURE);
+		return (ft_perror("failed to set sigint"));
 	if (WIFSIGNALED(wstatus))
 		return (WTERMSIG(wstatus));
 	else
@@ -102,19 +84,13 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	ret = 0;
 	pid = fork();
 	if (pid < 0)
-	{
-		ft_perror("fork");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
+		perror_free_list_exit("fork", word_list, env_list, here_list);
 	if (pid == 0)
 		child_execute(word_list, env_list, here_list);
 	else
-		ret = parent_wait(word_list, env_list, here_list);
-	if (ret == 2 || ret == 3)
-		ret += 128;
-	status = ft_itoa(ret);
-	if (status == NULL)
-		return (ft_perror("failed to ft_itoa"));
+		ret = parent_wait();
+	if (itoa_status(ret, &status) == FAILURE)
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	update_exit_status(env_list, status);
 	return (SUCCESS);
 }

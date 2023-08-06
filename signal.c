@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/07 01:10:04 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 01:33:09 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 volatile sig_atomic_t	g_sig;
 
-void	handle_sig_parent(int sig)
+static void	handle_sig_parent(int sig)
 {
 	if (sig == SIGQUIT)
 	{
@@ -40,7 +40,7 @@ int	set_signal_parent(void)
 	return (SUCCESS);
 }
 
-void	handle_sigint(int sig)
+static void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{

@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 01:07:59 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 03:09:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ static int	cnt_pipe(t_word_list *word_list)
 	cnt = 0;
 	while (word_list != NULL)
 	{
-		if (word_list->flag == pipe_char && word_list->next != NULL)
+		while (word_list != NULL && word_list->flag != pipe_char)
+			word_list = word_list->next;
+		if (word_list != NULL && word_list->next != NULL
+			&& word_list->flag == pipe_char)
 			cnt++;
-		word_list = word_list->next;
+		while (word_list != NULL && word_list->flag == pipe_char)
+			word_list = word_list->next;
 	}
 	return (cnt);
 }

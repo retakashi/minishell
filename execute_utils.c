@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*   execute_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 21:02:22 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 02:35:08 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,15 @@ int	get_fd(char *file_name, int flg)
 	if (fd < 0)
 		return (FAILURE);
 	return (fd);
+}
+
+int	update_exit_status(t_env_list **env_list, char *estatus)
+{
+	free((*env_list)->env_value);
+	(*env_list)->env_value = ft_strdup(estatus);
+	if ((*env_list)->env_value == NULL)
+		return (ft_perror("ft_strdup"));
+	if (ft_strcmp(estatus, "1") == 0)
+		return (FAILURE);
+	return (SUCCESS);
 }

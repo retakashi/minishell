@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:01:19 by reira             #+#    #+#             */
-/*   Updated: 2023/08/02 22:48:09 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 02:06:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,13 @@ void	perror_free_2darr_exit(char *err_msg, char ***arr, char ***arr2)
 	ft_perror(err_msg);
 	free_char_2darr(arr);
 	free_char_2darr(arr2);
+	exit(EXIT_FAILURE);
+}
+
+void	perror_free_list_exit(char *errmsg, t_word_list **word_list,
+		t_env_list **env_list, t_here_list **here_list)
+{
+	ft_perror(errmsg);
+	free_all_list(word_list, env_list, here_list);
 	exit(EXIT_FAILURE);
 }

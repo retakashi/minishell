@@ -13,43 +13,36 @@
 #include "execute_cmd.h"
 #include "libft/libft.h"
 
-static void	parent_close(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list, t_p_data p_data)
+static int	parent_close(t_p_data p_data)
 {
 	if (p_data.i > 0 && p_data.i <= p_data.cnt)
 	{
 		if (close(p_data.pipe_2darr[p_data.i - 1][READ]) < 0)
-		{
-			ft_perror("close");
-			free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-		}
+			return (ft_perror("close"));
 		if (close(p_data.pipe_2darr[p_data.i - 1][WRITE]) < 0)
-		{
-			ft_perror("close");
-			free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-		}
+			return (ft_perror("close"));
 	}
+	return (SUCCESS);
 }
 
-static void	wait_update_status(int cnt, t_word_list **word_list,
-		t_env_list **env_list, t_here_list **here_list)
+static int	wait_some_cmds(int cnt)
 {
 	int	wstatus;
 
-	while (cnt-- >= 0)
+	if (set_signal_parent() == FAILURE)
+		return (ft_perror("failed to set signal parent"));
+	while (cnt >= 0)
 	{
 		if (wait(&wstatus) < 0)
-		{
-			ft_perror("wait");
-			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-		}
+			return (ft_perror("wait"));
+		cnt--;
 	}
-	(*env_list)->env_value = ft_itoa(WEXITSTATUS(wstatus));
-	if ((*env_list)->env_value == NULL)
-	{
-		ft_perror("ft_strdup");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
+	if (set_sigint() == FAILURE)
+		return (ft_perror("failed to set sigint"));
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus));
+	else
+		return (WEXITSTATUS(wstatus));
 }
 
 static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
@@ -104,25 +97,29 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 	}
 }
 
-void	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
+int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
 	pid_t	pid;
+	int		ret;
+	char	*status;
 
-	p_data.i = 0;
-	while (p_data.i <= p_data.cnt)
+	p_data.i = -1;
+	while (++p_data.i <= p_data.cnt)
 	{
 		if (p_data.i < p_data.cnt && pipe(p_data.pipe_2darr[p_data.i]) < 0)
-			put_pipe_error_exit(p_data, word_list, env_list, here_list);
+			return (ft_perror("pipe"));
 		pid = fork();
 		if (pid < 0)
-			put_fork_error_exit(p_data, word_list, env_list, here_list);
+			return (ft_perror("fork"));
 		if (pid == 0)
 			child_execute_cmds(word_list, env_list, here_list, p_data);
-		else
-			parent_close(word_list, env_list, here_list, p_data);
-		p_data.i++;
+		else if (pid > 0 && parent_close(p_data) == FAILURE)
+			return (FAILURE);
 	}
-	wait_update_status(p_data.cnt, word_list, env_list, here_list);
-	set_sigint();
+	ret = wait_some_cmds(p_data.cnt);
+	if (itoa_status(ret, &status) == FAILURE)
+		return (FAILURE);
+	update_exit_status(env_list, status);
+	return (SUCCESS);
 }
