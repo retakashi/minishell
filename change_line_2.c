@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 21:09:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/06 16:59:46 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*change_line(char *line, t_env_list *env_list)
 		i++;
 	if (i == (int)ft_strlen(line))
 		return (line);
-	result = make_strlist(line);
+	result = make_strlist(line, env_list);
 	new_line = joint_array(result, env_list);
 	ft_free_line2(result);
 	printf("new_line : %s \n ", new_line);

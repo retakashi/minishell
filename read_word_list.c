@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 16:32:01 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 01:07:59 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,15 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 	int		cnt;
 	t_flg	flg_struct;
 
+	if (*word_list == NULL)
+		return (SUCCESS);
 	if (find_flg(*word_list, eof_num) == true)
 	{
 		if (get_here_list(*word_list, here_list) == FAILURE)
 			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+		if (g_sig == SIGINT)
+			return (update_exit_status(env_list, "130"));
 	}
-	if (g_sig == SIGINT)
-		return (SUCCESS);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
@@ -134,13 +136,17 @@ void	is_line_valid(void)
 //     system("leaks -q minishell");
 // }
 
-void	free_success(char *line, char *new_line, t_word_list **word_list,
+void	free_success(char *line, t_word_list **word_list,
 		t_here_list **here_list)
 {
-	free(line);
-	free(new_line);
-	free_word_list(word_list);
-	free_here_list(here_list);
+	if (line != NULL)
+		free(line);
+	if (*word_list != NULL)
+		free_word_list(word_list);
+	if (*here_list != NULL)
+		free_here_list(here_list);
+	*word_list = NULL;
+	*here_list = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -152,17 +158,19 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(envp, &data.env_list, &data.word_list, &data.here_list);
 	while (1)
 	{
+		g_sig = 0;
 		data.line = readline("minishell$ ");
+		if (set_sigint() == FAILURE)
+			exit(FAILURE);
 		if (data.line == NULL)
 			is_line_valid();
 		if (g_sig == SIGINT)
 			update_exit_status(&data.env_list, "130");
 		// add_history(line);
 		data.new_line = change_line(data.line, data.env_list);
-		data.word_list = parse_line(data.new_line);
+		data.word_list = parse_line(data.new_line, data.env_list);
 		read_word_list(&data.word_list, &data.env_list, &data.here_list);
-		free_success(data.line, data.new_line, &data.word_list,
-			&data.here_list);
+		free_success(data.line, &data.word_list, &data.here_list);
 	}
 	free_env_list(&data.env_list);
 	return (0);

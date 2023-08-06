@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 16:07:21 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/06 17:07:29 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	one_string(t_word_list *string, t_env_list *env)
 	// exit(0);
 }
 
-void	command_error(t_word_list *string, t_env_list *env)
+void	syntax_error(t_word_list *string, t_env_list *env)
 {
 	if (string->next != NULL)
 	{
@@ -105,7 +105,7 @@ t_word_list	*check_error(t_word_list *string, t_env_list *env)
 		one_string(string, env);
 	while (string)
 	{
-		command_error(string, env);
+		syntax_error(string, env);
 		redirect_error(string, env);
 		if (string->next == NULL)
 			last_error(string, env);

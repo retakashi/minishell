@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/06 14:57:53 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/06 18:48:47 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	execute_builtin(t_word_list *word_list, t_env_list **env_list,
 		t_fd fd_struct, t_flg *flg_struct)
 {
 	if (flg_struct->builtin_flg == echo_no)
-		echo_cmd(word_list, fd_struct.out_fd,*env_list);
+		echo_cmd(word_list, fd_struct.out_fd);
 	else if (flg_struct->builtin_flg == cd_no)
 		return (cd_cmd(word_list, env_list));
 	else if (flg_struct->builtin_flg == pwd_no)
@@ -65,17 +65,20 @@ int	main_builtin(t_word_list **word_list, t_env_list **env_list,
 {
 	t_fd	fd_struct;
 	int		ret;
+	int		e_ret;
 
 	flg_struct.exit_flg = false;
 	ret = set_redirection(*word_list, *here_list, &fd_struct,
 		&flg_struct.exit_flg);
 	if (flg_struct.exit_flg == true)
-		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	if (ret == FAILURE)
-		return (update_exit_status(env_list,"1"));
+		return (update_exit_status(env_list, "1"));
 	flg_struct.exit_flg = false;
-	execute_builtin(*word_list, env_list, fd_struct, &flg_struct);
+	e_ret = execute_builtin(*word_list, env_list, fd_struct, &flg_struct);
 	if (flg_struct.exit_flg == true)
-		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	if (e_ret == SUCCESS)
+		update_exit_status(env_list, "0");
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/08/06 15:50:10 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/06 18:06:44 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	update_exit_status(t_env_list **env_list, char *estatus)
 	(*env_list)->env_value = ft_strdup(estatus);
 	if ((*env_list)->env_value == NULL)
 		return (ft_perror("ft_strdup"));
-	ft_putstr_fd((*env_list)->env_value,STDOUT_FILENO);
-	ft_putstr_fd("\n",STDOUT_FILENO);
-	return (FAILURE);
+	if (ft_strcmp(estatus, "1") == 0)
+		return (FAILURE);
+	return (SUCCESS);
 }

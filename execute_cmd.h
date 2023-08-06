@@ -113,7 +113,7 @@ void					close_pipe(t_p_data p_data, t_word_list **word_list,
 // command.c
 void					get_command(t_word_list **head);
 // echo.c
-void					echo_cmd(t_word_list *word_list, int fd,t_env_list *envlist);
+void					echo_cmd(t_word_list *word_list, int fd);
 // env.c
 int						env_cmd(t_env_list **env_list, int fd);
 // error.c
@@ -223,10 +223,9 @@ int	set_redirection(t_word_list *word_list,
 int						change_exit_flg(int *exit_flg);
 int						unlink_here_file(t_here_list *here_list, int *exit_flg);
 // signal.c
-void	handle_signal_execve(int sig);
-int	set_signal_execve(void);
 void	handle_sigint(int sig);
 int	set_sigint(void);
+int	set_signal_parent(void);
 // minishell_utils.c
 void					ft_get_env(char *str, t_env_list *env_list,
 							t_env_list **tmp);

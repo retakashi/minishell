@@ -13,6 +13,8 @@
 #include "execute_cmd.h"
 #include "libft/libft.h"
 
+volatile sig_atomic_t	g_sig;
+
 int	unlink_here_list(t_here_list **here_list)
 {
 	t_here_list	*head;
@@ -30,33 +32,21 @@ int	unlink_here_list(t_here_list **here_list)
 	return (SUCCESS);
 }
 
-static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
+static int	parent_wait(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
-	int		wstatus;
-	char	*status;
+	int	wstatus;
 
-	set_signal_execve();
+	// char *status;
+	set_signal_parent();
 	if (wait(&wstatus) < 0)
-	{
-		ft_perror("wait");
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	status = ft_itoa(WEXITSTATUS(wstatus));
-	if (status == NULL)
-	{
-		ft_perror("ft_itoa");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	free((*env_list)->env_value);
-	(*env_list)->env_value = ft_strdup(status);
-	free(status);
-	if ((*env_list)->env_value == NULL)
-	{
-		ft_perror("ft_strdup");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	set_sigint();
+	if (set_sigint() == FAILURE)
+		exit(FAILURE);
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus));
+	else
+		return (WEXITSTATUS(wstatus));
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
@@ -106,7 +96,10 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	pid_t	pid;
+	int		ret;
+	char	*status;
 
+	ret = 0;
 	pid = fork();
 	if (pid < 0)
 	{
@@ -116,6 +109,12 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (pid == 0)
 		child_execute(word_list, env_list, here_list);
 	else
-		parent_wait(word_list, env_list, here_list);
+		ret = parent_wait(word_list, env_list, here_list);
+	if (ret == 2 || ret == 3)
+		ret += 128;
+	status = ft_itoa(ret);
+	if (status == NULL)
+		return (ft_perror("failed to ft_itoa"));
+	update_exit_status(env_list, status);
 	return (SUCCESS);
 }
