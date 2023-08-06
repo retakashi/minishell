@@ -10,32 +10,12 @@
 #include <string.h>
 #include <unistd.h>
 
-void	signal_handler(int sig_num)
-{
-	if (sig_num == SIGINT)
-		write(1, "\n", 1);
-	if (sig_num == SIGQUIT)
-    {
-        write(1, "exit\n", 5);
-        exit(EXIT_SUCCESS);
-    }
-}
-
 int	main(void)
 {
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-	{
-		perror("signal");
-		exit(EXIT_FAILURE);
-	}
-	if (signal(SIGQUIT,signal_handler ) == SIG_ERR)
-	{
-		perror("signal");
-		exit(EXIT_FAILURE);
-	}
-	while (1)
-	{
-
-	}
+	unlink("file1");
+	if(access("file1",F_OK)==0)
+	printf("あるよ\n");
+	else
+	printf("ないよ\n");
 	return (0);
 }

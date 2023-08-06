@@ -3,103 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 18:07:39 by razasharuku      ###   ########.fr       */
+/*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/08/07 01:21:19 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-t_word_list	*find_syntax_er(t_word_list	*string)
+int	check_sp(char *line)
 {
-	// t_word_list	*tmp;
+	int	i;
+	int	len;
 
-	if (string->word[0] == pipe_char)
-		printf("syntax error near unexpected token '%c'", string->word[0]);
-	return (string);
+	len = ft_strlen(line);
+	i = 0;
+	while (line[i] == ' ' || line[i] == '\t')
+		i++;
+	if (i == len)
+		return (1);
+	return (0);
 }
 
-t_word_list	*redirect_command(t_word_list *tmp)
+t_word_list	*parse_line(char *line, t_env_list *env_list)
 {
-	tmp->flag = is_just_meta(tmp->word);
-	if (tmp->flag != 0)
-		return (tmp);
-	if (tmp->next != NULL)
-		tmp->next->flag = tmp->flag + 5;
-	if (tmp->next != NULL && tmp->next->next != NULL)
-	{
-		tmp = tmp->next->next;
-		tmp->flag = 1;
-	}
-	return (tmp);
-}
-
-t_word_list	*set_flags_per_list(t_word_list	*tmp)
-{
-	if (tmp->flag == 5 && tmp->next != NULL)
-	{
-		if (is_just_meta(tmp->next->word) > 5 && is_just_meta(tmp->next->word) < 10)
-		{
-			tmp = tmp->next;
-			tmp->flag = is_just_meta(tmp->word);
-			tmp = redirect_command(tmp);
-		}
-		else
-			tmp->next->flag = 1;
-	}
-	if (tmp->flag == 1 && tmp->next != NULL && tmp->next->word[0] == '-')
-		tmp->next->flag = 2;
-	if (tmp->flag == 1 && tmp->next != NULL && tmp->next->word[0] != '-' &&
-		!(is_just_meta(tmp->next->word) > 3 && is_just_meta(tmp->next->word) < 15))
-		tmp->next->flag = 3;
-	if (tmp->flag > 5 && tmp->flag < 10 && tmp->next != NULL)
-		tmp->next->flag = tmp->flag + 5;
-	if (tmp->flag == 0)
-		tmp->flag = 3;
-	return (tmp);
-}
-
-t_word_list	*set_meta_flags(t_word_list	*string)
-{
+	t_word_list	*string;
 	t_word_list	*tmp;
-	int			flag;
 
+	if (line == NULL)
+		return (NULL);
+	if (check_sp(line))
+		return (NULL);
+	string = make_list(line);
 	tmp = string;
-	while (string)
+	string = argument_flag(string);
+	string = set_flags(string);
+	string = check_error(string, env_list);
+	return (tmp);
+}
+
+void	print_words(t_word_list *string)
+{
+	while (string != NULL)
 	{
-		flag = is_just_meta(string->word);
-		if (flag != 0)
-			string->flag = flag;
+		printf("string->word = %s , string->flag = %i \n", string->word, string->flag);
 		string = string->next;
 	}
-	return (tmp);
-}
-
-t_word_list	*set_flags(t_word_list	*string)
-{
-	t_word_list	*tmp;
-
-	tmp = string;
-	
-	if (is_just_meta(tmp->word) == 0)
-		tmp->flag = 1;
-	else
-		tmp->flag = is_just_meta(tmp->word);
-	if (string->flag > 5 && string->flag < 10)
-		tmp = redirect_command(tmp);
-	string = find_syntax_er(string);
-	while (tmp != NULL)
-	{
-		if (tmp->flag == 0)
-		{
-			if (is_just_meta(tmp->word) != 0)
-				tmp->flag = is_just_meta(tmp->word);
-		}
-		tmp = set_flags_per_list(tmp);
-		tmp = tmp->next;
-	}
-	string = set_meta_flags(string);
-	return (string);
+	return ;
 }

@@ -52,6 +52,8 @@ int	main_execute_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (get_pipe_2darr(&p_data.pipe_2darr, pipe_cnt) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	p_data.cnt = pipe_cnt;
-	execute_some_cmds(word_list, env_list, here_list, p_data);
+	if (execute_some_cmds(word_list, env_list, here_list, p_data) == FAILURE)
+		free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
+	free_int_2darr(&p_data.pipe_2darr, p_data.cnt);
 	return (SUCCESS);
 }

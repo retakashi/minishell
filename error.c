@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/08/02 16:57:03 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 02:36:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ char	**perror_change_err_flg(char *err_msg, int *err_flg)
 	return (NULL);
 }
 
-int	update_exit_status(t_env_list **env_list)
+void	put_error_exit_cmdsver(char *err_msg,t_p_data p_data, t_word_list **word_list,
+		t_env_list **env_list)
 {
-	free((*env_list)->env_value);
-	(*env_list)->env_value = ft_strdup("1");
-	if ((*env_list)->env_value == NULL)
-		return (ft_perror("ft_strdup"));
-	return (FAILURE);
+	ft_perror(err_msg);
+	free_list_pipe2darr_exit(p_data, word_list, env_list, NULL);
 }
