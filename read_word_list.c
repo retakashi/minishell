@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/05 18:25:58 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/06 16:32:01 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 		if (get_here_list(*word_list, here_list) == FAILURE)
 			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	}
-	// set_sigint();
-	if(g_sig==SIGINT)
-	return(SUCCESS);
+	if (g_sig == SIGINT)
+		return (SUCCESS);
 	cnt = cnt_pipe(*word_list);
 	if (cnt == 0 && is_builtin(*word_list, &flg_struct.builtin_flg) == true)
 		return (main_builtin(word_list, env_list, here_list, flg_struct));
@@ -109,6 +108,7 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	*word_list_head = NULL;
 	*env_list_head = NULL;
 	*here_list = NULL;
+	g_sig = 0;
 	set_sigint();
 	if (get_env_list(envp, env_list_head) == FAILURE)
 	{
@@ -118,47 +118,52 @@ void	init_minishell(char **envp, t_env_list **env_list_head,
 	}
 }
 
+void	is_line_valid(void)
+{
+	if (errno == ENOMEM)
+		exit(EXIT_FAILURE);
+	else
+	{
+		ft_putstr_fd("minishell$ exit\n", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
+	}
+}
+
 // __attribute__((destructor))
 // static void destructor() {
 //     system("leaks -q minishell");
 // }
 
+void	free_success(char *line, char *new_line, t_word_list **word_list,
+		t_here_list **here_list)
+{
+	free(line);
+	free(new_line);
+	free_word_list(word_list);
+	free_here_list(here_list);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_word_list	*word_head;
-	t_env_list	*env_list_head;
-	t_here_list	*here_list_head;
-	char		*line;
-	char		*new_line;
+	t_main_data	data;
 
 	if (argc == 0 || argv == NULL)
 		return (0);
-	init_minishell(envp, &env_list_head, &word_head, &here_list_head);
+	init_minishell(envp, &data.env_list, &data.word_list, &data.here_list);
 	while (1)
 	{
-		line = readline("minishell$ ");
-		if (line == NULL)
-		{
-			if (errno == ENOMEM)
-				exit(EXIT_FAILURE);
-			else
-			{
-				ft_putstr_fd("minishell$ exit\n", STDOUT_FILENO);
-				exit(EXIT_SUCCESS);
-			}
-		}
-		if (*line)
-		{
-			// add_history(line);
-			g_sig = 0;
-			new_line = change_line(line, env_list_head);
-			word_head = parse_line(new_line);
-			read_word_list(&word_head, &env_list_head, &here_list_head);
-		}
-		free(line);
-		free_word_list(&word_head);
-		free_here_list(&here_list_head);
+		data.line = readline("minishell$ ");
+		if (data.line == NULL)
+			is_line_valid();
+		if (g_sig == SIGINT)
+			update_exit_status(&data.env_list, "130");
+		// add_history(line);
+		data.new_line = change_line(data.line, data.env_list);
+		data.word_list = parse_line(data.new_line);
+		read_word_list(&data.word_list, &data.env_list, &data.here_list);
+		free_success(data.line, data.new_line, &data.word_list,
+			&data.here_list);
 	}
-	free_env_list(&env_list_head);
+	free_env_list(&data.env_list);
 	return (0);
 }

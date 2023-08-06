@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/06 16:04:39 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	is_echo_option_n(char *str)
 	return (true);
 }
 
-void	echo_cmd(t_word_list *word_list, int fd)
+void	echo_cmd(t_word_list *word_list, int fd, t_env_list *env_list)
 {
 	int	opt_flg;
 
@@ -48,6 +48,12 @@ void	echo_cmd(t_word_list *word_list, int fd)
 	{
 		opt_flg = 1;
 		word_list = word_list->next;
+	}
+	if (ft_strcmp(word_list->word, "$?") == 0)
+	{
+		ft_putstr_fd(env_list->env_value, STDOUT_FILENO);
+		ft_putstr_fd("\n", fd);
+		return ;
 	}
 	while (should_putstr(word_list))
 	{

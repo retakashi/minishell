@@ -36,14 +36,6 @@
 # define READ 0
 # define WRITE 1
 
-typedef struct s_here_list
-{
-	int					here_fd;
-	char				*here_file_name;
-	int					child_num;
-	struct s_here_list	*next;
-}						t_here_list;
-
 typedef struct s_fd
 {
 	int					in_fd;
@@ -121,7 +113,7 @@ void					close_pipe(t_p_data p_data, t_word_list **word_list,
 // command.c
 void					get_command(t_word_list **head);
 // echo.c
-void					echo_cmd(t_word_list *word_list, int fd);
+void					echo_cmd(t_word_list *word_list, int fd,t_env_list *envlist);
 // env.c
 int						env_cmd(t_env_list **env_list, int fd);
 // error.c
@@ -129,7 +121,7 @@ int						put_error(char *str);
 int						ft_perror(char *str);
 void					command_error(char *str);
 char					**perror_change_err_flg(char *err_msg, int *err_flg);
-int						update_exit_status(t_env_list **env_list);
+int						update_exit_status(t_env_list **env_list,char *estatus);
 // execve.c
 void					execve_cmd(char **env_2darr, char **cmd_argv);
 // execute_one_cmd.c
