@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 15:44:31 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/06 15:43:59 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_env_list
 	char				*env_name;
 	char				*env_value;
 	int					write_flg;
-	int					exit_status;
 	struct s_env_list	*next;
 }						t_env_list;
 
@@ -67,14 +66,14 @@ typedef enum s_flags
 }			t_flags;
 
 //parse_line_1.c
-t_word_list				*parse_line(char *line);
+t_word_list				*parse_line(char *line, t_env_list *env_list);
 void					print_words(t_word_list *string);
 
 //parse_line_2.c
 t_word_list				*set_flags(t_word_list	*string);
 
 //parse_line_3.c
-t_word_list				*check_error(t_word_list *string);
+t_word_list				*check_error(t_word_list *string, t_env_list *env);
 
 //make_list.c
 t_word_list				*make_list(char *line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 18:11:42 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/06 15:43:13 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_sp(char *line)
 	return (0);
 }
 
-t_word_list	*parse_line(char *line)
+t_word_list	*parse_line(char *line, t_env_list *env_list)
 {
 	t_word_list	*string;
 	t_word_list	*tmp;
@@ -39,7 +39,7 @@ t_word_list	*parse_line(char *line)
 	tmp = string;
 	string = argument_flag(string);
 	string = set_flags(string);
-	string = check_error(string);
+	string = check_error(string, env_list);
 	// print_words(tmp);
 	return (tmp);
 }

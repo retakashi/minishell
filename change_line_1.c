@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 14:11:15 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/06 15:51:02 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**make_strlist(char *line, t_env_list *env_list)
 			line++;
 	}
 	max_str[i] = NULL;
-	max_str = give_d_hatena(max_str, ft_itoa(env_list->exit_status), "$?");
+	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
 	i = 0;
 	while (max_str[i])
 	{
