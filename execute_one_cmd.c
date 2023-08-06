@@ -13,50 +13,22 @@
 #include "execute_cmd.h"
 #include "libft/libft.h"
 
-int	unlink_here_list(t_here_list **here_list)
+volatile sig_atomic_t	g_sig;
+
+static int	parent_wait()
 {
-	t_here_list	*head;
+	int	wstatus;
 
-	if (here_list == NULL)
-		return (SUCCESS);
-	head = *here_list;
-	while (*here_list != NULL)
-	{
-		if (unlink((*here_list)->here_file_name) < 0)
-			return (ft_perror("unlink"));
-		*here_list = (*here_list)->next;
-	}
-	*here_list = head;
-	return (SUCCESS);
-}
-
-static void	parent_wait(t_word_list **word_list, t_env_list **env_list,
-		t_here_list **here_list)
-{
-	int		wstatus;
-	char	*status;
-
-	set_signal_execve();
+	if (set_signal_parent() == FAILURE)
+		return (ft_perror("failed to set signal parent"));
 	if (wait(&wstatus) < 0)
-	{
-		ft_perror("wait");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	status = ft_itoa(WEXITSTATUS(wstatus));
-	if (status == NULL)
-	{
-		ft_perror("ft_itoa");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	free((*env_list)->env_value);
-	(*env_list)->env_value = ft_strdup(status);
-	free(status);
-	if ((*env_list)->env_value == NULL)
-	{
-		ft_perror("ft_strdup");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
-	set_sigint();
+		return (ft_perror("wait"));
+	if (set_sigint() == FAILURE)
+		return (ft_perror("failed to set sigint"));
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus));
+	else
+		return (WEXITSTATUS(wstatus));
 }
 
 static void	prepare_execve(t_word_list **word_list, t_env_list **env_list)
@@ -106,16 +78,19 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list)
 {
 	pid_t	pid;
+	int		ret;
+	char	*status;
 
+	ret = 0;
 	pid = fork();
 	if (pid < 0)
-	{
-		ft_perror("fork");
-		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	}
+		perror_free_list_exit("fork", word_list, env_list, here_list);
 	if (pid == 0)
 		child_execute(word_list, env_list, here_list);
 	else
-		parent_wait(word_list, env_list, here_list);
+		ret = parent_wait();
+	if (itoa_status(ret, &status) == FAILURE)
+		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
+	update_exit_status(env_list, status);
 	return (SUCCESS);
 }

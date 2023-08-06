@@ -55,7 +55,7 @@ int	change_exit_flg(int *exit_flg)
 	return (FAILURE);
 }
 
-int	unlink_here_file(t_here_list *here_list, int *exit_flg)
+static int	unlink_here_file(t_here_list *here_list, int *exit_flg)
 {
 	if (here_list == NULL)
 		return (SUCCESS);
