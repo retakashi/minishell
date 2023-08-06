@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 16:30:23 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/06 18:52:51 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **env)
 	char		*line;
 	char		*new_line;
 	t_env_list	*env_list;
-	// t_word_list	*string;
+	t_word_list	*string;
 
 	if (argc > 3)
 		return (0);
@@ -38,9 +38,8 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (*line)
 		{
-			// printf("env->value = %s \n", env_list->env_value);
 			new_line = change_line(line, env_list);
-			parse_line(new_line, env_list);
+			string = parse_line(new_line, env_list);
 			free(new_line);
 			add_history(line);
 		}

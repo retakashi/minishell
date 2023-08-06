@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/04 18:11:15 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/06 18:53:42 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ t_word_list	*find_meta(t_word_list *string)
 	while (string != NULL)
 	{
 		string = split_argument(string);
-		// printf("\nstring->word = %s\n", string->word);
 		string = string->next;
 	}
 	string = tmp;
