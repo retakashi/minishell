@@ -3,10 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
 /*   Updated: 2023/08/02 18:07:39 by razasharuku      ###   ########.fr       */
+=======
+/*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/08/06 15:43:13 by sraza            ###   ########.fr       */
+>>>>>>> origin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +26,21 @@ t_word_list	*find_syntax_er(t_word_list	*string)
 	return (string);
 }
 
-t_word_list	*redirect_command(t_word_list *tmp)
+t_word_list	*parse_line(char *line, t_env_list *env_list)
 {
-	tmp->flag = is_just_meta(tmp->word);
-	if (tmp->flag != 0)
-		return (tmp);
-	if (tmp->next != NULL)
-		tmp->next->flag = tmp->flag + 5;
-	if (tmp->next != NULL && tmp->next->next != NULL)
-	{
-		tmp = tmp->next->next;
-		tmp->flag = 1;
-	}
+	t_word_list	*string;
+	t_word_list	*tmp;
+
+	if (line == NULL)
+		return (NULL);
+	if (check_sp(line))
+		return (NULL);
+	string = make_list(line);
+	tmp = string;
+	string = argument_flag(string);
+	string = set_flags(string);
+	string = check_error(string, env_list);
+	// print_words(tmp);
 	return (tmp);
 }
 

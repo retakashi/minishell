@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/02 18:10:10 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/06 16:30:23 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,19 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	if (argv == NULL)
 		return (0);
+	
 	while (1)
 	{
 		line = readline("minishell$ ");
+		env_list = init_minishell(env, &env_list);
 		if (line == NULL)
 			break ;
 		if (*line)
 		{
-			env_list = init_minishell(env, &env_list);
+			// printf("env->value = %s \n", env_list->env_value);
 			new_line = change_line(line, env_list);
-			parse_line(new_line);
-			// print_words(string);
+			parse_line(new_line, env_list);
+			free(new_line);
 			add_history(line);
 		}
 	}

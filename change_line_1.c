@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/31 23:56:01 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/06 16:44:49 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ char	**make_strlist(char *line)
 			line++;
 	}
 	max_str[i] = NULL;
+<<<<<<< HEAD
+=======
+	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
+>>>>>>> origin
 	i = 0;
 	while (max_str[i])
 	{

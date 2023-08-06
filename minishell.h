@@ -6,7 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/06 15:38:59 by reira            ###   ########.fr       */
+=======
+/*   Updated: 2023/08/06 15:43:59 by sraza            ###   ########.fr       */
+>>>>>>> origin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +77,17 @@ typedef enum s_flags
 	eof_num = 14,
 }						t_flags;
 
-typedef struct s_main_data
-{
-	t_word_list			*word_list;
-	t_env_list			*env_list;
-	t_here_list			*here_list;
-	char				*line;
-	char				*new_line;
-}						t_main_data;
-
-// parse_line.c
-t_word_list				*parse_line(char *line);
+//parse_line_1.c
+t_word_list				*parse_line(char *line, t_env_list *env_list);
 void					print_words(t_word_list *string);
 
-// parse_line_1.c
-t_word_list				*set_flags(t_word_list *string);
-// make_list.c
+//parse_line_2.c
+t_word_list				*set_flags(t_word_list	*string);
+
+//parse_line_3.c
+t_word_list				*check_error(t_word_list *string, t_env_list *env);
+
+//make_list.c
 t_word_list				*make_list(char *line);
 
 // make_list2.c
