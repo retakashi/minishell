@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:59:13 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/06/12 20:20:19 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:21:29 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+volatile sig_atomic_t	g_sig;
 
 static char	*get_line(char *line)
 {
@@ -73,6 +75,8 @@ static char	*buf_readjoin(char *buf, char *line, int fd, int *flg)
 	}
 	while (read_num > 0 && !ft_strchr(buf, '\n'))
 	{
+		if (set_signal_gnl() == FAILURE)
+			return (NULL);
 		read_num = read(fd, buf, BUFFER_SIZE);
 		if (read_num < 1)
 			return (readnum_under(read_num, buf, line, flg));
@@ -112,7 +116,7 @@ char	*get_next_line(int fd, int *flg)
 
 // __attribute__((destructor)) static void destructor()
 // {
-// 	system("leaks -q a.out");
+// 	system("leaks -q a.output");
 // }
 
 // int	main(void)

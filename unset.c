@@ -3,58 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:49:46 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/07/07 19:30:17 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/02 16:49:00 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "libft/libft.h"
-#include "minishell.h"
 
-//argv[0]->unset
-//argv[1]->variable
-
-t_envp	*g_envp_list;
-
-void	remove_node(t_envp **head, t_envp *node)
+static void	get_prev_node(t_env_list **env_list, t_word_list *word_list)
 {
-	t_envp	*prev;
+	t_env_list	*prev;
 
-	if (*head == node)
-		*head = g_envp_list->next;
-	else
+	prev = *env_list;
+	while (*env_list != NULL && ft_strcmp((*env_list)->env_name,
+			word_list->word) != 0)
 	{
-		prev = g_envp_list;
-		while (g_envp_list != NULL)
-		{
-			if (!ft_strcmp(node->envp_name, g_envp_list->envp_name))
-			{
-				prev->next = g_envp_list->next;
-				break ;
-			}
-			prev = g_envp_list;
-			g_envp_list = g_envp_list->next;
-		}
+		prev = *env_list;
+		*env_list = (*env_list)->next;
 	}
-	free(g_envp_list->envp_name);
-	free(g_envp_list->envp_str);
-	free(g_envp_list);
+	*env_list = prev;
 }
 
-void	unset_cmd(char **argv)
+bool	search_env_name(t_word_list *word_list, t_env_list *env_list)
 {
-	t_envp	*node;
-	t_envp	*head;
+	while (env_list != NULL && ft_strcmp(env_list->env_name,
+			word_list->word) != 0)
+		env_list = env_list->next;
+	if (env_list == NULL)
+		return (false);
+	return (true);
+}
 
-	if (argv[1] == NULL)
+static void	remove_node(t_word_list *remove_word, t_env_list **env_list,
+		t_env_list **head)
+{
+	t_env_list	*remove_node;
+
+	if (ft_strcmp((*head)->env_name, remove_word->word) == 0)
+	{
+		remove_node = *env_list;
+		*head = (*env_list)->next;
+	}
+	else
+	{
+		get_prev_node(env_list, remove_word);
+		remove_node = (*env_list)->next;
+		(*env_list)->next = remove_node->next;
+	}
+	free(remove_node->env_name);
+	free(remove_node->env_value);
+	free(remove_node);
+}
+
+void	unset_cmd(t_word_list *word_list, t_env_list **env_list)
+{
+	t_env_list	*head;
+
+	word_list = word_list->next;
+	if (*env_list == NULL || (*env_list)->env_name == NULL || word_list == NULL)
 		return ;
-	node = NULL;
-	if (search_same_name(argv[1], &node) == FALSE)
-		return ;
-	head = g_envp_list;
-	remove_node(&head, node);
-	g_envp_list = head;
-	// export_nooption();
+	head = *env_list;
+	while (word_list != NULL && word_list->flag == arguments)
+	{
+		*env_list = head;
+		if (search_env_name(word_list, *env_list) == true)
+			remove_node(word_list, env_list, &head);
+		word_list = word_list->next;
+	}
+	*env_list = head;
 }

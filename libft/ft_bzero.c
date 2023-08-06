@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 20:37:51 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/01/15 21:41:16 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/13 00:44:40 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/06 10:09:51 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {
-	unsigned char	*casted_s;
-
-	casted_s = (unsigned char *)s;
-	ft_memset(casted_s, '\0', n);
+	ft_memset((void *)s, 0, n);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/21 16:57:19 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/07 11:38:07 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/22 15:18:21 by sraza             #+#    #+#             */
+/*   Updated: 2023/02/05 13:51:39 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,28 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*ans;
-	size_t	s1_len;
-	size_t	s2_len;
+	size_t	len1;
+	size_t	len2;
+	char	*str;
 
+	len1 = 0;
+	len2 = 0;
 	if (s1 == NULL && s2 == NULL)
-		return (ft_strdup(""));
-	if (s1 == NULL)
-		return (ft_strdup(s2));
-	if (s2 == NULL)
-		return (ft_strdup(s1));
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ans = (char *)ft_calloc(sizeof(char), s1_len + s2_len + 1);
-	if (ans == NULL)
 		return (NULL);
-	ft_strlcpy(ans, s1, s1_len + 1);
-	ft_strlcpy(ans + s1_len, s2, s2_len + 1);
-	return (ans);
+	else if (s1 == NULL && s2 != NULL)
+		len2 = ft_strlen(s2);
+	else if (s1 != NULL && s2 == NULL)
+		len1 = ft_strlen(s1);
+	else
+	{
+		len1 = ft_strlen(s1);
+		len2 = ft_strlen(s2);
+	}
+	str = malloc(sizeof(char) * (len1 + len2 + 1));
+	if (str == NULL)
+		return (NULL);
+	ft_memcpy(str, s1, len1);
+	ft_memcpy(str + len1, s2, len2);
+	str[len1 + len2] = '\0';
+	return (str);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	*arr;
-// 	int		i;
-// 	char	s1[]= "42tokyo";
-// 	char	s2[]= "abc!!!";
-
-// 	i = 0;
-// 	arr = ft_strjoin(s1, s2);
-// 	while (i < 10)
-// 		printf("%c\n", arr[i++]);
-// 	printf("%s\n", arr);
-// 	return (0);
-// }

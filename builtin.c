@@ -3,65 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 20:37:41 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 19:31:35 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
+/*   Updated: 2023/08/02 17:28:25 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "libft/libft.h"
-#include "minishell.h"
 
-// "\" ";"の解釈は必要なし
-
-void	ft_getenvp(char *str, t_envp **node)
+bool	is_builtin(t_word_list *word_list, int *builtin_flg)
 {
-	t_envp	*head;
-
-	head = g_envp_list;
-	while (g_envp_list != NULL && ft_strcmp(g_envp_list->envp_name, str) != 0)
-		g_envp_list = g_envp_list->next;
-	if (g_envp_list != NULL && ft_strcmp(g_envp_list->envp_name, str) == 0)
-		*node = g_envp_list;
-	g_envp_list = head;
-}
-
-bool	is_builtin(t_word_list *head)
-{
-	if (ft_strcmp(head->word, "echo") == 0)
-		g_envp_list->builtin_flg = echo_no;
-	else if (ft_strcmp(head->word, "cd") == 0)
-		g_envp_list->builtin_flg = cd_no;
-	else if (ft_strcmp(head->word, "pwd") == 0)
-		g_envp_list->builtin_flg = pwd_no;
-	else if (ft_strcmp(head->word, "export") == 0)
-		g_envp_list->builtin_flg = export_no;
-	else if (ft_strcmp(head->word, "unset") == 0)
-		g_envp_list->builtin_flg = unset_no;
-	else if (ft_strcmp(head->word, "env") == 0)
-		g_envp_list->builtin_flg = env_no;
-	else if (ft_strcmp(head->word, "exit") == 0)
-		g_envp_list->builtin_flg = exit_no;
-	else
+	*builtin_flg = -1;
+	while (word_list != NULL && word_list->flag != command)
+		word_list = word_list->next;
+	if (word_list == NULL)
+		return (false);
+	if (word_list != NULL && ft_strcmp(word_list->word, "echo") == 0)
+		*builtin_flg = echo_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "cd") == 0)
+		*builtin_flg = cd_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "pwd") == 0)
+		*builtin_flg = pwd_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "export") == 0)
+		*builtin_flg = export_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "unset") == 0)
+		*builtin_flg = unset_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "env") == 0)
+		*builtin_flg = env_no;
+	else if (word_list != NULL && ft_strcmp(word_list->word, "exit") == 0)
+		*builtin_flg = exit_no;
+	if (*builtin_flg == -1)
 		return (false);
 	return (true);
 }
 
-void	main_builtin(t_word_list **head)
+int	execute_builtin(t_word_list *word_list, t_env_list **env_list,
+		t_fd fd_struct, t_flg *flg_struct)
 {
-	if (g_envp_list->builtin_flg == echo_no)
-		echo_cmd(head);
-	else if (g_envp_list->builtin_flg == cd_no)
-		cd_cmd(head);
-	else if (g_envp_list->builtin_flg == pwd_no)
-		pwd_cmd(head);
-	else if (g_envp_list->builtin_flg == export_no)
-		export_cmd(head);
-	else if (g_envp_list->builtin_flg == unset_no)
-		unset_cmd(head);
-	else if (g_envp_list->builtin_flg == env_no)
-		env_cmd(head);
-	else if (g_envp_list->builtin_flg == exit_no)
-		exit_cmd(head);
+	if (flg_struct->builtin_flg == echo_no)
+		echo_cmd(word_list, fd_struct.out_fd);
+	else if (flg_struct->builtin_flg == cd_no)
+		return (cd_cmd(word_list, env_list));
+	else if (flg_struct->builtin_flg == pwd_no)
+		return (pwd_cmd(fd_struct.out_fd, &flg_struct->exit_flg));
+	else if (flg_struct->builtin_flg == export_no)
+		return (export_cmd(word_list, env_list, fd_struct.out_fd,
+				&flg_struct->exit_flg));
+	else if (flg_struct->builtin_flg == unset_no)
+		unset_cmd(word_list, env_list);
+	else if (flg_struct->builtin_flg == env_no)
+		return (env_cmd(env_list, fd_struct.out_fd));
+	else if (flg_struct->builtin_flg == exit_no)
+		exit_cmd(&word_list, env_list);
+	return (SUCCESS);
+}
+
+int	main_builtin(t_word_list **word_list, t_env_list **env_list,
+		t_here_list **here_list, t_flg flg_struct)
+{
+	t_fd	fd_struct;
+	int		ret;
+
+	flg_struct.exit_flg = false;
+	ret = set_redirection(*word_list, *here_list, &fd_struct,
+		&flg_struct.exit_flg);
+	if (flg_struct.exit_flg == true)
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+	if (ret == FAILURE)
+		return (update_exit_status(env_list));
+	flg_struct.exit_flg = false;
+	execute_builtin(*word_list, env_list, fd_struct, &flg_struct);
+	if (flg_struct.exit_flg == true)
+		free_list_exit(word_list, env_list, here_list,EXIT_FAILURE);
+	return (SUCCESS);
 }

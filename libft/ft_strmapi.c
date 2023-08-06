@@ -3,50 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/21 20:50:05 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/08 17:15:14 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/21 23:04:24 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/08 20:18:47 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	size_t	i;
-	char	*str;
+	char	*src;
 
 	if (s == NULL || f == NULL)
 		return (NULL);
-	str = (char *)ft_calloc(ft_strlen(s) + 1, sizeof(char));
-	if (str == NULL)
+	src = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (src == NULL)
 		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{
-		str[i] = f((unsigned int)i, s[i]);
+		src[i] = f(i, s[i]);
 		i++;
 	}
-	return (str);
+	src[i] = '\0';
+	return (src);
 }
-
-// static unsigned int	test(unsigned int i, char str)
-// {
-// 	return (i);
-// }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	unsigned int	i;
-// 	char			str;
-
-// 	i = 4294967295;
-// 	str = 'a';
-// 	printf("i=%u\n", i + 2);
-//unsigned int_max=4294967295 (unsigned int)unsigned int_max+1=0
-// 	printf("test=%u\n", test(i, str));
-// 	return (0);
-// }

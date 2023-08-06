@@ -6,73 +6,46 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/07/12 20:28:50 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/02 16:57:03 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "libft/libft.h"
-#include "minishell.h"
 
-t_envp	*g_envp_list;
-
-void	write_command_error(char *str)
+int	put_error(char *str)
 {
-	char	*error;
-
-	error = ": command not found\n";
-	write(2, str, ft_strlen(str));
-	write(2, error, ft_strlen(error));
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	return (FAILURE);
 }
 
-void	write_syntax_error(char *str)
+int	ft_perror(char *str)
 {
-	char	*error;
-
-	error = "syntax error near unexpected token ";
-	write(2, error, ft_strlen(error));
-	write(2, "`", 1);
-	write(2, str, ft_strlen(str));
-	write(2, "'\n", 2);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	perror(str);
+	return (FAILURE);
 }
 
-void	write_env_error(void)
+void	command_error(char *str)
 {
-	char	*str;
-
-	str = "env: No such file or directory\n";
-	write(2, str, ft_strlen(str));
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 }
 
-void	free_2d_arr(char **arr)
+char	**perror_change_err_flg(char *err_msg, int *err_flg)
 {
-	size_t	i;
-
-	i = 0;
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-	arr = NULL;
+	ft_perror(err_msg);
+	*err_flg = true;
+	return (NULL);
 }
 
-void	put_error_free_2d_arr_exit(char *str, char **arr1, char **arr2, int flg)
+int	update_exit_status(t_env_list **env_list)
 {
-	t_envp	*next;
-
-	if (flg == COMMAND_ERROR)
-		write_command_error(str);
-	else if (flg == SYNTAX_ERROR)
-		write_syntax_error(str);
-	else if (flg == ENV_ERROR)
-		write_env_error();
-	else
-		perror(str);
-	if (arr1 != NULL)
-		free_2d_arr(arr1);
-	if (arr2 != NULL)
-		free_2d_arr(arr2);
-	free_g_list();
-	exit(EXIT_FAILURE);
+	free((*env_list)->env_value);
+	(*env_list)->env_value = ft_strdup("1");
+	if ((*env_list)->env_value == NULL)
+		return (ft_perror("ft_strdup"));
+	return (FAILURE);
 }

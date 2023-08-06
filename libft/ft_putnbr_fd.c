@@ -3,45 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 21:23:44 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/02/08 18:02:36 by rtakashi         ###   ########.fr       */
+/*   Created: 2023/01/26 20:41:50 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/02/05 16:01:05 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_casted_putnbr(unsigned int n, int fd);
+static void	ft_putunbr_fd(unsigned int ln, int fd)
+{
+	if (ln == 0)
+		ft_putchar_fd('0', fd);
+	if (ln <= 9 && ln > 0)
+		ft_putchar_fd(ln + 48, fd);
+	else if (ln > 0)
+	{
+		ft_putunbr_fd(ln / 10, fd);
+		ft_putchar_fd(ln % 10 + 48, fd);
+	}
+}
 
 void	ft_putnbr_fd(int n, int fd)
 {
+	unsigned int	ln;
+
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		ft_casted_putnbr((unsigned int)-n, fd);
+		ln = -n;
 	}
 	else
-		ft_casted_putnbr(n, fd);
+		ln = n;
+	ft_putunbr_fd(ln, fd);
 }
-
-static void	ft_casted_putnbr(unsigned int n, int fd)
-{
-	if (n > 9)
-	{
-		ft_casted_putnbr(n / 10, fd);
-		ft_casted_putnbr(n % 10, fd);
-	}
-	else
-		ft_putchar_fd(n + '0', fd);
-}
-
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	ft_putnbr_fd(i, 1);
-// 	return (0);
-// }

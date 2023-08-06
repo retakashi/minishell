@@ -3,51 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:16 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "libft/libft.h"
-#include "minishell.h"
 
-bool	should_putstr(t_word_list *head)
+static bool	should_putstr(t_word_list *word)
 {
-	if (head == NULL)
+	if (word == NULL)
 		return (false);
-	if (head->flag == arguments || head->flag == option)
+	if (word->flag == arguments || word->flag == option)
 		return (true);
-	else
-		perror_free_2d_arr_exit("newline", NULL, NULL, SYNTAX_ERROR);
+	return (false);
 }
 
-void	echo_cmd(t_word_list **head)
+static bool	is_echo_option_n(char *str)
+{
+	size_t	i;
+
+	if (ft_strncmp(str, "-n", 2))
+		return (false);
+	i = 2;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+void	echo_cmd(t_word_list *word_list, int fd)
 {
 	int	opt_flg;
 
 	opt_flg = 0;
-	if ((*head)->next == NULL)
+	word_list = word_list->next;
+	if (word_list != NULL && is_echo_option_n(word_list->word) == true)
 	{
-		ft_putstr_fd("\n", 1);
-		return ;
-	}
-	*head = (*head)->next;
-	if (*head != NULL && ft_strcmp((*head)->word, "-n") == 0)
-	{
-		if ((*head)->next == NULL)
-			return ;
 		opt_flg = 1;
-		*head = (*head)->next;
+		word_list = word_list->next;
 	}
-	while (should_putstr(*head))
+	while (should_putstr(word_list))
 	{
-		ft_putstr_fd((*head)->word, 1);
-		if ((*head)->next != NULL && should_putstr((*head)->next))
-			ft_putstr_fd(" ", 1);
-		*head = (*head)->next;
+		ft_putstr_fd(word_list->word, fd);
+		if (word_list->next != NULL && should_putstr(word_list->next))
+			ft_putstr_fd(" ", fd);
+		word_list = word_list->next;
 	}
 	if (opt_flg == 0)
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", fd);
 }

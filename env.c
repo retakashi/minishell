@@ -3,45 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:52 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:02:37 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "libft/libft.h"
-#include "minishell.h"
 
-t_envp		*g_envp_list;
-
-static void	write_envp(void)
+int	env_cmd(t_env_list **env_list, int fd)
 {
-	t_envp	*head;
-	t_envp	*node;
+	t_env_list	*tmp;
+	t_env_list	*head;
 
-	node = NULL;
-	ft_getenvp("PATH", &node);
-	if (node == NULL || node->envp_str == NULL)
-		perror_free_2d_arr_exit(NULL, NULL, NULL, ENV_ERROR);
-	head = g_envp_list;
-	while (g_envp_list != NULL)
+	tmp = NULL;
+	ft_get_env("PATH", *env_list, &tmp);
+	if (tmp == NULL)
+		return (env_error_update_exit_status("env", env_list));
+	head = *env_list;
+	while (*env_list != NULL)
 	{
-		if (g_envp_list->envp_str != NULL)
+		if ((*env_list)->env_value != NULL)
 		{
-			write(1, g_envp_list->envp_name, ft_strlen(g_envp_list->envp_name));
-			write(1, "=", 1);
-			write(1, g_envp_list->envp_str, ft_strlen(g_envp_list->envp_str));
-			write(1, "\n", 1);
+			ft_putstr_fd((*env_list)->env_name, fd);
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd((*env_list)->env_value, fd);
+			ft_putstr_fd("\n", fd);
 		}
-		g_envp_list = g_envp_list->next;
+		*env_list = (*env_list)->next;
 	}
-	g_envp_list = head;
-}
-
-void	env_cmd(t_word_list **head)
-{
-	write_envp();
-	while (*head != NULL && (*head)->flag != pipe_char)
-		*head = (*head)->next;
+	*env_list = head;
+	return (SUCCESS);
 }
