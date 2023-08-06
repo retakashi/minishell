@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 17:07:29 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 01:21:28 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	one_string(t_word_list *string, t_env_list *env)
 		free(env->env_value);
 		env->env_value = malloc(sizeof (char) * (4));
 		env->env_value = duplicate(env->env_value, "258", 3);
-		printf("env->value = %s \n", env->env_value);
 	}
 	// exit(0);
 }
@@ -52,7 +51,6 @@ void	syntax_error(t_word_list *string, t_env_list *env)
 			free(env->env_value);
 			env->env_value = malloc(sizeof (char) * (4));
 			env->env_value = duplicate(env->env_value, "258", 3);
-			printf("env->value = %s \n", env->env_value);
 		}
 		return ;
 	}
@@ -70,7 +68,6 @@ void	redirect_error(t_word_list *string, t_env_list *env)
 				free(env->env_value);
 				env->env_value = malloc(sizeof (char) * (4));
 				env->env_value = duplicate(env->env_value, "258", 3);
-				printf("env->value = %s \n", env->env_value);
 			}
 		return ;
 	}
@@ -87,7 +84,6 @@ void	last_error(t_word_list *string, t_env_list *env)
 			free(env->env_value);
 			env->env_value = malloc(sizeof (char) * (4));
 			env->env_value = duplicate(env->env_value, "258", 3);
-			printf("env->value = %s \n", env->env_value);
 		}
 		return ;
 	}

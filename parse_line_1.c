@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 16:57:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 01:21:19 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_word_list	*parse_line(char *line, t_env_list *env_list)
 	string = argument_flag(string);
 	string = set_flags(string);
 	string = check_error(string, env_list);
-	// print_words(tmp);
 	return (tmp);
 }
 

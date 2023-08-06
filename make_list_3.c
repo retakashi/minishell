@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/02 14:26:52 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 01:21:08 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,10 @@ t_word_list	*find_meta(t_word_list *string)
 	while (string != NULL)
 	{
 		string = split_argument(string);
+<<<<<<< HEAD
 		printf( "\nstring->word = %s\n", string->word);
+=======
+>>>>>>> origin
 		string = string->next;
 	}
 	return (tmp);
