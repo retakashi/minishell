@@ -1,119 +1,120 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   change_line_1.c                                    :+:      :+:    :+:   */
+/*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 11:10:40 by razasharuku      ###   ########.fr       */
+/*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/08/07 11:07:05 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-static	int	count_env_mark(char *line)
+static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 {
-	int	i;
-	int	count_env;
+	char	*new_line;
 
-	i = 0;
-	count_env = 0;
-	while (line[i] != '\0')
+	while (*str == *env_name)
 	{
-		if (line[i] == '$')
-			count_env++;
-		i++;
+		str++;
+		env_name++;
 	}
-	return (count_env);
-}
-
-static	char	*count_d_str(char **str)
-{
-	int		i;
-	char	*line;
-
-	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
-		(*str)[i] != '\0' && (*str)[i] != '$')
-		i++;
-	line = malloc (sizeof (char) * (i + 1));
-	if (line == NULL)
-		return (NULL);
-	line[0] = (*str)[0];
-	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
-		(*str)[i] != '\0' && (*str)[i] != '$')
-	{
-		line[i] = (*str)[i];
-		i++;
-	}
-	(*str) += i;
-	line[i] = '\0';
+	new_line = line;
+	line = ft_strjoin(line, env_value);
+	free(new_line);
+	if (ft_isalnum(*str) || *str == '_')
+		return (line);
+	new_line = line;
+	line = ft_strjoin(line, str);
+	free(new_line);
 	return (line);
 }
 
-static	char	**give_d_hatena(char **result, char *exit_status,
-								char *d_hatena)
+static	t_env_list	*joint_d_str2(char *line, char *str, t_env_list *env_list,
+							char *new_line)
 {
-	int		i;
-	int		j;
-	size_t	len_status;
-
-	i = 0;
-	len_status = ft_strlen(exit_status);
-	while (result[i])
+	while (env_list)
 	{
-		j = 0;
-		while (result[i][j])
+		if (ft_strncmp(env_list->env_name, str,
+				ft_strlen(env_list->env_name)) == 0)
 		{
-			if (result[i][j] != d_hatena[j])
-				break ;
-			if (j == 1 && result[i][j + 1] == '\0')
+			if (ft_strlen(str) == ft_strlen(env_list->env_name))
 			{
-				free(result[i]);
-				result[i] = malloc(sizeof (char) * (len_status + 1));
-				result[i] = duplicate(result[i], exit_status, len_status);
-				return (result);
+				new_line = line;
+				line = ft_strjoin(line, env_list->env_value);
+				free(new_line);
 			}
-			j++;
+			else
+				line = joint_two_d(line, str, env_list->env_name,
+						env_list->env_value);
+			break ;
 		}
-		i++;
+		env_list = env_list->next;
 	}
-	return (result);
+	return (env_list);
 }
 
-char	**make_strlist(char *line, t_env_list *env_list)
+static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 {
-	char	**max_str;
+	char	*new_line;
+
+	if (*(str + 1) == '?')
+	{
+		new_line = line;
+		line = ft_strjoin(line, str);
+		free(new_line);
+		return (line);
+	}
+	new_line = str;
+	str = ft_strtrim(str, "$");
+	free(str);
+	env_list = joint_d_str2(line, str, env_list, new_line);
+	return (line);
+}
+
+static	char	*joint_array(char **result, t_env_list *env_list)
+{
 	int		i;
+	char	*line;
+	char	*new_line;
 
 	i = 0;
-	max_str = malloc(sizeof(char *) * (count_env_mark(line) * 2 + 2));
-	if (max_str == NULL)
-		return (NULL);
-	while (*line != '\0')
+	line = NULL;
+	while (result[i] != NULL)
 	{
-		if (*line != '$' && *line != '\0')
+		if (result[i][0] == '$')
 		{
-			max_str[i] = count_s_str(&line);
-			i++;
+			line = joint_d_str(line, result[i], env_list);
+			new_line = line;
+			line = ft_strjoin(line, " ");
+			free(new_line);
 		}
-		if (*line == '$')
+		else if (result[i] != NULL && result[i][0] != '$')
 		{
-			max_str[i] = count_d_str(&line);
-			i++;
+			new_line = line;
+			line = ft_strjoin(line, result[i]);
+			free(new_line);
 		}
-		if (*line != '$' && *line != '\0')
-			line++;
-	}
-	max_str[i] = NULL;
-	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
-	i = 0;
-	while (max_str[i])
-	{
-		printf("max_str[%i] = %s\n", i, max_str[i]);
 		i++;
 	}
-	return (max_str);
+	return (line);
+}
+
+char	*change_line(char *line, t_env_list *env_list)
+{
+	int		i;
+	char	**result;
+	char	*new_line;
+
+	i = 0;
+	while (line[i] != '$' && line[i] != '\0')
+		i++;
+	if (i == (int)ft_strlen(line))
+		return (line);
+	result = make_strlist(line, env_list);
+	new_line = joint_array(result, env_list);
+	ft_free_line2(result);
+	return (new_line);
 }

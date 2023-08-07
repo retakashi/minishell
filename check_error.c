@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line_3.c                                     :+:      :+:    :+:   */
+/*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 10:57:17 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 12:53:10 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	len_of_string(t_word_list *string)
+static	int	len_of_string(t_word_list *string)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int	len_of_string(t_word_list *string)
 	return (i);
 }
 
-void	one_string(t_word_list *string, t_env_list *env)
+static	int	one_string(t_word_list *string, t_env_list *env)
 {
 	if (string->flag >= 5 && string->flag < 10)
 	{
@@ -36,11 +36,12 @@ void	one_string(t_word_list *string, t_env_list *env)
 		free(env->env_value);
 		env->env_value = malloc(sizeof (char) * (4));
 		env->env_value = duplicate(env->env_value, "258", 3);
+		return (FAILURE);
 	}
-	// exit(0);
+	return (SUCCESS);
 }
 
-void	command_error(t_word_list *string, t_env_list *env)
+static	int	command_error(t_word_list *string, t_env_list *env)
 {
 	if (string->next != NULL)
 	{
@@ -51,13 +52,13 @@ void	command_error(t_word_list *string, t_env_list *env)
 			free(env->env_value);
 			env->env_value = malloc(sizeof (char) * (4));
 			env->env_value = duplicate(env->env_value, "258", 3);
+			return (FAILURE);
 		}
-		return ;
 	}
-	return ;
+	return (SUCCESS);
 }
 
-void	redirect_error(t_word_list *string, t_env_list *env)
+static	int	redirect_error(t_word_list *string, t_env_list *env)
 {
 	if (string->next != NULL)
 	{
@@ -68,13 +69,13 @@ void	redirect_error(t_word_list *string, t_env_list *env)
 				free(env->env_value);
 				env->env_value = malloc(sizeof (char) * (4));
 				env->env_value = duplicate(env->env_value, "258", 3);
+				return (FAILURE);
 			}
-		return ;
 	}
-	return ;
+	return (SUCCESS);
 }
 
-void	last_error(t_word_list *string, t_env_list *env)
+static	int	last_error(t_word_list *string, t_env_list *env)
 {
 	if (string->next != NULL)
 	{
@@ -84,28 +85,29 @@ void	last_error(t_word_list *string, t_env_list *env)
 			free(env->env_value);
 			env->env_value = malloc(sizeof (char) * (4));
 			env->env_value = duplicate(env->env_value, "258", 3);
+			return (FAILURE);
 		}
-		return ;
 	}
-	return ;
+	return (SUCCESS);
 }
 
-t_word_list	*check_error(t_word_list *string, t_env_list *env)
+int	check_error(t_word_list *string, t_env_list *env)
 {
 	int			s_len;
-	t_word_list	*tmp;
 
-	tmp = string;
 	s_len = len_of_string(string);
 	if (s_len == 1 && string->flag != 0)
 		one_string(string, env);
 	while (string)
 	{
-		command_error(string, env);
-		redirect_error(string, env);
+		if (command_error(string, env) != 0)
+			return (FAILURE);
+		if (redirect_error(string, env) != 0)
+			return (FAILURE);
 		if (string->next == NULL)
-			last_error(string, env);
+			if (last_error(string, env) != 0)
+				return (FAILURE);
 		string = string->next;
 	}
-	return (tmp);
+	return (SUCCESS);
 }

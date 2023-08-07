@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 15:43:59 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/07 12:53:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,22 @@ typedef enum s_flags
 }			t_flags;
 
 //parse_line_1.c
-t_word_list				*parse_line(char *line, t_env_list *env_list);
+t_word_list				*parse_line(char *line);
 void					print_words(t_word_list *string);
 
 //parse_line_2.c
 t_word_list				*set_flags(t_word_list	*string);
 
-//parse_line_3.c
-t_word_list				*check_error(t_word_list *string, t_env_list *env);
+//check_error.c
+int						check_error(t_word_list *string, t_env_list *env);
 
 //make_list.c
 t_word_list				*make_list(char *line);
 
 //make_list2.c
 t_word_list				*ft_newlst(char *content);
-int						dquotes_sprt(char *line);
-int						squotes_sprt(char *line);
+// int						dquotes_sprt(char *line);
+// int						squotes_sprt(char *line);
 t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
 
@@ -106,13 +106,13 @@ char					**split_str(char *str, char *charset);
 t_env_list				*init_minishell(char **envp,
 							t_env_list **env_list_head);
 //change_line_1.c
-char					**make_strlist(char *line, t_env_list *env_list);
+char					*change_line(char *line, t_env_list *env_list);
 
 //change_line_2.c
-char					*change_line(char *line, t_env_list *env_list);
+char					**make_strlist(char *line, t_env_list *env_list);
 
 //change_line_3.c
 char					*count_s_str(char **line);
-char					*copy_str(char *line, char *str);
+// char					*copy_str(char *line, char *str);
 
 #endif
