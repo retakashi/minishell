@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 17:29:06 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/08 08:47:49 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int	check_error(t_word_list *string, t_env_list **env)
 
 	s_len = len_of_string(string);
 	if (s_len == 1 && string->flag != 0)
-		one_string(string, env);
+		if (one_string(string, env) != 0)
+			return (FAILURE);
 	while (string)
 	{
 		if (command_error(string, env) != 0)
