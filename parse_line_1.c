@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 12:52:31 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 13:14:18 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	print_words(t_word_list *string)
 {
 	while (string != NULL)
 	{
-		printf("string->word = %s , string->flag = %i \n", string->word, string->flag);
+		printf("string->word = %s , string->flag = %i \n",
+			string->word, string->flag);
 		string = string->next;
 	}
 	return ;

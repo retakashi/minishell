@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   change_line_2.c                                    :+:      :+:    :+:   */
+/*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 11:07:05 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 14:43:00 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,45 @@ static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 	return (line);
 }
 
-static	t_env_list	*joint_d_str2(char *line, char *str, t_env_list *env_list,
-							char *new_line)
+// static	char	*joint_d_str2(char *line, char *str, t_env_list *env_list, char *new_line)
+// {
+// 	while (env_list)
+// 	{
+// 		if (ft_strncmp(env_list->env_name, str,
+// 				ft_strlen(env_list->env_name)) == 0)
+// 		{
+// 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
+// 			{
+// 				// new_line = line;
+// 				line = ft_strjoin(line, env_list->env_value);
+// 				// free(new_line);
+// 			}
+// 			else
+// 				line = joint_two_d(line, str, env_list->env_name,
+// 						env_list->env_value);
+// 			break ;
+// 		}
+// 		env_list = env_list->next;
+// 	}
+// 	if (new_line == 0)
+// 		return (NULL);
+// 	return (line);
+// }
+
+static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 {
+	char	*new_line;
+
+	new_line = NULL;
+	if (*(str + 1) == '?')
+	{
+		new_line = line;
+		line = ft_strjoin(line, str);
+		free(new_line);
+		return (line);
+	}
+	str = ft_strtrim(str, "$");
+	// line = joint_d_str2(line, str, env_list, new_line);
 	while (env_list)
 	{
 		if (ft_strncmp(env_list->env_name, str,
@@ -53,24 +89,6 @@ static	t_env_list	*joint_d_str2(char *line, char *str, t_env_list *env_list,
 		}
 		env_list = env_list->next;
 	}
-	return (env_list);
-}
-
-static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
-{
-	char	*new_line;
-
-	if (*(str + 1) == '?')
-	{
-		new_line = line;
-		line = ft_strjoin(line, str);
-		free(new_line);
-		return (line);
-	}
-	new_line = str;
-	str = ft_strtrim(str, "$");
-	free(str);
-	env_list = joint_d_str2(line, str, env_list, new_line);
 	return (line);
 }
 

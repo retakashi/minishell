@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:03:22 by sraza             #+#    #+#             */
-/*   Updated: 2023/07/13 09:49:33 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 13:12:33 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ char	*duplicate(char *content, char *line, unsigned int n)
 	}
 	content[i] = '\0';
 	return (content);
+}
+
+int	len_of_string(t_word_list *string)
+{
+	int	i;
+
+	i = 0;
+	while (string)
+	{
+		i++;
+		string = string->next;
+	}
+	return (i);
 }
