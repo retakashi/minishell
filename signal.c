@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/07 01:33:09 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 23:49:22 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	set_sigint(void)
 	sigstruct.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &sigstruct, NULL) == FAILURE)
 		return (FAILURE);
+	sigstruct.sa_handler = SIG_IGN;
+	sigstruct.sa_flags = SA_RESTART;	
 	if (sigaction(SIGQUIT, &sigstruct, NULL) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);

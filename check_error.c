@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 21:43:33 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 22:27:24 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@ static	int	one_string(t_word_list *string, t_env_list **env)
 	return (SUCCESS);
 }
 
-<<<<<<< HEAD:parse_line_3.c
-void	syntax_error(t_word_list *string, t_env_list *env)
-=======
 static	int	command_error(t_word_list *string, t_env_list **env)
->>>>>>> main:check_error.c
 {
 	if (string->next != NULL)
 	{
@@ -94,15 +90,11 @@ int	check_error(t_word_list *string, t_env_list **env)
 		one_string(string, env);
 	while (string)
 	{
-<<<<<<< HEAD:parse_line_3.c
-		syntax_error(string, env);
-		redirect_error(string, env);
-=======
+
 		if (command_error(string, env) != 0)
 			return (FAILURE);
 		if (redirect_error(string, env) != 0)
 			return (FAILURE);
->>>>>>> main:check_error.c
 		if (string->next == NULL)
 			if (last_error(string, env) != 0)
 				return (FAILURE);

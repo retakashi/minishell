@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/07 21:44:33 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 22:20:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ static	int	is_just_str(t_word_list *string)
 		if (string->word[i] == '\'' && string->word[i + 1] == '\0')
 			return (1);
 	}
-	// while (ft_isalnum(string->word[i]) && string->word[i] != '\0')
-	while ((ft_isalnum(string->word[i]) || (is_include_meta(&string->word[i])) == 0) && string->word[i] != '\0')
+	while ((ft_isalnum(string->word[i]) || (is_include_meta(&string->word[i]))
+			== 0) && string->word[i] != '\0')
 		i++;
 	if (string->word[i] == '\0')
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 static	int	len_of_str_meta(char *str)
@@ -74,7 +73,7 @@ static	t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
 	string->word = (string->word + i);
 	new = ft_newlst(string->word);
 	if (string->word == NULL)
-			return (NULL);
+		return (NULL);
 	string->word = malloc(sizeof (char) * (i + 1));
 	string->word = duplicate(string->word, str, i);
 	string->next = new;
@@ -105,5 +104,6 @@ t_word_list	*find_meta(t_word_list *string)
 		string = split_argument(string);
 		string = string->next;
 	}
+	string = tmp;
 	return (tmp);
 }

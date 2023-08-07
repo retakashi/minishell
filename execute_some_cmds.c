@@ -75,7 +75,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
 	t_child	child;
-
+	
 	advance_word_list(*word_list, &child.tmp_word, p_data.i);
 	find_child_num(*here_list, &child.tmp_here, p_data.i);
 	if (set_redirection(child.tmp_word, child.tmp_here, &child.fd_struct,
@@ -92,7 +92,6 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 			env_list);
 	else
 	{
-		printf("fd %d\n",child.fd_struct.out_fd);
 		dup2_fd_struct(child.fd_struct, word_list, env_list);
 		prepare_execve_cmds(word_list, env_list, p_data.i);
 	}
