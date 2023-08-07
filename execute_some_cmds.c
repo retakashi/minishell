@@ -92,6 +92,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 			env_list);
 	else
 	{
+		printf("fd %d\n",child.fd_struct.out_fd);
 		dup2_fd_struct(child.fd_struct, word_list, env_list);
 		prepare_execve_cmds(word_list, env_list, p_data.i);
 	}
