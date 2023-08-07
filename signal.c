@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/07 23:49:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 23:51:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	set_signal_parent(void)
 
 	sigemptyset(&sigstruct.sa_mask);
 	sigstruct.sa_flags = SA_RESTART;
-	sigstruct.sa_handler = handle_sig_parent;
+	sigstruct.sa_handler = SIG_IGN;
 	if (sigaction(SIGINT, &sigstruct, NULL) == FAILURE)
 		return (FAILURE);
 	sigstruct.sa_handler = handle_sig_parent;
