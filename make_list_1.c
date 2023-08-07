@@ -6,13 +6,13 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/02 10:17:34 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 11:03:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-t_word_list	*make_first_list(char **line)
+static	t_word_list	*make_first_list(char **line)
 {
 	int			i;
 	t_word_list	*string;
@@ -38,7 +38,7 @@ t_word_list	*make_first_list(char **line)
 	return (string);
 }
 
-t_word_list	*make_last_list(char **line, t_word_list *string)
+static	t_word_list	*make_last_list(char **line, t_word_list *string)
 {
 	int	i;
 

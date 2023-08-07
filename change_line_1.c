@@ -5,114 +5,134 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 01:19:37 by reira            ###   ########.fr       */
+/*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
+/*   Updated: 2023/08/07 21:43:07 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	count_env_mark(char *line)
+static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 {
-	int	i;
-	int	count_env;
+	char	*new_line;
 
-	i = 0;
-	count_env = 0;
-	while (line[i] != '\0')
+	while (*str == *env_name)
 	{
-		if (line[i] == '$')
-			count_env++;
-		i++;
+		str++;
+		env_name++;
 	}
-	return (count_env);
-}
-
-char	*count_d_str(char **str)
-{
-	int		i;
-	char	*line;
-
-	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
-		(*str)[i] != '\0' && (*str)[i] != '$')
-		i++;
-	line = malloc (sizeof (char) * (i + 1));
-	if (line == NULL)
-		return (NULL);
-	line[0] = (*str)[0];
-	i = 1;
-	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
-		(*str)[i] != '\0' && (*str)[i] != '$')
-	{
-		line[i] = (*str)[i];
-		i++;
-	}
-	(*str) += i;
-	line[i] = '\0';
+	new_line = line;
+	line = ft_strjoin(line, env_value);
+	free(new_line);
+	if (ft_isalnum(*str) || *str == '_')
+		return (line);
+	new_line = line;
+	line = ft_strjoin(line, str);
+	free(new_line);
 	return (line);
 }
 
-char	**give_d_hatena(char **result, char *exit_status, char *d_hatena)
+// static	char	*joint_d_str2(char *line, char *str, t_env_list *env_list, char *new_line)
+// {
+// 	while (env_list)
+// 	{
+// 		if (ft_strncmp(env_list->env_name, str,
+// 				ft_strlen(env_list->env_name)) == 0)
+// 		{
+// 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
+// 			{
+// 				// new_line = line;
+// 				line = ft_strjoin(line, env_list->env_value);
+// 				// free(new_line);
+// 			}
+// 			else
+// 				line = joint_two_d(line, str, env_list->env_name,
+// 						env_list->env_value);
+// 			break ;
+// 		}
+// 		env_list = env_list->next;
+// 	}
+// 	if (new_line == 0)
+// 		return (NULL);
+// 	return (line);
+// }
+
+static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
+{
+	char	*new_line;
+
+	new_line = NULL;
+	if (*(str + 1) == '?')
+	{
+		new_line = line;
+		line = ft_strjoin(line, str);
+		free(new_line);
+		return (line);
+	}
+	str = ft_strtrim(str, "$");
+	// line = joint_d_str2(line, str, env_list, new_line);
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->env_name, str,
+				ft_strlen(env_list->env_name)) == 0)
+		{
+			if (ft_strlen(str) == ft_strlen(env_list->env_name))
+			{
+				new_line = line;
+				line = ft_strjoin(line, env_list->env_value);
+				free(new_line);
+			}
+			else
+				line = joint_two_d(line, str, env_list->env_name,
+						env_list->env_value);
+			break ;
+		}
+		env_list = env_list->next;
+	}
+	return (line);
+}
+
+static	char	*joint_array(char **result, t_env_list *env_list)
 {
 	int		i;
-	int		j;
-	size_t	len_status;
+	char	*line;
+	char	*new_line;
 
 	i = 0;
-	len_status = ft_strlen(exit_status);
-	while (result[i])
+	line = NULL;
+	while (result[i] != NULL)
 	{
-		j = 0;
-		while (result[i][j])
+		if (result[i][0] == '$')
 		{
-			if (result[i][j] != d_hatena[j])
-				break ;
-			if (j == 1 && result[i][j + 1] == '\0')
-			{
-				free(result[i]);
-				result[i] = malloc(sizeof (char) * (len_status + 1));
-				result[i] = duplicate(result[i], exit_status, len_status);
-				return (result);
-			}
-			j++;
+			line = joint_d_str(line, result[i], env_list);
+			new_line = line;
+			line = ft_strjoin(line, " ");
+			free(new_line);
+		}
+		else if (result[i] != NULL && result[i][0] != '$')
+		{
+			new_line = line;
+			line = ft_strjoin(line, result[i]);
+			free(new_line);
 		}
 		i++;
 	}
-	return (result);
+	return (line);
 }
 
-char	**make_strlist(char *line, t_env_list *env_list)
+char	*change_line(char *line, t_env_list *env_list)
 {
-	char	**max_str;
 	int		i;
+	char	**result;
+	char	*new_line;
 
 	i = 0;
-	max_str = malloc(sizeof(char *) * (count_env_mark(line) * 2 + 2));
-	if (max_str == NULL)
-		return (NULL);
-	while (*line != '\0')
-	{
-		if (*line != '$' && *line != '\0')
-		{
-			max_str[i] = count_s_str(&line);
-			i++;
-		}
-		if (*line == '$')
-		{
-			max_str[i] = count_d_str(&line);
-			i++;
-		}
-		if (*line != '$' && *line != '\0')
-			line++;
-	}
-	max_str[i] = NULL;
-	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
-	// i = 0;
-	// while (max_str[i])
-	// {
-	// 	printf("max_str[%i] = %s\n", i, max_str[i]);
-	// 	i++;
-	// }
-	return (max_str);
+	while (line[i] != '$' && line[i] != '\0')
+		i++;
+	if (i == (int)ft_strlen(line))
+		return (line);
+	result = make_strlist(line, env_list);
+	new_line = joint_array(result, env_list);
+	ft_free_line2(result);
+	return (new_line);
 }

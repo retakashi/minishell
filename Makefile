@@ -6,7 +6,7 @@
 #    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/07 16:07:17 by reira            ###   ########.fr        #
+#    Updated: 2023/08/07 21:45:17 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ RM = rm -f
 .DEFAULT_GOAL :=$(NAME)
 
 all: $(NAME)
-
 $(NAME): $(OBJS)
 	make -C libft
 	$(CC) $(CFLAGS) -lreadline -L $(RL_DIR)/lib -I $(RL_DIR)/include/readline -o $(NAME) $(OBJS) $(LIBFT)

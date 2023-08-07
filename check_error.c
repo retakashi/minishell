@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line_3.c                                     :+:      :+:    :+:   */
+/*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 01:21:28 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 21:43:33 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	len_of_string(t_word_list *string)
-{
-	int	i;
-
-	i = 0;
-	while (string)
-	{
-		i++;
-		string = string->next;
-	}
-	return (i);
-}
-
-void	one_string(t_word_list *string, t_env_list *env)
+static	int	one_string(t_word_list *string, t_env_list **env)
 {
 	if (string->flag >= 5 && string->flag < 10)
 	{
@@ -33,79 +20,93 @@ void	one_string(t_word_list *string, t_env_list *env)
 			printf("syntax error near unexpected token '%s'\n", string->word);
 		else if (string->flag > 5 && string->flag < 10)
 			printf("syntax error near unexpected token `newline'\n");
-		free(env->env_value);
-		env->env_value = malloc(sizeof (char) * (4));
-		env->env_value = duplicate(env->env_value, "258", 3);
+		free((*env)->env_value);
+		(*env)->env_value = malloc(sizeof (char) * (4));
+		(*env)->env_value = duplicate((*env)->env_value, "258", 3);
+		return (FAILURE);
 	}
-	// exit(0);
+	return (SUCCESS);
 }
 
+<<<<<<< HEAD:parse_line_3.c
 void	syntax_error(t_word_list *string, t_env_list *env)
+=======
+static	int	command_error(t_word_list *string, t_env_list **env)
+>>>>>>> main:check_error.c
 {
 	if (string->next != NULL)
 	{
 		if (string->flag == 1 && (string->next->flag
-			> 5 && string->next->flag < 10))
+				> 5 && string->next->flag < 10) && string->next->next == NULL)
 		{
 			printf("syntax error near unexpected token `newline'\n");
-			free(env->env_value);
-			env->env_value = malloc(sizeof (char) * (4));
-			env->env_value = duplicate(env->env_value, "258", 3);
+			free((*env)->env_value);
+			(*env)->env_value = malloc(sizeof (char) * (4));
+			(*env)->env_value = duplicate((*env)->env_value, "258", 3);
+			return (FAILURE);
 		}
-		return ;
 	}
-	return ;
+	return (SUCCESS);
 }
 
-void	redirect_error(t_word_list *string, t_env_list *env)
+static	int	redirect_error(t_word_list *string, t_env_list **env)
 {
 	if (string->next != NULL)
 	{
 		if (string->flag > 5 && string->flag < 10)
+		{
 			if (string->next->flag > 5 && string->next->flag < 10)
 			{
-				printf("syntax error near unexpected token '%s'\n", string->word);
-				free(env->env_value);
-				env->env_value = malloc(sizeof (char) * (4));
-				env->env_value = duplicate(env->env_value, "258", 3);
+				printf("syntax error near unexpected token '%s'\n",
+					string->word);
+				free((*env)->env_value);
+				(*env)->env_value = malloc(sizeof (char) * (4));
+				(*env)->env_value = duplicate((*env)->env_value, "258", 3);
+				return (FAILURE);
 			}
-		return ;
+		}
 	}
-	return ;
+	return (SUCCESS);
 }
 
-void	last_error(t_word_list *string, t_env_list *env)
+static	int	last_error(t_word_list *string, t_env_list **env)
 {
 	if (string->next != NULL)
 	{
 		if (string->flag > 5 && string->flag < 10)
 		{
 			printf("syntax error near unexpected token `newline'\n");
-			free(env->env_value);
-			env->env_value = malloc(sizeof (char) * (4));
-			env->env_value = duplicate(env->env_value, "258", 3);
+			free((*env)->env_value);
+			(*env)->env_value = malloc(sizeof (char) * (4));
+			(*env)->env_value = duplicate((*env)->env_value, "258", 3);
+			return (FAILURE);
 		}
-		return ;
 	}
-	return ;
+	return (SUCCESS);
 }
 
-t_word_list	*check_error(t_word_list *string, t_env_list *env)
+int	check_error(t_word_list *string, t_env_list **env)
 {
 	int			s_len;
-	t_word_list	*tmp;
 
-	tmp = string;
 	s_len = len_of_string(string);
 	if (s_len == 1 && string->flag != 0)
 		one_string(string, env);
 	while (string)
 	{
+<<<<<<< HEAD:parse_line_3.c
 		syntax_error(string, env);
 		redirect_error(string, env);
+=======
+		if (command_error(string, env) != 0)
+			return (FAILURE);
+		if (redirect_error(string, env) != 0)
+			return (FAILURE);
+>>>>>>> main:check_error.c
 		if (string->next == NULL)
-			last_error(string, env);
+			if (last_error(string, env) != 0)
+				return (FAILURE);
 		string = string->next;
 	}
-	return (tmp);
+	return (SUCCESS);
 }
