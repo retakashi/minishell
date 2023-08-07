@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:34:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/07 03:28:27 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 17:58:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	execute_builtin_cmdsver(t_fd fd_struct, t_flg flg_struct,
 	if (execute_builtin(*word_list, env_list, fd_struct, &flg_struct) == FAILURE
 		|| flg_struct.exit_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
+	free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);	
 }
 
 int	itoa_status(int ret, char **status)

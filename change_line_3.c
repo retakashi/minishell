@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 13:28:09 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 14:08:07 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/07 11:10:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*copy_str(char *line, char *str)
+static	char	*copy_str(char *line, char *str)
 {
 	int	i;
 

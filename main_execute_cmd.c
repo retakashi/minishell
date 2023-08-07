@@ -38,7 +38,7 @@ static int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 }
 
 // p_data↓
-// 	char				**pipe_2darr;
+// 	int				**pipe_2darr;
 // 	int					i;
 // 	int					cnt;
 
