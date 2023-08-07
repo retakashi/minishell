@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 03:09:24 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 18:17:30 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	main(int argc, char **argv, char **envp)
 			is_line_valid();
 		if (g_sig == SIGINT)
 			update_exit_status(&data.env_list, "130");
-		// add_history(line);
+		add_history(data.line);
 		data.new_line = change_line(data.line, data.env_list);
 		data.word_list = parse_line(data.new_line, data.env_list);
 		read_word_list(&data.word_list, &data.env_list, &data.here_list);
