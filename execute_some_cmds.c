@@ -18,9 +18,9 @@ static int	parent_close(t_p_data p_data)
 	if (p_data.i > 0 && p_data.i <= p_data.cnt)
 	{
 		if (close(p_data.pipe_2darr[p_data.i - 1][READ]) < 0)
-			return (ft_perror("close"));
+			return (ft_perror("close p"));
 		if (close(p_data.pipe_2darr[p_data.i - 1][WRITE]) < 0)
-			return (ft_perror("close"));
+			return (ft_perror("close p"));
 	}
 	return (SUCCESS);
 }
@@ -75,7 +75,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
 	t_child	child;
-
+	
 	advance_word_list(*word_list, &child.tmp_word, p_data.i);
 	find_child_num(*here_list, &child.tmp_here, p_data.i);
 	if (set_redirection(child.tmp_word, child.tmp_here, &child.fd_struct,
@@ -107,15 +107,15 @@ int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 	p_data.i = -1;
 	while (++p_data.i <= p_data.cnt)
 	{
-		if (p_data.i < p_data.cnt && pipe(p_data.pipe_2darr[p_data.i]) < 0)
+		if (p_data.i < p_data.cnt&&pipe(p_data.pipe_2darr[p_data.i])==FAILURE)
 			return (ft_perror("pipe"));
 		pid = fork();
 		if (pid < 0)
 			return (ft_perror("fork"));
 		if (pid == 0)
 			child_execute_cmds(word_list, env_list, here_list, p_data);
-		else if (pid > 0 && parent_close(p_data) == FAILURE)
-			return (FAILURE);
+		else
+			parent_close(p_data);
 	}
 	ret = wait_some_cmds(p_data.cnt);
 	if (itoa_status(ret, &status) == FAILURE)

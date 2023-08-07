@@ -6,13 +6,13 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 01:21:19 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/07 23:00:03 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	check_sp(char *line)
+static	int	check_sp(char *line)
 {
 	int	i;
 	int	len;
@@ -26,7 +26,7 @@ int	check_sp(char *line)
 	return (0);
 }
 
-t_word_list	*parse_line(char *line, t_env_list *env_list)
+t_word_list	*parse_line(char *line)
 {
 	t_word_list	*string;
 	t_word_list	*tmp;
@@ -39,7 +39,8 @@ t_word_list	*parse_line(char *line, t_env_list *env_list)
 	tmp = string;
 	string = argument_flag(string);
 	string = set_flags(string);
-	string = check_error(string, env_list);
+	print_words(string);
+	string = tmp;
 	return (tmp);
 }
 
@@ -47,7 +48,8 @@ void	print_words(t_word_list *string)
 {
 	while (string != NULL)
 	{
-		printf("string->word = %s , string->flag = %i \n", string->word, string->flag);
+		// printf("string->word = %s , string->flag = %i \n",
+			// string->word, string->flag);
 		string = string->next;
 	}
 	return ;
