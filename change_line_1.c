@@ -6,13 +6,13 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 18:51:28 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 11:10:40 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	count_env_mark(char *line)
+static	int	count_env_mark(char *line)
 {
 	int	i;
 	int	count_env;
@@ -28,7 +28,7 @@ int	count_env_mark(char *line)
 	return (count_env);
 }
 
-char	*count_d_str(char **str)
+static	char	*count_d_str(char **str)
 {
 	int		i;
 	char	*line;
@@ -53,7 +53,8 @@ char	*count_d_str(char **str)
 	return (line);
 }
 
-char	**give_d_hatena(char **result, char *exit_status, char *d_hatena)
+static	char	**give_d_hatena(char **result, char *exit_status,
+								char *d_hatena)
 {
 	int		i;
 	int		j;
@@ -108,11 +109,11 @@ char	**make_strlist(char *line, t_env_list *env_list)
 	}
 	max_str[i] = NULL;
 	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
-	// i = 0;
-	// while (max_str[i])
-	// {
-	// 	printf("max_str[%i] = %s\n", i, max_str[i]);
-	// 	i++;
-	// }
+	i = 0;
+	while (max_str[i])
+	{
+		printf("max_str[%i] = %s\n", i, max_str[i]);
+		i++;
+	}
 	return (max_str);
 }

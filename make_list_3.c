@@ -6,13 +6,13 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/06 18:53:42 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 11:14:57 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	is_just_str(t_word_list *string)
+static	int	is_just_str(t_word_list *string)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ int	is_just_str(t_word_list *string)
 	return (0);
 }
 
-int	len_of_str_meta(char *str)
+static	int	len_of_str_meta(char *str)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ int	len_of_str_meta(char *str)
 	return (i);
 }
 
-t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
+static	t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
 {
 	int			i;
 	int			j;
@@ -81,7 +81,7 @@ t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
 	return (string);
 }
 
-t_word_list	*split_argument(t_word_list *string)
+static	t_word_list	*split_argument(t_word_list *string)
 {
 	if (is_just_meta(string->word) != 0)
 		return (string);

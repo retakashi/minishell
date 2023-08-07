@@ -6,37 +6,46 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 18:52:13 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 11:07:05 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
+static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 {
+	char	*new_line;
+
 	while (*str == *env_name)
 	{
 		str++;
 		env_name++;
 	}
+	new_line = line;
 	line = ft_strjoin(line, env_value);
+	free(new_line);
 	if (ft_isalnum(*str) || *str == '_')
 		return (line);
-	return (ft_strjoin(line, str));
+	new_line = line;
+	line = ft_strjoin(line, str);
+	free(new_line);
+	return (line);
 }
 
-char	*joint_d_str(char *line, char *str, t_env_list *env_list)
+static	t_env_list	*joint_d_str2(char *line, char *str, t_env_list *env_list,
+							char *new_line)
 {
-	if (*(str + 1) == '?')
-		return (ft_strjoin(line, str));
-	str = ft_strtrim(str, "$");
 	while (env_list)
 	{
 		if (ft_strncmp(env_list->env_name, str,
 				ft_strlen(env_list->env_name)) == 0)
 		{
 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
+			{
+				new_line = line;
 				line = ft_strjoin(line, env_list->env_value);
+				free(new_line);
+			}
 			else
 				line = joint_two_d(line, str, env_list->env_name,
 						env_list->env_value);
@@ -44,13 +53,32 @@ char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		}
 		env_list = env_list->next;
 	}
+	return (env_list);
+}
+
+static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
+{
+	char	*new_line;
+
+	if (*(str + 1) == '?')
+	{
+		new_line = line;
+		line = ft_strjoin(line, str);
+		free(new_line);
+		return (line);
+	}
+	new_line = str;
+	str = ft_strtrim(str, "$");
+	free(str);
+	env_list = joint_d_str2(line, str, env_list, new_line);
 	return (line);
 }
 
-char	*joint_array(char **result, t_env_list *env_list)
+static	char	*joint_array(char **result, t_env_list *env_list)
 {
 	int		i;
 	char	*line;
+	char	*new_line;
 
 	i = 0;
 	line = NULL;
@@ -59,10 +87,16 @@ char	*joint_array(char **result, t_env_list *env_list)
 		if (result[i][0] == '$')
 		{
 			line = joint_d_str(line, result[i], env_list);
+			new_line = line;
 			line = ft_strjoin(line, " ");
+			free(new_line);
 		}
 		else if (result[i] != NULL && result[i][0] != '$')
+		{
+			new_line = line;
 			line = ft_strjoin(line, result[i]);
+			free(new_line);
+		}
 		i++;
 	}
 	return (line);

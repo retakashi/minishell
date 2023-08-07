@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/04 12:40:56 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/07 11:11:57 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_word_list	*ft_newlst(char *content)
 	return (new);
 }
 
-int	dquotes_sprt(char *line)
+static	int	dquotes_sprt(char *line)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ int	dquotes_sprt(char *line)
 	return (i);
 }
 
-int	squotes_sprt(char *line)
+static	int	squotes_sprt(char *line)
 {
 	int	i;
 

@@ -6,13 +6,13 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/06 18:54:32 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 11:04:46 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int	check_sp(char *line)
+static	int	check_sp(char *line)
 {
 	int	i;
 	int	len;
@@ -39,6 +39,8 @@ t_word_list	*parse_line(char *line, t_env_list *env_list)
 	tmp = string;
 	string = argument_flag(string);
 	string = set_flags(string);
+	print_words(string);
+	string = tmp;
 	string = check_error(string, env_list);
 	return (tmp);
 }
