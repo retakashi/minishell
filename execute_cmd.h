@@ -118,7 +118,7 @@ void			get_command(t_word_list **head);
 void			echo_cmd(t_word_list *word_list, int fd);
 // env.c
 int				env_cmd(t_env_list **env_list, int fd);
-// error.c
+// execute_error.c
 int				put_error(char *str);
 int				ft_perror(char *str);
 void			command_error(char *str);
@@ -199,7 +199,7 @@ int				set_redirection(t_word_list *word_list, t_here_list *here_list,
 					t_fd *fd_struct, int *exit_flg);
 int				unlink_here_file(t_here_list *here_list, int *exit_flg);
 // signal.c
-int				set_sigint(void);
+int				set_sigint();
 int				set_signal_parent(void);
 // execute_utils.c
 void			ft_get_env(char *str, t_env_list *env_list, t_env_list **tmp);
