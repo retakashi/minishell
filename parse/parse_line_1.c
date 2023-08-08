@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 23:00:03 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 00:23:01 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	print_words(t_word_list *string)
 {
 	while (string != NULL)
 	{
-		// printf("string->word = %s , string->flag = %i \n",
-			// string->word, string->flag);
+		printf("string->word = %s , string->flag = %i \n",
+			string->word, string->flag);
 		string = string->next;
 	}
 	return ;

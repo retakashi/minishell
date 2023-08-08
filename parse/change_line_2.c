@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 21:43:20 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 00:51:18 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ static	char	*count_d_str(char **str)
 		line[i] = (*str)[i];
 		i++;
 	}
-	(*str) += i;
+	if (i == 1)
+		(*str) += i;
+	else
+		(*str) += i - 1;
 	line[i] = '\0';
 	return (line);
 }
@@ -101,6 +104,7 @@ char	**make_strlist(char *line, t_env_list *env_list)
 		}
 		if (*line == '$')
 		{
+			printf("i = %i\n", i);
 			max_str[i] = count_d_str(&line);
 			i++;
 		}

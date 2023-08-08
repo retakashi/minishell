@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 22:21:40 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 01:05:04 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_word_list	*redirect_command(t_word_list *tmp)
 		if (tmp->flag == 5)
 		{
 			tmp = tmp->next;
-			tmp->flag = 1;
+			if (is_just_meta(tmp->word) == 0)
+				tmp->flag = 1;
 			return (tmp);
 		}
 		if (tmp->flag == 0)
@@ -86,10 +87,9 @@ t_word_list	*set_flags(t_word_list	*string)
 	t_word_list	*tmp;
 
 	tmp = string;
+	tmp = set_meta_flags(tmp);
 	if (is_just_meta(tmp->word) == 0)
 		tmp->flag = 1;
-	else
-		tmp->flag = is_just_meta(tmp->word);
 	if (string->flag > 5 && string->flag < 10)
 		tmp = redirect_command(tmp);
 	while (tmp != NULL)
@@ -102,6 +102,7 @@ t_word_list	*set_flags(t_word_list	*string)
 		tmp = set_flags_per_list(tmp);
 		tmp = tmp->next;
 	}
-	string = set_meta_flags(string);
+	tmp = string;
+	tmp = set_meta_flags(tmp);
 	return (string);
 }

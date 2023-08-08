@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 22:19:44 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 00:43:34 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 {
 	char	*new_line;
+	char	*ex_str;
 
+	ex_str = str;
 	new_line = NULL;
 	if (*(str + 1) == '?')
 	{
@@ -64,6 +66,12 @@ static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		}
 		env_list = env_list->next;
 	}
+	if (env_list == NULL)
+	{
+		new_line = line;
+		line = ft_strjoin(line, ex_str);
+		free(new_line);
+	}
 	return (line);
 }
 
@@ -80,9 +88,12 @@ static	char	*joint_array(char **result, t_env_list *env_list)
 		if (result[i][0] == '$')
 		{
 			line = joint_d_str(line, result[i], env_list);
-			new_line = line;
-			line = ft_strjoin(line, " ");
-			free(new_line);
+			// if (result[i][ft_strlen(result[i] - 1)] == ' ')
+			// {
+			// 	new_line = line;
+			// 	line = ft_strjoin(line, " ");
+			// 	free(new_line);
+			// }
 		}
 		else if (result[i] != NULL && result[i][0] != '$')
 		{

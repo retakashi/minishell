@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/08 11:37:31 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 01:07:12 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static	int	redirect_error(t_word_list *string, t_env_list **env)
 			if (string->next->flag > 5 && string->next->flag < 10)
 			{
 				printf("syntax error near unexpected token '%s'\n",
-					string->word);
+					string->next->word);
 				free((*env)->env_value);
 				(*env)->env_value = malloc(sizeof (char) * (4));
 				(*env)->env_value = duplicate((*env)->env_value, "258", 3);
@@ -89,6 +89,14 @@ int	check_error(t_word_list *string, t_env_list **env)
 	if (s_len == 1 && string->flag != 0)
 		if (one_string(string, env) != 0)
 			return (FAILURE);
+	if (string->flag == 5)
+	{
+		printf("syntax error near unexpected token '%s'\n", string->word);
+		free((*env)->env_value);
+		(*env)->env_value = malloc(sizeof (char) * (4));
+		(*env)->env_value = duplicate((*env)->env_value, "258", 3);
+		return (FAILURE);
+	}
 	while (string)
 	{
 		if (command_error(string, env) != 0)

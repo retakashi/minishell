@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 22:17:28 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 01:08:50 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ t_word_list				*make_list(char *line);
 
 //make_list2.c
 t_word_list				*ft_newlst(char *content);
-// int						dquotes_sprt(char *line);
-// int						squotes_sprt(char *line);
 t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
 
@@ -131,6 +129,5 @@ char					**make_strlist(char *line, t_env_list *env_list);
 
 //change_line_3.c
 char					*count_s_str(char **line);
-// char					*copy_str(char *line, char *str);
 
 #endif
