@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/08 11:32:26 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/08 11:37:31 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	check_error(t_word_list *string, t_env_list **env)
 			return (FAILURE);
 	while (string)
 	{
-
 		if (command_error(string, env) != 0)
 			return (FAILURE);
 		if (redirect_error(string, env) != 0)
