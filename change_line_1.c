@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 14:43:00 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 22:19:44 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,6 @@ static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 	free(new_line);
 	return (line);
 }
-
-// static	char	*joint_d_str2(char *line, char *str, t_env_list *env_list, char *new_line)
-// {
-// 	while (env_list)
-// 	{
-// 		if (ft_strncmp(env_list->env_name, str,
-// 				ft_strlen(env_list->env_name)) == 0)
-// 		{
-// 			if (ft_strlen(str) == ft_strlen(env_list->env_name))
-// 			{
-// 				// new_line = line;
-// 				line = ft_strjoin(line, env_list->env_value);
-// 				// free(new_line);
-// 			}
-// 			else
-// 				line = joint_two_d(line, str, env_list->env_name,
-// 						env_list->env_value);
-// 			break ;
-// 		}
-// 		env_list = env_list->next;
-// 	}
-// 	if (new_line == 0)
-// 		return (NULL);
-// 	return (line);
-// }
 
 static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 {

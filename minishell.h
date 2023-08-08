@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/07 17:25:44 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/07 22:17:28 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include"./libft/libft.h"
 # define SUCCESS 0
 # define FAILURE -1
-# include"./libft/libft.h"
 
 typedef struct s_word_list
 {
 	struct s_word_list	*next;
 	char				*word;
 	int					flag;
-}			t_word_list;
+}						t_word_list;
 
 typedef struct s_env_list
 {
@@ -41,11 +41,28 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }						t_env_list;
 
+typedef struct s_here_list
+{
+	int					here_fd;
+	char				*here_file_name;
+	int					child_num;
+	struct s_here_list	*next;
+}						t_here_list;
+
 typedef struct s_dollar
 {
 	int					*d_count;
 	int					len;
 }						t_dollar;
+
+typedef struct s_main_data
+{
+	t_word_list			*word_list;
+	t_env_list			*env_list;
+	t_here_list			*here_list;
+	char				*line;
+	char				*new_line;
+}						t_main_data;
 
 typedef enum s_flags
 {
@@ -63,7 +80,7 @@ typedef enum s_flags
 	append_file,
 	in_file,
 	eof_num = 14,
-}			t_flags;
+}						t_flags;
 
 //parse_line_1.c
 t_word_list				*parse_line(char *line);
@@ -103,9 +120,9 @@ int						len_of_string(t_word_list *string);
 //split_str.c
 char					**split_str(char *str, char *charset);
 
-//get_env.c
-t_env_list				*init_minishell(char **envp,
-							t_env_list **env_list_head);
+// //get_env.c
+// t_env_list				*init_minishell(char **envp,
+// 							t_env_list **env_list_head);
 //change_line_1.c
 char					*change_line(char *line, t_env_list *env_list);
 
