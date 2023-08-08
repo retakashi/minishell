@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line_1.c                                     :+:      :+:    :+:   */
+/*   parse_line_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/04 15:31:02 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/07 22:21:40 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ t_word_list	*redirect_command(t_word_list *tmp)
 		tmp = tmp->next->next;
 		tmp->flag = is_just_meta(tmp->word);
 		if (tmp->flag == 5)
-			return (tmp->next);
+		{
+			tmp = tmp->next;
+			tmp->flag = 1;
+			return (tmp);
+		}
 		if (tmp->flag == 0)
 		{
 			tmp->flag = 1;
