@@ -6,10 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:59:13 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/05 17:21:29 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 19:07:51 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft/libft.h"
 #include "get_next_line.h"
 
 volatile sig_atomic_t	g_sig;
@@ -123,31 +124,20 @@ char	*get_next_line(int fd, int *flg)
 // {
 // 	char *str;
 // 	int fd;
+// 	int f;
 
 // 	fd = open("text", O_RDONLY);
 // 	if (fd == -1)
 // 		return (0);
 // 	while (1)
 // 	{
-// 		str = get_next_line(fd);
+// 		str = get_next_line(fd,&f);
 // 		printf("%s", str);
 // 		free(str);
 // 		if (!str)
 // 			break ;
 // 	}
-// 	str = get_next_line(fd);
+// 	str = get_next_line(fd,&f);
 // 	close(fd);
-// 	return (0);
-// }
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	int	fd;
-
-// 	fd = open("text", O_RDONLY);
-// 	printf("%s \n", get_next_line(42)); // ok
-// 	close(fd);
-// 	printf("read ret %d\n", read(fd, NULL, 0));
-// 	printf("%s\n", get_next_line(fd));
 // 	return (0);
 // }

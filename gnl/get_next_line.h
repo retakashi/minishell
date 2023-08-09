@@ -6,14 +6,13 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:55:52 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/05 17:13:14 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 18:41:49 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "../libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>
 # include <signal.h>
