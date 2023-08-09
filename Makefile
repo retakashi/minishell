@@ -6,7 +6,7 @@
 #    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/09 19:25:54 by reira            ###   ########.fr        #
+#    Updated: 2023/08/09 19:39:33 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,15 @@ EXECUTE_OBJS = ${addprefix $(OBJS_DIR)/, $(EXECUTE_SRCS:.c=.o)}
 EXECUTE_OBJS +=	${addprefix $(OBJS_DIR)/, $(GNL_SRCS:.c=.o)}
 OBJS =	${addprefix $(OBJS_DIR)/, $(PARSE_SRCS:.c=.o)} ${addprefix $(OBJS_DIR)/, $(SIGNAL_SRCS:.c=.o)} $(EXECUTE_OBJS)
 RL_DIR = $(shell brew --prefix readline)
-
-$(OBJS_DIR)/%.o: $(PARSE_DIR)/%.c
+$(OBJS_DIR):
+	mkdir -p $(OBJS_DIR)
+$(OBJS_DIR)/%.o: $(PARSE_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
-$(OBJS_DIR)/%.o: $(SIGNAL_DIR)/%.c
+$(OBJS_DIR)/%.o: $(SIGNAL_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
-$(OBJS_DIR)/%.o: $(EXECUTE_DIR)/%.c
+$(OBJS_DIR)/%.o: $(EXECUTE_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
-$(OBJS_DIR)/%.o: $(GNL_DIR)/%.c
+$(OBJS_DIR)/%.o: $(GNL_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
 
 RM = rm -f
