@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   get_env_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/23 21:10:19 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Created: 2023/07/05 23:40:13 by reira             #+#    #+#             */
+/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../execute_cmd.h"
 
-int	ft_perror(char *str)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	perror(str);
-	return (FAILURE);
-}
 
 size_t	get_name_len(char *str)
 {
@@ -93,13 +87,4 @@ int	get_env_list(char **envp, t_env_list **head)
 		i++;
 	}
 	return (SUCCESS);
-}
-
-
-t_env_list	*init_minishell(char **envp, t_env_list **env_list_head)
-{
-	*env_list_head = NULL;
-	if (envp != NULL)
-		get_env_list(envp, env_list_head);
-	return (*env_list_head);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 00:43:34 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/09 15:40:34 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
 {

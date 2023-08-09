@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/07 11:03:25 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 static	t_word_list	*make_first_list(char **line)
 {

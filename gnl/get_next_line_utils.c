@@ -6,10 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:57:57 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/05 18:33:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 19:05:30 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft/libft.h"
 #include "get_next_line.h"
 
 volatile sig_atomic_t	g_sig;

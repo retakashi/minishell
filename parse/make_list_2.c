@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/07 21:43:53 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 /*新しいリストを作る→次のノードの指す場所はNUll埋めする*/
 t_word_list	*ft_newlst(char *content)

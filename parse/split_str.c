@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:04:23 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/07/30 16:51:10 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 int	check_sep(char c, char *charset)
 {

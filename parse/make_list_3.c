@@ -6,11 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/07 22:20:57 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 static	int	is_just_str(t_word_list *string)
 {

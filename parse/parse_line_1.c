@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 00:23:01 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 static	int	check_sp(char *line)
 {

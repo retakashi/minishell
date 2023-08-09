@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 00:51:18 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/09 15:42:17 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include"../minishell.h"
 
 static	int	count_env_mark(char *line)
 {
