@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:44:15 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/10 18:49:27 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,12 +170,14 @@ int	main(int argc, char **argv, char **envp)
 			update_exit_status(&data.env_list, "130");
 		data.new_line = change_line(data.line, data.env_list);
 		data.word_list = parse_line(data.new_line);
-		if (check_error(data.word_list, &data.env_list) == 0)
+		if (data.word_list && check_error(data.word_list, &data.env_list) == 0)
 		{
 			read_word_list(&data.word_list, &data.env_list, &data.here_list);
 			add_history(data.line);
 			free_success(data.line, &data.word_list, &data.here_list);
 		}
+		else
+			free(data.word_list);
 	}
 	free_env_list(&data.env_list);
 	return (0);
