@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/10 16:20:52 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ int	main(int argc, char **argv, char **env)
 			new_line = change_line(line, env_list);
 			printf("new_line = %s \n", new_line);
 			string = parse_line(new_line);
-			if (check_error(string, &env_list) == 0)
-				printf("SUCCESS!!\n");
-			add_history(line);
-			free(line);
+			if (string)
+			{
+				if (check_error(string, &env_list) == 0)
+					printf("SUCCESS!!\n");
+				add_history(line);
+				free(line);
+			}
 		}
 	}
 	exit(0);
