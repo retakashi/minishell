@@ -6,12 +6,12 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/07 23:51:06 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/10 14:26:22 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute_cmd.h"
-#include "libft/libft.h"
+#include "../execute_cmd.h"
+#include "../libft/libft.h"
 
 volatile sig_atomic_t	g_sig;
 
