@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:07:43 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:24:18 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*change_line(char *line, t_env_list *env_list)
 		i++;
 	if (i == (int)ft_strlen(line))
 	{
-		new_line = malloc(sizeof (char) * (i));
+		new_line = malloc(sizeof (char) * (i + 1));
 		new_line = duplicate(new_line, line, i);
 		return (new_line);
 	}
