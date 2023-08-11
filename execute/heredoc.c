@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:24:28 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:50:39 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ int	get_here_list(t_word_list *word_list, t_here_list **here_list)
 			word_list = word_list->next;
 	}
 	if (g_sig == SIGINT)
-		unlink_here_list(t_here_list * *here_list) return (SUCCESS);
+		unlink_here_list(t_here_list * *here_list);
+	return (SUCCESS);
 }
