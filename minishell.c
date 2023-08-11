@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/11 21:02:26 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:45:00 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	loop_shell(t_main_data *data)
 			read_word_list(&data->word_list, &data->env_list, &data->here_list);
 			add_history(data->line);
 			free_success(data->line, &data->word_list, &data->here_list);
+			free(data->new_line);
 		}
 		else
 			free(data->word_list);
