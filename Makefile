@@ -3,23 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
+#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/11 11:02:46 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/08/11 20:18:21 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror 
 LIBFT = libft/libft.a
 GNL_DIR = gnl
 PARSE_DIR = parse
 SIGNAL_DIR = signal
 EXECUTE_DIR = execute
 PARSE_SRCS = change_line_1.c change_line_2.c  change_line_3.c make_list_1.c make_list_2.c make_list_3.c make_list_4.c \
-	parse_line_1.c parse_line_2.c split_str.c utils.c check_error.c
+	parse_line_1.c parse_line_2.c split_str.c utils.c check_error.c check_error_2.c
 SIGNAL_SRCS = signal.c
 EXECUTE_SRCS = builtin_error.c builtin.c cd_and_pwd.c dup2_close.c echo.c env.c error.c execve.c execute_one_cmd.c \
 	execute_some_cmds_utils.c execute_some_cmds.c exit.c export_nooption.c export_utils.c export.c \
