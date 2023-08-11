@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 20:36:45 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/11 22:05:26 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static	char	*count_d_str(char **str)
 }
 
 static	char	**give_d_hatena(char **result, char *exit_status,
-								char *d_hatena)
+				char *d_hatena)
 {
 	int		i;
 	int		j;
@@ -65,6 +65,7 @@ static	char	**give_d_hatena(char **result, char *exit_status,
 
 	i = 0;
 	len_status = ft_strlen(exit_status);
+	printf("hello\n");
 	while (result[i])
 	{
 		j = 0;

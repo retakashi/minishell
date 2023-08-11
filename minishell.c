@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/11 21:02:26 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:00:27 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(envp, &data.env_list, &data.word_list, &data.here_list);
 	loop_shell(&data);
 	free_env_list(&data.env_list);
-	return (0);
+	exit (EXIT_SUCCESS);
 }
