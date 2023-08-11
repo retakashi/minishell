@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 15:08:29 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	one_string(t_word_list *string, t_env_list **env)
 	return (SUCCESS);
 }
 
-static	int	command_error(t_word_list *string, t_env_list **env)
+static	int	command_error_check(t_word_list *string, t_env_list **env)
 {
 	if (string->next != NULL)
 	{
@@ -99,7 +99,7 @@ int	check_error(t_word_list *string, t_env_list **env)
 	}
 	while (string)
 	{
-		if (command_error(string, env) != 0)
+		if (command_error_check(string, env) != 0)
 			return (FAILURE);
 		if (redirect_error(string, env) != 0)
 			return (FAILURE);
