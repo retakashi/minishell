@@ -6,13 +6,13 @@
 #    By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/11 21:00:17 by rtakashi         ###   ########.fr        #
+#    Updated: 2023/08/11 22:23:21 by rtakashi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
 GNL_DIR = gnl
 PARSE_DIR = parse

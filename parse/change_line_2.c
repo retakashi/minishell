@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:06:05 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:07:18 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static	char	**give_d_hatena(char **result, char *exit_status,
 
 	i = 0;
 	len_status = ft_strlen(exit_status);
-	printf("hello\n");
 	while (result[i])
 	{
 		j = 0;

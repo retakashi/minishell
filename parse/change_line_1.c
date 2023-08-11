@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:06:02 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:07:43 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ char	*change_line(char *line, t_env_list *env_list)
 	}
 	result = make_strlist(line, env_list);
 	new_line = joint_array(result, env_list);
-	printf("p = %p\n", &new_line);
 	ft_free_line2(result);
 	return (new_line);
 }
