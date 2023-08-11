@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+         #
+#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/11 21:00:17 by rtakashi         ###   ########.fr        #
+#    Updated: 2023/08/11 22:18:41 by sraza            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFT = libft/libft.a
 GNL_DIR = gnl
 PARSE_DIR = parse
