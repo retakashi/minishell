@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:26:15 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:48:28 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,11 +203,8 @@ int				update_exit_status(t_env_list **env_list, char *estatus);
 int				change_exit_flg(int *exit_flg);
 // read_word_list.c
 bool			find_flg(t_word_list *word_list, int flag);
-void			set_child_num(t_word_list *word_list, t_here_list **here_list);
 int				read_word_list(t_word_list **word_list, t_env_list **env_list,
 					t_here_list **here_list);
-void			init_minishell(char **envp, t_env_list **env_list_head,
-					t_word_list **word_list_head, t_here_list **here_list);
 // unset.c
 bool			search_env_name(t_word_list *word_list, t_env_list *env_list);
 void			unset_cmd(t_word_list *word_list, t_env_list **env_list);

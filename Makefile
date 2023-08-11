@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+         #
+#    By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/11 20:18:21 by sraza            ###   ########.fr        #
+#    Updated: 2023/08/11 21:00:17 by rtakashi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,11 @@ EXECUTE_SRCS = builtin_error.c builtin.c cd_and_pwd.c dup2_close.c echo.c env.c 
 	main_execute_cmd.c free_exit.c free_list.c free_2darr.c ft_atoll.c get_cmd_argv.c get_env_2darr.c get_env_list.c get_heredoc_file.c \
 	heredoc.c set_redirection.c execute_utils.c read_word_list.c unset.c
 GNL_SRCS = get_next_line.c get_next_line_utils.c
+SRCS = minishell.c
 OBJS_DIR = objs
 EXECUTE_OBJS = ${addprefix $(OBJS_DIR)/, $(EXECUTE_SRCS:.c=.o)}
 EXECUTE_OBJS +=	${addprefix $(OBJS_DIR)/, $(GNL_SRCS:.c=.o)}
-OBJS =	${addprefix $(OBJS_DIR)/, $(PARSE_SRCS:.c=.o)} ${addprefix $(OBJS_DIR)/, $(SIGNAL_SRCS:.c=.o)} $(EXECUTE_OBJS)
+OBJS =	${addprefix $(OBJS_DIR)/, $(PARSE_SRCS:.c=.o)} ${addprefix $(OBJS_DIR)/, $(SIGNAL_SRCS:.c=.o)} $(EXECUTE_OBJS) ${addprefix $(OBJS_DIR)/, $(SRCS:.c=.o)}
 RL_DIR = $(shell brew --prefix readline)
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
@@ -40,6 +41,8 @@ $(OBJS_DIR)/%.o: $(SIGNAL_DIR)/%.c | $(OBJS_DIR)
 $(OBJS_DIR)/%.o: $(EXECUTE_DIR)/%.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
 $(OBJS_DIR)/%.o: $(GNL_DIR)/%.c | $(OBJS_DIR)
+	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+$(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
 	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
 
 RM = rm -f
