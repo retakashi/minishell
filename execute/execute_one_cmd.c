@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_one_cmd.c                                   :+:      :+:    :+:   */
+/*   execute_one_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:13:08 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:11:13 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
 
-
 volatile sig_atomic_t	g_sig;
 
-static int	parent_wait()
+static int	parent_wait(void)
 {
 	int	wstatus;
 

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:17:41 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:24:28 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 volatile sig_atomic_t	g_sig;
 
@@ -115,13 +114,5 @@ int	get_here_list(t_word_list *word_list, t_here_list **here_list)
 			word_list = word_list->next;
 	}
 	if (g_sig == SIGINT)
-	{
-		while (*here_list != NULL)
-		{
-			if (unlink((*here_list)->here_file_name) < 0)
-				return (ft_perror("unlink"));
-			*here_list = (*here_list)->next;
-		}
-	}
-	return (SUCCESS);
+		unlink_here_list(t_here_list * *here_list) return (SUCCESS);
 }

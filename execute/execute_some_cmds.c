@@ -12,7 +12,6 @@
 
 #include "../execute_cmd.h"
 
-
 static int	parent_close(t_p_data p_data)
 {
 	if (p_data.i > 0 && p_data.i <= p_data.cnt)
@@ -75,7 +74,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
 	t_child	child;
-	
+
 	advance_word_list(*word_list, &child.tmp_word, p_data.i);
 	find_child_num(*here_list, &child.tmp_here, p_data.i);
 	if (set_redirection(child.tmp_word, child.tmp_here, &child.fd_struct,
@@ -107,7 +106,8 @@ int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 	p_data.i = -1;
 	while (++p_data.i <= p_data.cnt)
 	{
-		if (p_data.i < p_data.cnt&&pipe(p_data.pipe_2darr[p_data.i])==FAILURE)
+		if (p_data.i < p_data.cnt
+			&& pipe(p_data.pipe_2darr[p_data.i]) == FAILURE)
 			return (ft_perror("pipe"));
 		pid = fork();
 		if (pid < 0)

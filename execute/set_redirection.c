@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_outputput_operarion.c                           :+:      :+:    :+:   */
+/*   set_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:58:02 by reira             #+#    #+#             */
-/*   Updated: 2023/07/22 18:17:41 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:25:31 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static int	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
 		int flg)
@@ -47,12 +46,6 @@ static int	is_valid_fd(t_fd *fd_struct)
 	if (fd_struct->out_fd < 0)
 		return (FAILURE);
 	return (SUCCESS);
-}
-
-int	change_exit_flg(int *exit_flg)
-{
-	*exit_flg = true;
-	return (FAILURE);
 }
 
 static int	unlink_here_file(t_here_list *here_list, int *exit_flg)

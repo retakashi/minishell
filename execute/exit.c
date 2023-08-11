@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:12:11 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static bool	is_valid_number(char *word, long long *num)
 {
@@ -38,23 +37,23 @@ static bool	is_valid_number(char *word, long long *num)
 	return (true);
 }
 
-static void	exit_end(t_word_list **word_list, t_env_list **env_list,
-		int num, char *error_msg)
+static void	exit_end(t_word_list **word_list, t_env_list **env_list, int num,
+		char *error_msg)
 {
 	if (error_msg == NULL && num == 0)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		free_all_list(word_list, env_list,NULL);
+		free_all_list(word_list, env_list, NULL);
 		exit(EXIT_SUCCESS);
 	}
 	else if (error_msg != NULL)
 	{
 		exit_error(error_msg);
-		free_all_list(word_list, env_list,NULL);
+		free_all_list(word_list, env_list, NULL);
 		exit(2);
 	}
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	free_all_list(word_list, env_list,NULL);
+	free_all_list(word_list, env_list, NULL);
 	exit(num);
 }
 
@@ -65,7 +64,7 @@ void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 	char		*error_str;
 
 	head = *word_list;
-	if ((*word_list)->next == NULL||(*word_list)->next->flag==pipe_char)
+	if ((*word_list)->next == NULL || (*word_list)->next->flag == pipe_char)
 		exit_end(word_list, env_list, 0, NULL);
 	num = 0;
 	*word_list = (*word_list)->next;

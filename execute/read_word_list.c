@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/10 18:49:27 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/11 20:38:13 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	cnt_pipe(t_word_list *word_list)
 }
 
 static void	advance_to_here_word_list(t_here_list **here_list,
-		t_word_list **word_list, int flg)
+										t_word_list **word_list,
+										int flg)
 {
 	if (flg == true)
 		*here_list = (*here_list)->next;

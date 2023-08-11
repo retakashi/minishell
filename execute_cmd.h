@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.h                                       :+:      :+:    :+:   */
+/*   execute_cmd.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 15:49:13 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:26:15 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -185,6 +185,7 @@ int				get_env_list(char **envp, t_env_list **head);
 // get_heredoc_file.c
 char			*get_file_name(int i);
 int				get_heredoc_file(t_here_list **node, char *eof);
+void			unlink_here_list(t_here_list **here_list);
 // heredoc.c
 int				get_here_list(t_word_list *word_list, t_here_list **here_list);
 // set_redirection.c
@@ -199,6 +200,7 @@ void			ft_get_env(char *str, t_env_list *env_list, t_env_list **tmp);
 int				ft_strcmp(char *s1, char *s2);
 int				get_fd(char *file_name, int flg);
 int				update_exit_status(t_env_list **env_list, char *estatus);
+int				change_exit_flg(int *exit_flg);
 // read_word_list.c
 bool			find_flg(t_word_list *word_list, int flag);
 void			set_child_num(t_word_list *word_list, t_here_list **here_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:11:09 by reira             #+#    #+#             */
-/*   Updated: 2023/08/10 17:16:32 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/11 20:33:50 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	handle_sig_parent(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("Quit: 3",STDOUT_FILENO);
-		ft_putstr_fd("\n",STDOUT_FILENO);
+		ft_putstr_fd("Quit: 3", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 }
 
@@ -62,7 +62,7 @@ int	set_sigint(void)
 	if (sigaction(SIGINT, &sigstruct, NULL) == FAILURE)
 		return (FAILURE);
 	sigstruct.sa_handler = SIG_IGN;
-	sigstruct.sa_flags = SA_RESTART;	
+	sigstruct.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sigstruct, NULL) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);

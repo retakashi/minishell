@@ -12,7 +12,6 @@
 
 #include "../execute_cmd.h"
 
-
 static char	*get_cmd_path(char **path, int i, char **cmd_argv, char **env_2darr)
 {
 	char	*slash_join;

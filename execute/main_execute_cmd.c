@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_execute_cmd.c                                  :+:      :+:    :+:   */
+/*   main_execute_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 13:17:34 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:44:00 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:24:44 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 {

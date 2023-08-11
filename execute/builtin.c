@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:43:11 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:05:57 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main_builtin(t_word_list **word_list, t_env_list **env_list,
 
 	flg_struct.exit_flg = false;
 	ret = set_redirection(*word_list, *here_list, &fd_struct,
-		&flg_struct.exit_flg);
+			&flg_struct.exit_flg);
 	if (flg_struct.exit_flg == true)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	if (ret == FAILURE)

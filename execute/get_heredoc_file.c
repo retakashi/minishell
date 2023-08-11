@@ -3,18 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   get_heredoc_file.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 19:25:30 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:23:14 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
 #include "../gnl/get_next_line.h"
 
-
 volatile sig_atomic_t	g_sig;
+
+void	unlink_here_list(t_here_list **here_list)
+{
+	t_here_list	*tmp;
+
+	tmp = *here_list;
+	while (*here_list != NULL)
+	{
+		unlink((*here_list)->here_file_name);
+		*here_list = (*here_list)->next;
+	}
+	*here_list = tmp;
+}
 
 static bool	ft_eof_cmp(char *line, char *eof)
 {
