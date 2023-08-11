@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 20:49:52 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/11 21:02:28 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static	char	*joint_two_d(char *line, char *str,
 static	char	*joint_d_str2(char **line, char *str,
 						t_env_list **env_list, char *new_line)
 {
-	while (env_list)
+	while (*env_list)
 	{
 		if (ft_strncmp((*env_list)->env_name, str,
 				ft_strlen((*env_list)->env_name)) == 0)
@@ -52,7 +52,7 @@ static	char	*joint_d_str2(char **line, char *str,
 						(*env_list)->env_value);
 			break ;
 		}
-		env_list = &(*env_list)->next;
+		*env_list = (*env_list)->next;
 	}
 	return (*line);
 }
