@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 20:36:55 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:49:52 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,30 @@ static	char	*joint_two_d(char *line, char *str,
 	return (line);
 }
 
+static	char	*joint_d_str2(char **line, char *str,
+						t_env_list **env_list, char *new_line)
+{
+	while (env_list)
+	{
+		if (ft_strncmp((*env_list)->env_name, str,
+				ft_strlen((*env_list)->env_name)) == 0)
+		{
+			if (ft_strlen(str) == ft_strlen((*env_list)->env_name))
+			{
+				new_line = *line;
+				*line = ft_strjoin(*line, (*env_list)->env_value);
+				free(new_line);
+			}
+			else
+				*line = joint_two_d(*line, str, (*env_list)->env_name,
+						(*env_list)->env_value);
+			break ;
+		}
+		env_list = &(*env_list)->next;
+	}
+	return (*line);
+}
+
 static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 {
 	char	*new_line;
@@ -48,25 +72,7 @@ static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		return (line);
 	}
 	str = ft_strtrim(str, "$");
-	// line = joint_d_str2(line, str, env_list, new_line);
-	while (env_list)
-	{
-		if (ft_strncmp(env_list->env_name, str,
-				ft_strlen(env_list->env_name)) == 0)
-		{
-			if (ft_strlen(str) == ft_strlen(env_list->env_name))
-			{
-				new_line = line;
-				line = ft_strjoin(line, env_list->env_value);
-				free(new_line);
-			}
-			else
-				line = joint_two_d(line, str, env_list->env_name,
-						env_list->env_value);
-			break ;
-		}
-		env_list = env_list->next;
-	}
+	line = joint_d_str2(&line, str, &env_list, new_line);
 	if (env_list == NULL)
 	{
 		new_line = line;
@@ -88,14 +94,7 @@ static	char	*joint_array(char **result, t_env_list *env_list)
 	{
 		if (result[i][0] == '$')
 		{
-			printf(" address = %p\n", &result[i]);
 			line = joint_d_str(line, result[i], env_list);
-			// if (result[i][ft_strlen(result[i] - 1)] == ' ')
-			// {
-			// 	new_line = line;
-			// 	line = ft_strjoin(line, " ");
-			// 	free(new_line);
-			// }
 		}
 		else if (result[i] != NULL && result[i][0] != '$')
 		{
