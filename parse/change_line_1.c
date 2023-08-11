@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 21:13:42 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:06:02 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		free(new_line);
 		return (line);
 	}
+	new_line = str;
 	str = ft_strtrim(str, "$");
+	free(str);
 	line = joint_d_str2(&line, str, &env_list, new_line);
 	if (env_list == NULL)
 	{
@@ -117,9 +119,14 @@ char	*change_line(char *line, t_env_list *env_list)
 	while (line[i] != '$' && line[i] != '\0')
 		i++;
 	if (i == (int)ft_strlen(line))
-		return (line);
+	{
+		new_line = malloc(sizeof (char) * (i));
+		new_line = duplicate(new_line, line, i);
+		return (new_line);
+	}
 	result = make_strlist(line, env_list);
 	new_line = joint_array(result, env_list);
+	printf("p = %p\n", &new_line);
 	ft_free_line2(result);
 	return (new_line);
 }

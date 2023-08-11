@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 21:06:07 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_word_list	*parse_line(char *line)
 	tmp = string;
 	string = argument_flag(string);
 	string = set_flags(string);
-	print_words(string);
 	string = tmp;
 	return (tmp);
 }
