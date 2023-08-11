@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 11:58:42 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 23:26:03 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_word_list	*divide_meta_str(t_word_list *string, int flag)
 	char_flag = give_flag(flag);
 	tmp2 = string->next;
 	string->word = (string->word + ft_strlen(char_flag));
+	free((string->word - ft_strlen(char_flag)));
 	new = ft_newlst(string->word);
 	string->word = malloc(sizeof (char) * (ft_strlen(char_flag) + 1));
 	if (string->word == NULL)

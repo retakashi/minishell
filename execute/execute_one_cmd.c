@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_one_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:11:13 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:37:25 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (itoa_status(ret, &status) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	update_exit_status(env_list, status);
+	free(status);
 	return (SUCCESS);
 }

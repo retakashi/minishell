@@ -63,7 +63,6 @@ int	update_exit_status(t_env_list **env_list, char *estatus)
 		return (ft_perror("ft_strdup"));
 	if (ft_strcmp(estatus, "1") == 0)
 		return (FAILURE);
-	free(estatus);
 	return (SUCCESS);
 }
 
