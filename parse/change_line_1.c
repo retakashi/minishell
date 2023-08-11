@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 15:40:34 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:36:55 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-static	char	*joint_two_d(char *line, char *str, char *env_name, char *env_value)
+static	char	*joint_two_d(char *line, char *str,
+						char *env_name, char *env_value)
 {
 	char	*new_line;
 
@@ -87,6 +88,7 @@ static	char	*joint_array(char **result, t_env_list *env_list)
 	{
 		if (result[i][0] == '$')
 		{
+			printf(" address = %p\n", &result[i]);
 			line = joint_d_str(line, result[i], env_list);
 			// if (result[i][ft_strlen(result[i] - 1)] == ' ')
 			// {

@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 19:58:46 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/11 20:43:21 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ t_word_list				*set_flags(t_word_list	*string);
 
 //check_error.c
 int						check_error(t_word_list *string, t_env_list **env);
+
+//check_error_2.c
+int						pipe_error(t_word_list *string, t_env_list **env);
 
 //make_list.c
 t_word_list				*make_list(char *line);

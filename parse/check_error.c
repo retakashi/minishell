@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 15:08:29 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/11 20:21:13 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,7 @@ int	check_error(t_word_list *string, t_env_list **env)
 		if (one_string(string, env) != 0)
 			return (FAILURE);
 	if (string->flag == 5)
-	{
-		printf("syntax error near unexpected token '%s'\n", string->word);
-		free((*env)->env_value);
-		(*env)->env_value = malloc(sizeof (char) * (4));
-		(*env)->env_value = duplicate((*env)->env_value, "258", 3);
-		return (FAILURE);
-	}
+		return (pipe_error(string, env));
 	while (string)
 	{
 		if (command_error_check(string, env) != 0)

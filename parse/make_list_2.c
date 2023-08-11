@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:11:14 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_word_list	*ft_newlst(char *content)
 
 static	int	dquotes_sprt(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	line++;
@@ -42,7 +42,7 @@ static	int	dquotes_sprt(char *line)
 
 static	int	squotes_sprt(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	line++;
@@ -68,7 +68,6 @@ t_word_list	*creat_list(char *line, int i)
 		i++;
 	content = malloc(sizeof (char) * (i + 1));
 	content = duplicate(content, line, i);
-
 	new = ft_newlst(content);
 	free(content);
 	return (new);

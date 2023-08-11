@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/09 15:42:17 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:36:45 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ char	**make_strlist(char *line, t_env_list *env_list)
 		}
 		if (*line == '$')
 		{
-			printf("i = %i\n", i);
 			max_str[i] = count_d_str(&line);
 			i++;
 		}
@@ -113,11 +112,5 @@ char	**make_strlist(char *line, t_env_list *env_list)
 	}
 	max_str[i] = NULL;
 	max_str = give_d_hatena(max_str, env_list->env_value, "$?");
-	i = 0;
-	while (max_str[i])
-	{
-		printf("max_str[%i] = %s\n", i, max_str[i]);
-		i++;
-	}
 	return (max_str);
 }
