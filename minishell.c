@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/12 18:04:53 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/12 18:58:55 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	loop_shell(t_main_data *data)
 		add_history(data->line);
 		free_success(data->line, &data->word_list, &data->here_list);
 		free(data->new_line);
-
 	}
 }
 
