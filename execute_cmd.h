@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:48:28 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:49:09 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ typedef struct s_env_2d
 	size_t		name_len;
 	size_t		str_len;
 }				t_env_2d;
+
+typedef struct s_cmds
+{
+	pid_t		pid;
+	int			ret;
+	char		*status;
+}				t_cmds;
 
 typedef enum e_builtin_no
 {

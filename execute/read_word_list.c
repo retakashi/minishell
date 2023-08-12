@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_word_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 23:00:16 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/12 18:30:38 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 {
 	int		cnt;
 	t_flg	flg_struct;
-
+	
 	if (*word_list == NULL)
 		return (SUCCESS);
 	if (find_flg(*word_list, eof_num) == true)
