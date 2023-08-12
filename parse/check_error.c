@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 10:44:21 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:55:17 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/12 18:00:36 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	check_error(t_word_list *string, t_env_list **env)
 	int			s_len;
 
 	s_len = len_of_string(string);
-	printf("string = %s \n",string->word );
 	if (s_len == 1 && string->flag != 0)
 		if (one_string(string, env) != 0)
 			return (FAILURE);

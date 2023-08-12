@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/12 17:51:36 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ static	t_word_list	*split_argument(t_word_list *string)
 {
 	if (is_just_meta(string->word) != 0)
 		return (string);
-	if (is_just_str(string) != 0)
+	else if (is_just_str(string) != 0)
 		return (string);
-	if (is_include_meta(string->word) != 0)
+	else if (is_include_meta(string->word) != 0)
 		return (divide_meta_str(string, is_include_meta(string->word)));
 	else
 		return (divide_str_meta(string, string->next));

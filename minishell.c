@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/11 23:26:45 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/12 18:04:53 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,6 @@ static void	loop_shell(t_main_data *data)
 			update_exit_status(&data->env_list, "130");
 		data->new_line = change_line(data->line, data->env_list);
 		data->word_list = parse_line(data->new_line);
-		// if (data->word_list && check_error(data->word_list,
-		// 		&data->env_list) == 0)
-		// {
-		// 	read_word_list(&data->word_list, &data->env_list, &data->here_list);
-		// 	add_history(data->line);
-		// 	free_success(data->line, &data->word_list, &data->here_list);
-		// 	free(data->new_line);
-		// }
-		// else
-		// 	free(data->word_list);
 		if (data->word_list && check_error(data->word_list,
 				&data->env_list) == 0)
 			read_word_list(&data->word_list, &data->env_list, &data->here_list);
