@@ -99,9 +99,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
-	pid_t	pid;
-	int		ret;
-	char	*status;
+	t_cmds	cmds;
 
 	p_data.i = -1;
 	while (++p_data.i <= p_data.cnt)
@@ -109,17 +107,18 @@ int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 		if (p_data.i < p_data.cnt
 			&& pipe(p_data.pipe_2darr[p_data.i]) == FAILURE)
 			return (ft_perror("pipe"));
-		pid = fork();
-		if (pid < 0)
+		cmds.pid = fork();
+		if (cmds.pid < 0)
 			return (ft_perror("fork"));
-		if (pid == 0)
+		if (cmds.pid == 0)
 			child_execute_cmds(word_list, env_list, here_list, p_data);
 		else
 			parent_close(p_data);
 	}
-	ret = wait_some_cmds(p_data.cnt);
-	if (itoa_status(ret, &status) == FAILURE)
+	cmds.ret = wait_some_cmds(p_data.cnt);
+	if (itoa_status(cmds.ret, &cmds.status) == FAILURE)
 		return (FAILURE);
-	update_exit_status(env_list, status);
+	update_exit_status(env_list, cmds.status);
+	free(cmds.status);
 	return (SUCCESS);
 }
