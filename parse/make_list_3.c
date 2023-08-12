@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 11:58:41 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/12 17:51:36 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/12 18:50:31 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ static	t_word_list	*divide_str_meta(t_word_list *string, t_word_list *tmp2)
 		str[j] = string->word[j];
 		j++;
 	}
-	string->word = (string->word + i);
-	new = ft_newlst(string->word);
+	new = ft_newlst(&(string->word[i]));
 	if (string->word == NULL)
 		return (NULL);
+	free(string->word);
 	string->word = malloc(sizeof (char) * (i + 1));
 	string->word = duplicate(string->word, str, i);
+	free(str);
 	string->next = new;
 	new->next = tmp2;
 	return (string);
