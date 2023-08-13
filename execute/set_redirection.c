@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:58:02 by reira             #+#    #+#             */
-/*   Updated: 2023/08/13 17:08:32 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/13 19:58:20 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 static int	update_fd(char *filename, t_fd *fd_struct, int flg)
 {
-	if (flg == in_file || flg == heredoc)
+	if (flg == in_file)
 	{
 		if (fd_struct->in_fd != STDIN_FILENO)
 			if (close(fd_struct->in_fd) < 0)
 				return (ft_perror("close"));
 		fd_struct->in_fd = get_fd(filename, flg);
+	}
+	else if (flg == heredoc)
+	{
+		fd_struct->in_fd = open(filename, O_RDONLY);
+		if (fd_struct->in_fd < 0)
+			return (ft_perror("open"));
 	}
 	else
 	{
