@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/11 20:11:14 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/13 14:54:55 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ t_word_list	*ft_newlst(char *content)
 	return (new);
 }
 
-static	int	dquotes_sprt(char *line)
+int	dquotes_sprt(char *line)
 {
 	int	i;
 
 	i = 0;
 	line++;
-	while (*line != '"')
+	while (*line != '"' && *line != '\0')
 	{
 		i++;
 		line++;
@@ -40,13 +40,13 @@ static	int	dquotes_sprt(char *line)
 	return (i);
 }
 
-static	int	squotes_sprt(char *line)
+int	squotes_sprt(char *line)
 {
 	int	i;
 
 	i = 0;
 	line++;
-	while (*line != '\'')
+	while (*line != '\'' && *line != '\0')
 	{
 		i++;
 		line++;

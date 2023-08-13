@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:03:22 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:25:42 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,27 @@ int	len_of_string(t_word_list *string)
 		i++;
 		string = string->next;
 	}
+	return (i);
+}
+
+int	count_quotes_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '"')
+	{
+		i++;
+		while (str[i] != '"' && str[i] != '\0')
+			i++;
+	}
+	else if (str[i] == '\'')
+	{
+		i++;
+		while (str[i] != '\'' && str[i] != '\0')
+			i++;
+	}
+	if (str[i] != '\0')
+		return (i + 1);
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:06:39 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 20:43:21 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/13 15:58:33 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void					print_words(t_word_list *string);
 //parse_line_2.c
 t_word_list				*set_flags(t_word_list	*string);
 
+//parse_line_３.c
+t_word_list				*trim_quotes(t_word_list *string);
+
 //check_error.c
 int						check_error(t_word_list *string, t_env_list **env);
 
@@ -99,6 +102,8 @@ int						pipe_error(t_word_list *string, t_env_list **env);
 t_word_list				*make_list(char *line);
 
 //make_list2.c
+int						dquotes_sprt(char *line);
+int						squotes_sprt(char *line);
 t_word_list				*ft_newlst(char *content);
 t_word_list				*creat_list(char *line, int i);
 t_word_list				*sp_sprt(char **line, t_word_list *string, int i);
@@ -117,13 +122,11 @@ int						is_just_meta(char *str);
 void					*ft_free_line2(char **result);
 char					*duplicate(char *content, char *line, unsigned int n);
 int						len_of_string(t_word_list *string);
+int						count_quotes_str(char *str);
 
 //split_str.c
 char					**split_str(char *str, char *charset);
 
-// //get_env.c
-// t_env_list				*init_minishell(char **envp,
-// 							t_env_list **env_list_head);
 //change_line_1.c
 char					*change_line(char *line, t_env_list *env_list);
 

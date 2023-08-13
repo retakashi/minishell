@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:34:53 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/13 17:07:47 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ static	char	*joint_two_d(char *line, char *str,
 	free(new_line);
 	if (ft_isalnum(*str) || *str == '_')
 		return (line);
-	new_line = line;
-	line = ft_strjoin(line, str);
-	free(new_line);
 	return (line);
 }
 
