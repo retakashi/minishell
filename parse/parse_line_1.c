@@ -6,7 +6,7 @@
 /*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/13 17:08:03 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/13 18:00:47 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_word_list	*parse_line(char *line)
 	tmp = string;
 	string = argument_flag(string);
 	string = set_flags(string);
+	print_words(string);
+	string = tmp;
 	string = trim_quotes(string);
 	return (tmp);
 }
