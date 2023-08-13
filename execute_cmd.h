@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/12 18:49:09 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/13 14:41:23 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ int				main_builtin(t_word_list **word_list, t_env_list **env_list,
 int				cd_cmd(t_word_list *word_list, t_env_list **env_list);
 int				pwd_cmd(int fd, int *exit_flg);
 // dup2_close.c
-void			dup2_fd_struct(t_fd fd_struct, t_word_list **word_list,
-					t_env_list **env_list);
+int				dup2_fd_struct(t_fd fd_struct);
 void			dup2_pipe(t_p_data p_data, t_word_list **word_list,
 					t_env_list **env_list);
 void			close_pipe(t_p_data p_data, t_word_list **word_list,
