@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_one_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 22:37:25 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:56:23 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	}
 	else
 	{
-		dup2_fd_struct(fd_struct, word_list, env_list);
+		if (dup2_fd_struct(fd_struct) == FAILURE)
+			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 		prepare_execve(word_list, env_list);
 	}
 }

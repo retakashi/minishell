@@ -91,7 +91,8 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 			env_list);
 	else
 	{
-		dup2_fd_struct(child.fd_struct, word_list, env_list);
+		if (dup2_fd_struct(child.fd_struct) == FAILURE)
+			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 		prepare_execve_cmds(word_list, env_list, p_data.i);
 	}
 }

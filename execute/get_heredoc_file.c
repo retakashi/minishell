@@ -6,7 +6,7 @@
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:23:14 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/13 16:20:57 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_file_name(int i)
 	file_num = ft_itoa(i);
 	if (file_num == NULL)
 		return (NULL);
-	file_name = ft_strjoin("/tmp/.heredoc", file_num);
+	file_name = ft_strjoin(".heredoc", file_num);
 	if (file_name == NULL)
 	{
 		free(file_num);
