@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 13:14:31 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/13 17:07:47 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/14 09:27:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
 static	char	*joint_two_d(char *line, char *str,
-						char *env_name, char *env_value)
+						char *env_name)
 {
 	char	*new_line;
 
@@ -23,7 +23,7 @@ static	char	*joint_two_d(char *line, char *str,
 		env_name++;
 	}
 	new_line = line;
-	line = ft_strjoin(line, env_value);
+	line = ft_strjoin(line, env_name);
 	free(new_line);
 	if (ft_isalnum(*str) || *str == '_')
 		return (line);
@@ -45,8 +45,7 @@ static	char	*joint_d_str2(char **line, char *str,
 				free(new_line);
 			}
 			else
-				*line = joint_two_d(*line, str, (*env_list)->env_name,
-						(*env_list)->env_value);
+				*line = joint_two_d(*line, str, (*env_list)->env_name);
 			break ;
 		}
 		*env_list = (*env_list)->next;
@@ -70,7 +69,6 @@ static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 	}
 	new_line = str;
 	str = ft_strtrim(str, "$");
-	free(str);
 	line = joint_d_str2(&line, str, &env_list, new_line);
 	if (env_list == NULL)
 	{
@@ -78,6 +76,7 @@ static	char	*joint_d_str(char *line, char *str, t_env_list *env_list)
 		line = ft_strjoin(line, ex_str);
 		free(new_line);
 	}
+	free(str);
 	return (line);
 }
 

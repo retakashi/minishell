@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/13 18:01:04 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/14 09:29:50 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ static	t_word_list	*trim_quotes2(t_word_list *string)
 t_word_list	*trim_quotes(t_word_list *string)
 {
 	t_word_list	*tmp;
-	int			i;
 
-	i = 0;
 	tmp = string;
 	while (string)
 	{
