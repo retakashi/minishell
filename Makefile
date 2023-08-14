@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
+#    By: reira <reira@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/14 08:30:37 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/08/14 22:37:45 by reira            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ PARSE_SRCS = change_line_1.c change_line_2.c  change_line_3.c make_list_1.c make
 	parse_line_1.c parse_line_2.c parse_line_3.c split_str.c utils.c check_error.c check_error_2.c
 SIGNAL_SRCS = signal.c
 EXECUTE_SRCS = builtin_error.c builtin.c cd_and_pwd.c dup2_close.c echo.c env.c error.c execve.c execute_one_cmd.c \
-	execute_some_cmds_utils.c execute_some_cmds.c exit.c export_nooption.c export_utils.c export.c \
+	execute_some_cmds_utils.c execute_some_cmds.c exit.c export_noargs.c export_utils.c export.c \
 	main_execute_cmd.c free_exit.c free_list.c free_2darr.c ft_atoll.c get_cmd_argv.c get_env_2darr.c get_env_list.c get_heredoc_file.c \
 	heredoc.c set_redirection.c execute_utils.c read_word_list.c unset.c
 GNL_SRCS = get_next_line.c get_next_line_utils.c

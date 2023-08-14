@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:16:35 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:12:35 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:44:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,16 @@ static bool	is_valid_identifier(char *str)
 	return (true);
 }
 
-int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
+static int	export_args(t_word_list *word_list, t_env_list **env_list,
 		int *exit_flg)
 {
 	t_env_list	*head;
 
-	if (word_list->next == NULL || (word_list->next->flag != arguments
-			&& word_list->next->flag != option))
-		return (export_nooption(env_list, fd));
-	word_list = word_list->next;
 	head = *env_list;
 	while (word_list != NULL && word_list->flag == arguments)
 	{
 		if (is_valid_identifier(word_list->word) == false)
-			return (export_error_update_exit_status(word_list->word, env_list));
+			return (export_error_update_exit_status(word_list->word, &head));
 		if (search_env_name_advance_env_list(word_list->word, env_list) == true
 			&& update_env_value(env_list, word_list->word) == FAILURE)
 			return (change_exit_flg(exit_flg));
@@ -81,6 +77,24 @@ int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
 			return (change_exit_flg(exit_flg));
 		word_list = word_list->next;
 	}
+	return (SUCCESS);
+}
+
+int	export_cmd(t_word_list *word_list, t_env_list **env_list, int fd,
+		int *exit_flg)
+{
+	t_env_list	*head;
+	int			ret;
+
+	ret = 0;
+	if (word_list->next == NULL || (word_list->next->flag != arguments
+			&& word_list->next->flag != option))
+		return (export_noargs(env_list, fd));
+	word_list = word_list->next;
+	head = *env_list;
+	ret = export_args(word_list, env_list, exit_flg);
 	*env_list = head;
+	if (ret == FAILURE)
+		return (FAILURE);
 	return (SUCCESS);
 }

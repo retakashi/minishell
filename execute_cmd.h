@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/13 14:41:23 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:37:45 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ bool			find_flg_until_pipe(t_word_list *word_list, int find_flg,
 int				itoa_status(int ret, char **status);
 // exit.c
 void			exit_cmd(t_word_list **word_list, t_env_list **env_list);
-// export_nooption.c
-int				export_nooption(t_env_list **env_list, int fd);
+// export_noargs.c
+int				export_noargs(t_env_list **env_list, int fd);
 // export_utils.c
 void			write_env_exportver(t_env_list *env_list, int fd);
 bool			search_env_name_advance_env_list(char *word,

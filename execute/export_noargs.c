@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_nooption.c                                  :+:      :+:    :+:   */
+/*   export_noargs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -47,7 +47,7 @@ static void	get_min(t_env_list **min, t_env_list *env_list)
 	*min = env_list;
 }
 
-static void	init_export_nooption(t_env_list **env_list, t_env_list **head,
+static void	init_export_noargs(t_env_list **env_list, t_env_list **head,
 		int *cnt)
 {
 	*cnt = cnt_envp_list(*env_list);
@@ -55,7 +55,7 @@ static void	init_export_nooption(t_env_list **env_list, t_env_list **head,
 	init_write_flg(env_list);
 }
 
-int	export_nooption(t_env_list **env_list, int fd)
+int	export_noargs(t_env_list **env_list, int fd)
 {
 	int			cnt;
 	t_env_list	*head;
@@ -63,7 +63,7 @@ int	export_nooption(t_env_list **env_list, int fd)
 
 	if ((*env_list)->next == NULL)
 		return (env_error_update_exit_status("export", env_list));
-	init_export_nooption(env_list, &head, &cnt);
+	init_export_noargs(env_list, &head, &cnt);
 	while (--cnt > 0)
 	{
 		*env_list = head;
