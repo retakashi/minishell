@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/09 17:38:54 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/16 14:49:00 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static	t_word_list	*make_first_list(char **line)
 {
 	int			i;
 	t_word_list	*string;
+	char		quote;
 
 	i = 0;
 	while (**line == ' ' || **line == '\t')
@@ -24,9 +25,9 @@ static	t_word_list	*make_first_list(char **line)
 	{
 		if ((*line)[i] == '"' || (*line)[i] == '\'')
 		{
+			quote = (*line)[i];
 			i++;
-			while ((*line)[i] != '"' && (*line)[i] != '\''
-				&& (*line)[i] != '\0')
+			while ((*line)[i] != quote && (*line)[i] != '\0')
 				i++;
 		}
 		i++;
@@ -40,15 +41,22 @@ static	t_word_list	*make_first_list(char **line)
 
 static	t_word_list	*make_last_list(char **line, t_word_list *string)
 {
-	int	i;
+	int			i;
+	t_word_list	*new;
 
 	i = 0;
 	while ((*line)[i] != ' ' && (*line)[i] != '\t' && (*line)[i] != '\0')
 		i++;
 	if (i != 0)
 	{
-		string->next = creat_list(*line, i);
-		string->next->next = NULL;
+		while (**line != '\0')
+		{
+			new = creat_list(*line, i);
+			string->next = new;
+			string = string->next;
+			(*line) += (ft_strlen(new->word));
+			i = 0;
+		}
 	}
 	return (string);
 }

@@ -6,7 +6,7 @@
 #    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/15 11:17:30 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/08/15 19:18:24 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,22 +35,22 @@ RL_DIR = $(shell brew --prefix readline)
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
 $(OBJS_DIR)/%.o: $(PARSE_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+	$(CC) $(CFLAGS) -I /opt/homebrew/opt/readline/include -c $< -o $@
 $(OBJS_DIR)/%.o: $(SIGNAL_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+	$(CC) $(CFLAGS) -I /opt/homebrew/opt/readline/include -c $< -o $@
 $(OBJS_DIR)/%.o: $(EXECUTE_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+	$(CC) $(CFLAGS) -I /opt/homebrew/opt/readline/include -c $< -o $@
 $(OBJS_DIR)/%.o: $(GNL_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+	$(CC) $(CFLAGS) -I /opt/homebrew/opt/readline/include -c $< -o $@
 $(OBJS_DIR)/%.o: %.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -I $(RL_DIR)/include -c $< -o $@
+	$(CC) $(CFLAGS) -I /opt/homebrew/opt/readline/include -c $< -o $@
 
 RM = rm -f
 .DEFAULT_GOAL :=$(NAME)
 all: $(NAME)
 $(NAME): $(OBJS)
 	make -C libft
-	$(CC) $(CFLAGS) -lreadline -L $(RL_DIR)/lib -I $(RL_DIR)/include/readline -o $(NAME) $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include/readline -o $(NAME) $(OBJS) $(LIBFT)
 	echo > ~/.inputrc set echo-control-characters off
 
 clean:

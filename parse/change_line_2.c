@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   change_line_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 11:45:51 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/11 22:24:06 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:01:17 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	char	*count_d_str(char **str)
 	line[0] = (*str)[0];
 	i = 1;
 	while ((*str)[i] != ' ' && (*str)[i] != '\t' &&
-		(*str)[i] != '\0' && (*str)[i] != '$')
+		(*str)[i] != '\0' && (*str)[i] != '$' && ft_isalnum((*str)[i]))
 	{
 		line[i] = (*str)[i];
 		i++;
@@ -77,7 +77,7 @@ static	char	**give_d_hatena(char **result, char *exit_status,
 				free(result[i]);
 				result[i] = malloc(sizeof (char) * (len_status + 1));
 				result[i] = duplicate(result[i], exit_status, len_status);
-				return (result);
+				break ;
 			}
 			j++;
 		}

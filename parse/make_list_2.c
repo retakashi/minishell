@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/13 14:54:55 by sraza            ###   ########.fr       */
+/*   Updated: 2023/08/16 11:55:33 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,17 @@ t_word_list	*creat_list(char *line, int i)
 	char		*content;
 	t_word_list	*new;
 
+	if (*line == ' ')
+		line++;
 	if (*line == '"')
 		i = dquotes_sprt(line);
-	if (*line == '\'')
+	else if (*line == '\'')
 		i = squotes_sprt(line);
-	while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0')
-		i++;
+	else 
+	{
+		while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0')
+			i++;
+	}
 	content = malloc(sizeof (char) * (i + 1));
 	content = duplicate(content, line, i);
 	new = ft_newlst(content);
