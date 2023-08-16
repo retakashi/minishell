@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/16 14:49:00 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 00:06:07 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,37 @@ static	t_word_list	*make_first_list(char **line)
 	return (string);
 }
 
+static	t_word_list	*connect_words(t_word_list *tmp)
+{
+	int	len;
+	t_word_list	*tmp2;
+
+	tmp2 = tmp;
+	len = len_of_string(tmp);
+	printf("\n!!!!!!!!!!!!!!!!!!!!!\n");
+	if (len > 1)
+	{
+		tmp = argument_flag(tmp);
+		tmp = trim_quotes(tmp);
+		// while (tmp)
+		// {
+		// 	tmp->word = 
+		// }
+		print_words(tmp);
+	}
+	return (tmp2);
+}
+
 static	t_word_list	*make_last_list(char **line, t_word_list *string)
 {
 	int			i;
 	t_word_list	*new;
+	t_word_list	*tmp;
+	int			count;
 
 	i = 0;
+	count = 0;
+	tmp = NULL;
 	while ((*line)[i] != ' ' && (*line)[i] != '\t' && (*line)[i] != '\0')
 		i++;
 	if (i != 0)
@@ -55,9 +80,12 @@ static	t_word_list	*make_last_list(char **line, t_word_list *string)
 			string->next = new;
 			string = string->next;
 			(*line) += (ft_strlen(new->word));
-			i = 0;
+			if (count == 0)
+				tmp = new;
+			count++;
 		}
 	}
+	string = connect_words(tmp);
 	return (string);
 }
 
