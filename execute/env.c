@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:06:01 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:10:43 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/18 04:31:04 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,8 @@
 
 int	env_cmd(t_env_list **env_list, int fd)
 {
-	t_env_list	*tmp;
 	t_env_list	*head;
 
-	tmp = NULL;
-	ft_get_env("PATH", *env_list, &tmp);
-	if (tmp == NULL)
-		return (env_error_update_exit_status("env", env_list));
 	head = *env_list;
 	*env_list = (*env_list)->next;
 	while (*env_list != NULL)
