@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 13:39:25 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/14 09:29:50 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 09:47:25 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ static	t_word_list	*trim_quotes2(t_word_list *string)
 	while (string->word[i] != '\'' && string->word[i] != '"'
 		&& string->word[i] != '\0')
 		i++;
-	if (string->word[i] == '\0')
+	if (string->word[i] == '\0' || ft_strlen(string->word) == 1)
 		return (string);
 	if ((string->word[0] == '\''
-			&& string->word[ft_strlen(string->word - 1)] == '\'')
+			&& string->word[ft_strlen(string->word) - 1] == '\'')
 		|| (string->word[0] == '"'
-			&& string->word[ft_strlen(string->word - 1)] == '"'))
+			&& string->word[ft_strlen(string->word) - 1] == '"'))
 		return (split_quotes(string));
 	return (string);
 }

@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/17 00:06:07 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 10:45:04 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,37 @@ static	t_word_list	*make_first_list(char **line)
 	return (string);
 }
 
+static	t_word_list	*connect_process(t_word_list *tmp, t_word_list *tmp2)
+{
+	char		*str;
+	t_word_list	*tmp3;
+
+	while (tmp->next != NULL)
+	{
+		tmp3 = tmp->next->next;
+		str = ft_strdup(tmp->word);
+		free(tmp->word);
+		tmp->word = ft_strjoin(str, tmp->next->word);
+		free(tmp->next->word);
+		free(tmp->next);
+		free(str);
+		tmp->next = tmp3;
+	}
+	return (tmp2);
+}
+
 static	t_word_list	*connect_words(t_word_list *tmp)
 {
-	int	len;
+	int			len;
 	t_word_list	*tmp2;
 
 	tmp2 = tmp;
 	len = len_of_string(tmp);
-	printf("\n!!!!!!!!!!!!!!!!!!!!!\n");
 	if (len > 1)
 	{
 		tmp = argument_flag(tmp);
 		tmp = trim_quotes(tmp);
-		// while (tmp)
-		// {
-		// 	tmp->word = 
-		// }
+		tmp = connect_process(tmp, tmp2);
 		print_words(tmp);
 	}
 	return (tmp2);
