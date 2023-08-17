@@ -6,12 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:50:56 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/18 00:45:06 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static bool	should_putstr(t_word_list *word)
 {

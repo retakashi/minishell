@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup2_close.c                                      :+:      :+:    :+:   */
+/*   dup2_close.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 02:21:09 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:07:16 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/13 16:14:55 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
 
-
-void	dup2_fd_struct(t_fd fd_struct, t_word_list **word_list,
-		t_env_list **env_list)
+int	dup2_fd_struct(t_fd fd_struct)
 {
-	if (fd_struct.in_fd != STDIN_FILENO && dup2(fd_struct.in_fd,
-			STDIN_FILENO) < 0)
+	if (fd_struct.in_fd != STDIN_FILENO)
 	{
-		ft_perror("dup2");
-		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
+		if (dup2(fd_struct.in_fd,
+				STDIN_FILENO) < 0)
+			return (ft_perror("dup2"));
+		if (close(fd_struct.in_fd) < 0)
+			return (ft_perror("close"));
 	}
-	if (fd_struct.out_fd != STDOUT_FILENO && dup2(fd_struct.out_fd,
-			STDOUT_FILENO) < 0)
+	if (fd_struct.out_fd != STDOUT_FILENO)
 	{
-		ft_perror("dup2");
-		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
+		if (dup2(fd_struct.out_fd,
+				STDOUT_FILENO) < 0)
+			return (ft_perror("dup2"));
+		if (close(fd_struct.out_fd) < 0)
+			return (ft_perror("close"));
 	}
+	return (SUCCESS);
 }
 
 void	dup2_pipe(t_p_data p_data, t_word_list **word_list,

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_env_2darr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:10:16 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:30:49 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static void	get_env_len(t_env_list *env_list, size_t *name_len, size_t *str_len)
 {
@@ -63,7 +62,7 @@ char	**get_env_2darr(t_env_list *env_list, int *err_flg)
 		{
 			get_env_len(env_list, &env_2d.name_len, &env_2d.str_len);
 			env_2d.ans[env_2d.i] = ft_calloc(env_2d.name_len + env_2d.str_len
-				+ 2, sizeof(char));
+					+ 2, sizeof(char));
 			if (env_2d.ans[env_2d.i] == NULL)
 				return (perror_change_err_flg("ft_calloc", err_flg));
 			env_copy(&env_2d.ans[env_2d.i], env_list, env_2d.name_len,

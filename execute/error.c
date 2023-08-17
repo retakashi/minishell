@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 15:38:45 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:10:59 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 int	put_error(char *str)
 {
@@ -41,8 +40,8 @@ char	**perror_change_err_flg(char *err_msg, int *err_flg)
 	return (NULL);
 }
 
-void	put_error_exit_cmdsver(char *err_msg,t_p_data p_data, t_word_list **word_list,
-		t_env_list **env_list)
+void	put_error_exit_cmdsver(char *err_msg, t_p_data p_data,
+		t_word_list **word_list, t_env_list **env_list)
 {
 	ft_perror(err_msg);
 	free_list_pipe2darr_exit(p_data, word_list, env_list, NULL);

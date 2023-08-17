@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_one_cmd.c                                   :+:      :+:    :+:   */
+/*   execute_one_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/07/31 17:13:08 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 14:21:10 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
 
-
 volatile sig_atomic_t	g_sig;
 
-static int	parent_wait()
+static int	parent_wait(void)
 {
 	int	wstatus;
 
-	if (set_signal_parent() == FAILURE)
+	if (set_signal_child() == FAILURE)
 		return (ft_perror("failed to set signal parent"));
 	if (wait(&wstatus) < 0)
 		return (ft_perror("wait"));
@@ -55,6 +54,7 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	t_flg	flg_struct;
 
 	flg_struct.exit_flg = false;
+	set_signal_child();
 	if (set_redirection(*word_list, *here_list, &fd_struct,
 			&flg_struct.exit_flg) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
@@ -69,7 +69,8 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	}
 	else
 	{
-		dup2_fd_struct(fd_struct, word_list, env_list);
+		if (dup2_fd_struct(fd_struct) == FAILURE)
+			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 		prepare_execve(word_list, env_list);
 	}
 }
@@ -82,6 +83,7 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	char	*status;
 
 	ret = 0;
+	set_signal_parent();
 	pid = fork();
 	if (pid < 0)
 		perror_free_list_exit("fork", word_list, env_list, here_list);
@@ -92,5 +94,6 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (itoa_status(ret, &status) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	update_exit_status(env_list, status);
+	free(status);
 	return (SUCCESS);
 }

@@ -6,12 +6,11 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 10:22:05 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/14 22:18:31 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 void	free_word_list(t_word_list **list)
 {
@@ -61,12 +60,6 @@ void	free_here_list(t_here_list **list)
 	next = NULL;
 	while (node != NULL)
 	{
-		// if (access(node->here_file_name, F_OK) == SUCCESS
-		// 	&& unlink(node->here_file_name) < 0)
-		// {
-		// 	write(1,"hello\n",6);
-		// 	ft_perror("unlink");
-		// }
 		next = node->next;
 		if (node->here_file_name != NULL)
 			free(node->here_file_name);

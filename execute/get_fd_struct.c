@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_outputput_operarion.c                           :+:      :+:    :+:   */
+/*   get_fd_struct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:58:02 by reira             #+#    #+#             */
-/*   Updated: 2023/07/22 18:17:41 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:32:20 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static int	update_fd(char *filename, t_here_list *here_list, t_fd *fd_struct,
 		int flg)
@@ -49,19 +48,12 @@ static int	is_valid_fd(t_fd *fd_struct)
 	return (SUCCESS);
 }
 
-int	change_exit_flg(int *exit_flg)
-{
-	*exit_flg = true;
-	return (FAILURE);
-}
-
 int	here_file_unlink(t_here_list *here_list, int *exit_flg)
 {
 	if (here_list == NULL)
 		return (SUCCESS);
-	if (here_list != NULL && unlink(here_list->here_file_name) < 0)
-		ft_perror("unlink");
-		return (change_exit_flg(exit_flg));
+	if (here_list != NULL)
+		unlink(here_list->here_file_name);
 	return (SUCCESS);
 }
 

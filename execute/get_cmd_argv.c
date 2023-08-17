@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:09:23 by reira             #+#    #+#             */
-/*   Updated: 2023/08/09 17:42:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/11 20:14:17 by rtakashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute_cmd.h"
-
 
 static bool	is_cmd_arg_flg(int flg)
 {
