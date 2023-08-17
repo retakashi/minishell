@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/17 17:24:04 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 19:41:57 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ t_word_list	*make_list(char *line)
 		string = string->next;
 	while (*line != '\0' && line[i] != '\0')
 	{
-		if ((line[i] == ' ' || line[i] == '\t'))
+		if (line[i] == ' ' || line[i] == '\t'
+			|| line[i] == '"' || line[i] == '\'')
 		{
 			string = sp_sprt(&line, string, i);
 			while (*line == ' ' || *line == '\t')

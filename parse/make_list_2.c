@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_list_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: sraza <sraza@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/17 17:22:31 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 19:42:40 by sraza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ t_word_list	*creat_list(char *line, int i)
 		i = squotes_sprt(line);
 	else 
 	{
-		while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0')
+		while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0'
+			&& line[i] != '"' && line[i] != '\'')
 			i++;
 	}
 	content = malloc(sizeof (char) * (i + 1));
