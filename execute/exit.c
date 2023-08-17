@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 17:14:41 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/11 20:12:11 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:53:03 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static void	exit_end(t_word_list **word_list, t_env_list **env_list, int num,
 {
 	if (error_msg == NULL && num == 0)
 	{
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		if (find_flg(*word_list, pipe_char) == false)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 		free_all_list(word_list, env_list, NULL);
 		exit(EXIT_SUCCESS);
 	}
@@ -52,16 +53,23 @@ static void	exit_end(t_word_list **word_list, t_env_list **env_list, int num,
 		free_all_list(word_list, env_list, NULL);
 		exit(2);
 	}
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (find_flg(*word_list, pipe_char) == false)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	free_all_list(word_list, env_list, NULL);
 	exit(num);
 }
 
-void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
+static int	exit_err_many_argument(t_env_list **env_list)
+{
+	ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+	update_exit_status(env_list, "1");
+	return (FAILURE);
+}
+
+int	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 {
 	long long	num;
 	t_word_list	*head;
-	char		*error_str;
 
 	head = *word_list;
 	if ((*word_list)->next == NULL || (*word_list)->next->flag == pipe_char)
@@ -70,13 +78,19 @@ void	exit_cmd(t_word_list **word_list, t_env_list **env_list)
 	*word_list = (*word_list)->next;
 	if (is_valid_number((*word_list)->word, &num) == false)
 	{
-		error_str = (*word_list)->word;
 		*word_list = head;
-		exit_end(word_list, env_list, 0, error_str);
+		exit_end(word_list, env_list, 0, (*word_list)->word);
+	}
+	if ((*word_list)->next != NULL && (*word_list)->next->flag != pipe_char)
+	{
+		*word_list = head;
+		return (exit_err_many_argument(env_list));
 	}
 	if (num > 255 || num < -255)
 		num = num % 256;
 	if (num < 0)
 		num += 256;
+	*word_list = head;
 	exit_end(word_list, env_list, (int)num, NULL);
+	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/17 14:18:20 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 14:02:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ static void	init_minishell(char **envp, t_env_list **env_list_head,
 	}
 }
 
-static void	is_line_valid(void)
+static void	is_line_valid(t_env_list *env_list)
 {
+	int	e_status;
+
+	e_status = ft_atoi(env_list->env_value);
 	if (errno == ENOMEM)
 		exit(EXIT_FAILURE);
 	else
 	{
 		ft_putstr_fd("minishell$ exit\n", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
+		exit(e_status);
 	}
 }
 
@@ -63,10 +66,10 @@ static void	loop_shell(t_main_data *data)
 		data->line = readline("minishell$ ");
 		if (set_sigint() == FAILURE)
 			exit(FAILURE);
-		if (data->line == NULL)
-			is_line_valid();
 		if (g_sig == SIGINT)
 			update_exit_status(&data->env_list, "130");
+		if (data->line == NULL)
+			is_line_valid(data->env_list);
 		data->new_line = change_line(data->line, data->env_list);
 		data->word_list = parse_line(data->new_line);
 		if (data->word_list && check_error(data->word_list,
@@ -82,7 +85,6 @@ static void	loop_shell(t_main_data *data)
 // static void destructor() {
 //     system("leaks -q minishell");
 // }
-// while [ 1 ]; do leaks minishell; sleep 2; done
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -93,5 +95,5 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(envp, &data.env_list, &data.word_list, &data.here_list);
 	loop_shell(&data);
 	free_env_list(&data.env_list);
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

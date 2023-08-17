@@ -28,18 +28,23 @@ static int	wait_some_cmds(int cnt)
 {
 	int	wstatus;
 
-	if (set_signal_parent() == FAILURE)
-		return (ft_perror("failed to set signal parent"));
 	while (cnt >= 0)
 	{
 		if (wait(&wstatus) < 0)
 			return (ft_perror("wait"));
 		cnt--;
 	}
-	if (set_sigint() == FAILURE)
-		return (ft_perror("failed to set sigint"));
 	if (WIFSIGNALED(wstatus))
+	{
+		if (WTERMSIG(wstatus) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit: 3", STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		else if (WTERMSIG(wstatus) == SIGINT)
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		return (WTERMSIG(wstatus));
+	}
 	else
 		return (WEXITSTATUS(wstatus));
 }
@@ -91,6 +96,7 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 			env_list);
 	else
 	{
+		set_signal_child();
 		if (dup2_fd_struct(child.fd_struct) == FAILURE)
 			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 		prepare_execve_cmds(word_list, env_list, p_data.i);
@@ -103,6 +109,7 @@ int	execute_some_cmds(t_word_list **word_list, t_env_list **env_list,
 	t_cmds	cmds;
 
 	p_data.i = -1;
+	set_signal_parent();
 	while (++p_data.i <= p_data.cnt)
 	{
 		if (p_data.i < p_data.cnt
