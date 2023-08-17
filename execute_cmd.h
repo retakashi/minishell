@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/14 22:37:45 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 16:20:22 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int				main_builtin(t_word_list **word_list, t_env_list **env_list,
 					t_here_list **here_list, t_flg flg_struct);
 // cd_and_pwd.c
 int				cd_cmd(t_word_list *word_list, t_env_list **env_list);
-int				pwd_cmd(int fd, int *exit_flg);
+int				pwd_cmd(int fd, t_env_list **env_list);
 // dup2_close.c
 int				dup2_fd_struct(t_fd fd_struct);
 void			dup2_pipe(t_p_data p_data, t_word_list **word_list,
@@ -145,7 +145,9 @@ bool			find_flg_until_pipe(t_word_list *word_list, int find_flg,
 					int cnt);
 int				itoa_status(int ret, char **status);
 // exit.c
-void			exit_cmd(t_word_list **word_list, t_env_list **env_list);
+int				exit_cmd(t_word_list **word_list, t_env_list **env_list);
+//expand_env.c
+void	expand_env(char **line, t_env_list *env_list);
 // export_noargs.c
 int				export_noargs(t_env_list **env_list, int fd);
 // export_utils.c
@@ -190,16 +192,17 @@ int				new_env_node(t_env_list **node, char *envp);
 int				get_env_list(char **envp, t_env_list **head);
 // get_heredoc_file.c
 char			*get_file_name(int i);
-int				get_heredoc_file(t_here_list **node, char *eof);
+int				get_heredoc_file(t_here_list **node, char *eof,t_env_list *env_list);
 void			unlink_here_list(t_here_list **here_list);
 // heredoc.c
-int				get_here_list(t_word_list *word_list, t_here_list **here_list);
+int				get_here_list(t_word_list *word_list, t_here_list **here_list,t_env_list *env_list);
 // set_redirection.c
 int				set_redirection(t_word_list *word_list, t_here_list *here_list,
 					t_fd *fd_struct, int *exit_flg);
 int				change_exit_flg(int *exit_flg);
 // signal.c
 int				set_sigint(void);
+int				set_signal_child(void);
 int				set_signal_parent(void);
 // execute_utils.c
 void			ft_get_env(char *str, t_env_list *env_list, t_env_list **tmp);
