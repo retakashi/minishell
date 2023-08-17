@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 17:11:24 by sraza             #+#    #+#             */
-/*   Updated: 2023/08/17 14:17:37 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 14:48:46 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ t_word_list	*make_list(char *line)
 		string = string->next;
 	while (*line != '\0' && line[i] != '\0')
 	{
-		printf("line[%i]=%c\n", i, line[i]);
-		if (line[i + 1] == '\'' || line[i + 1] == '"'
-			|| (line[i] == ' ' || line[i] == '\t'))
+		if ((line[i] == ' ' || line[i] == '\t'))
 		{
 			string = sp_sprt(&line, string, i);
 			while (*line == ' ' || *line == '\t')
