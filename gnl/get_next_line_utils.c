@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:57:57 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/09 19:05:30 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 23:44:22 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 void	handle_signal_gnl(int sig)
 {
 	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		g_sig = SIGINT;
+	}
 }
 
 int	set_signal_gnl(void)
