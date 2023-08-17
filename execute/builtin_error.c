@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 00:45:41 by reira             #+#    #+#             */
-/*   Updated: 2023/08/14 21:51:38 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/18 02:29:35 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,17 @@ int	cd_error(char *str)
 
 void	exit_error(char *str)
 {
-	ft_putstr_fd("exit\n", STDERR_FILENO);
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+}
+
+int	exit_err_many_argument(t_env_list **env_list, t_word_list **word_list,
+		t_word_list *head)
+{
+	*word_list = head;
+	ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+	return (update_exit_status(env_list, "1"));
 }
 
 int	export_error_update_exit_status(char *str, t_env_list **env_list)

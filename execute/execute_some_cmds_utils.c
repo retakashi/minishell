@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_some_cmds_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:34:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 22:02:22 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/18 01:20:32 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ bool	find_flg_until_pipe(t_word_list *word_list, int find_flg, int cnt)
 	return (false);
 }
 
-void	execute_builtin_cmdsver(t_fd fd_struct, t_flg flg_struct,
-		t_word_list **word_list, t_env_list **env_list)
+void	execute_builtin_cmdsver(t_child c_data, t_word_list **word_list,
+		t_env_list **env_list)
 {
-	if (execute_builtin(*word_list, env_list, fd_struct, &flg_struct) == FAILURE
-		|| flg_struct.exit_flg == true)
+	c_data.flg_struct.pipe_flg = true;
+	if (execute_builtin(c_data.tmp_word, env_list, c_data.fd_struct,
+			&c_data.flg_struct) == FAILURE
+		|| c_data.flg_struct.exit_flg == true)
 		free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
 	free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 }

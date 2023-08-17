@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 15:03:58 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/18 02:08:46 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	execute_builtin(t_word_list *word_list, t_env_list **env_list,
 	else if (flg_struct->builtin_flg == cd_no)
 		return (cd_cmd(word_list, env_list));
 	else if (flg_struct->builtin_flg == pwd_no)
-		return (pwd_cmd(fd_struct.out_fd,env_list));
+		return (pwd_cmd(fd_struct.out_fd, env_list));
 	else if (flg_struct->builtin_flg == export_no)
 		return (export_cmd(word_list, env_list, fd_struct.out_fd,
 				&flg_struct->exit_flg));
@@ -55,7 +55,7 @@ int	execute_builtin(t_word_list *word_list, t_env_list **env_list,
 	else if (flg_struct->builtin_flg == env_no)
 		return (env_cmd(env_list, fd_struct.out_fd));
 	else if (flg_struct->builtin_flg == exit_no)
-		exit_cmd(&word_list, env_list);
+		return (exit_cmd(&word_list, env_list, flg_struct->pipe_flg));
 	return (SUCCESS);
 }
 
@@ -67,6 +67,7 @@ int	main_builtin(t_word_list **word_list, t_env_list **env_list,
 	int		e_ret;
 
 	flg_struct.exit_flg = false;
+	flg_struct.pipe_flg = false;
 	ret = set_redirection(*word_list, *here_list, &fd_struct,
 			&flg_struct.exit_flg);
 	if (flg_struct.exit_flg == true)

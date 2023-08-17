@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 15:04:49 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/18 02:05:36 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	move_to_home(t_env_list **env_list)
 int	cd_cmd(t_word_list *word_list, t_env_list **env_list)
 {
 	word_list = word_list->next;
-	if (word_list == NULL||word_list->flag==pipe_char)
+	if (word_list == NULL || word_list->flag == pipe_char)
 		return (move_to_home(env_list));
 	if (word_list->next != NULL && word_list->flag != pipe_char)
 	{
@@ -53,7 +53,7 @@ int	cd_cmd(t_word_list *word_list, t_env_list **env_list)
 	return (update_exit_status(env_list, "0"));
 }
 
-int	pwd_cmd(int fd,t_env_list **env_list)
+int	pwd_cmd(int fd, t_env_list **env_list)
 {
 	char	*cwd;
 
@@ -61,10 +61,10 @@ int	pwd_cmd(int fd,t_env_list **env_list)
 	if (cwd == NULL)
 	{
 		ft_perror("getcwd");
-		return (update_exit_status(env_list,"1"));
+		return (update_exit_status(env_list, "1"));
 	}
 	ft_putstr_fd(cwd, fd);
 	ft_putstr_fd("\n", fd);
 	free(cwd);
-	return (update_exit_status(env_list,"0"));
+	return (update_exit_status(env_list, "0"));
 }

@@ -78,12 +78,12 @@ static void	prepare_execve_cmds(t_word_list **word_list, t_env_list **env_list,
 static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, t_p_data p_data)
 {
-	t_child	child;
+	t_child	c_data;
 
-	advance_word_list(*word_list, &child.tmp_word, p_data.i);
-	find_child_num(*here_list, &child.tmp_here, p_data.i);
-	if (set_redirection(child.tmp_word, child.tmp_here, &child.fd_struct,
-			&child.flg_struct.exit_flg) == FAILURE)
+	advance_word_list(*word_list, &c_data.tmp_word, p_data.i);
+	find_child_num(*here_list, &c_data.tmp_here, p_data.i);
+	if (set_redirection(c_data.tmp_word, c_data.tmp_here, &c_data.fd_struct,
+			&c_data.flg_struct.exit_flg) == FAILURE)
 		free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
 	if (find_flg_until_pipe(*word_list, command, p_data.i) == false)
 		free_list_exit(word_list, env_list, here_list, EXIT_SUCCESS);
@@ -91,13 +91,12 @@ static void	child_execute_cmds(t_word_list **word_list, t_env_list **env_list,
 	dup2_pipe(p_data, word_list, env_list);
 	close_pipe(p_data, word_list, env_list);
 	free_int_2darr(&p_data.pipe_2darr, p_data.cnt);
-	if (is_builtin(child.tmp_word, &child.flg_struct.builtin_flg) == true)
-		execute_builtin_cmdsver(child.fd_struct, child.flg_struct, word_list,
-			env_list);
+	if (is_builtin(c_data.tmp_word, &c_data.flg_struct.builtin_flg) == true)
+		execute_builtin_cmdsver(c_data, word_list, env_list);
 	else
 	{
 		set_signal_child();
-		if (dup2_fd_struct(child.fd_struct) == FAILURE)
+		if (dup2_fd_struct(c_data.fd_struct) == FAILURE)
 			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
 		prepare_execve_cmds(word_list, env_list, p_data.i);
 	}

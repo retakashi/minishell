@@ -61,7 +61,7 @@ int	update_exit_status(t_env_list **env_list, char *estatus)
 	(*env_list)->env_value = ft_strdup(estatus);
 	if ((*env_list)->env_value == NULL)
 		return (ft_perror("ft_strdup"));
-	if (ft_strcmp(estatus, "1") == 0)
+	if (ft_strcmp(estatus, "0") != 0)
 		return (FAILURE);
 	return (SUCCESS);
 }

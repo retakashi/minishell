@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:17:17 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 15:43:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 23:29:15 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ char	*get_file_name(int i)
 	return (get_file_name(i + 1));
 }
 
-static int	write_to_heredocfile(char *eof, int fd,t_env_list *env_list)
+static int	write_to_heredocfile(char *eof, int fd, t_env_list *env_list)
 {
 	char	*line;
+	char	*new;
 	int		flg;
 
 	line = NULL;
 	flg = 0;
+	new = NULL;
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);
@@ -76,22 +78,22 @@ static int	write_to_heredocfile(char *eof, int fd,t_env_list *env_list)
 			return (FAILURE);
 		if ((flg == 1 && line == NULL) || ft_eof_cmp(line, eof) == true)
 			break ;
-		if (ft_strchr(line, '$'))
-			expand_env(&line,env_list);
-			ft_putstr_fd(line, fd);
+		new = change_line(line, env_list);
+		ft_putstr_fd(new, fd);
 		free(line);
+		free(new);
 	}
 	if (g_sig == 0 && line != NULL)
 		free(line);
 	return (SUCCESS);
 }
 
-int	get_heredoc_file(t_here_list **node, char *eof,t_env_list *env_list)
+int	get_heredoc_file(t_here_list **node, char *eof, t_env_list *env_list)
 {
 	(*node)->here_fd = get_fd((*node)->here_file_name, heredoc);
 	if ((*node)->here_fd < 0)
 		return (ft_perror((*node)->here_file_name));
-	if (write_to_heredocfile(eof, (*node)->here_fd,env_list) == FAILURE)
+	if (write_to_heredocfile(eof, (*node)->here_fd, env_list) == FAILURE)
 		return (ft_perror("failed to write to heredocfile"));
 	if (close((*node)->here_fd) < 0)
 		return (ft_perror("close"));
