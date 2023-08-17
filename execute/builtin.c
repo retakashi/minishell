@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:50:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/14 21:48:51 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 15:03:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	execute_builtin(t_word_list *word_list, t_env_list **env_list,
 	else if (flg_struct->builtin_flg == cd_no)
 		return (cd_cmd(word_list, env_list));
 	else if (flg_struct->builtin_flg == pwd_no)
-		return (pwd_cmd(fd_struct.out_fd, &flg_struct->exit_flg));
+		return (pwd_cmd(fd_struct.out_fd,env_list));
 	else if (flg_struct->builtin_flg == export_no)
 		return (export_cmd(word_list, env_list, fd_struct.out_fd,
 				&flg_struct->exit_flg));

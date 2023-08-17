@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:02:28 by razasharuku       #+#    #+#             */
-/*   Updated: 2023/08/14 22:07:02 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 16:21:19 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	read_word_list(t_word_list **word_list, t_env_list **env_list,
 		return (SUCCESS);
 	if (find_flg(*word_list, eof_num) == true)
 	{
-		if (get_here_list(*word_list, here_list) == FAILURE)
+		if (get_here_list(*word_list, here_list,*env_list) == FAILURE)
 			free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 		if (g_sig == SIGINT)
 			return (update_exit_status(env_list, "130"));

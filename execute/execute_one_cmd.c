@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_one_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/08/13 16:56:23 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:21:10 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	parent_wait(void)
 {
 	int	wstatus;
 
-	if (set_signal_parent() == FAILURE)
+	if (set_signal_child() == FAILURE)
 		return (ft_perror("failed to set signal parent"));
 	if (wait(&wstatus) < 0)
 		return (ft_perror("wait"));
@@ -54,6 +54,7 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	t_flg	flg_struct;
 
 	flg_struct.exit_flg = false;
+	set_signal_child();
 	if (set_redirection(*word_list, *here_list, &fd_struct,
 			&flg_struct.exit_flg) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
@@ -82,6 +83,7 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	char	*status;
 
 	ret = 0;
+	set_signal_parent();
 	pid = fork();
 	if (pid < 0)
 		perror_free_list_exit("fork", word_list, env_list, here_list);
