@@ -6,13 +6,13 @@
 #    By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 17:05:16 by rtakashi          #+#    #+#              #
-#    Updated: 2023/08/17 15:01:27 by razasharuku      ###   ########.fr        #
+#    Updated: 2023/08/17 17:22:51 by razasharuku      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 LIBFT = libft/libft.a
 GNL_DIR = gnl
 PARSE_DIR = parse
