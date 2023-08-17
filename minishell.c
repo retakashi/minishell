@@ -6,7 +6,7 @@
 /*   By: razasharuku <razasharuku@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 20:44:30 by rtakashi          #+#    #+#             */
-/*   Updated: 2023/08/12 18:58:55 by razasharuku      ###   ########.fr       */
+/*   Updated: 2023/08/17 14:18:20 by razasharuku      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static void	loop_shell(t_main_data *data)
 // static void destructor() {
 //     system("leaks -q minishell");
 // }
+// while [ 1 ]; do leaks minishell; sleep 2; done
 
 int	main(int argc, char **argv, char **envp)
 {
