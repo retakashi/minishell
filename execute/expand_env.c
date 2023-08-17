@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 15:38:36 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 17:32:44 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/17 17:53:12 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 // 	return (SUCCESS);
 // }
 
-// void	expand_env(char **line, t_env_list *env_list)
-// {
+void	expand_env(char **line, t_env_list *env_list)
+{
 // 	size_t		i;
 // 	size_t		j;
 // 	t_env_list	*tmp;
@@ -33,5 +33,6 @@
 
 // 	i = 0;
 // 	tmp = NULL;
-	
-// }
+if(line==NULL&&env_list==NULL)
+printf("hello\n");
+}
