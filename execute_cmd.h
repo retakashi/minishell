@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 16:20:22 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/18 02:29:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_flg
 {
 	int			builtin_flg;
 	int			exit_flg;
+	int			pipe_flg;
 }				t_flg;
 
 typedef struct s_p_data
@@ -76,6 +77,7 @@ typedef struct s_env_2d
 typedef struct s_cmds
 {
 	pid_t		pid;
+	pid_t		last_pid;
 	int			ret;
 	char		*status;
 }				t_cmds;
@@ -94,6 +96,8 @@ typedef enum e_builtin_no
 // builtin_error.c
 int				cd_error(char *str);
 void			exit_error(char *str);
+int				exit_err_many_argument(t_env_list **env_list,
+					t_word_list **word_list, t_word_list *head);
 int				export_error_update_exit_status(char *str,
 					t_env_list **env_list);
 int				env_error_update_exit_status(char *str, t_env_list **env_list);
@@ -139,15 +143,14 @@ void			advance_word_list(t_word_list *word_list, t_word_list **tmp,
 					int start);
 void			find_child_num(t_here_list *here_list, t_here_list **tmp,
 					int i);
-void			execute_builtin_cmdsver(t_fd fd_struct, t_flg flg_struct,
-					t_word_list **word_list, t_env_list **env_list);
+void			execute_builtin_cmdsver(t_child c_data, t_word_list **word_list,
+					t_env_list **env_list);
 bool			find_flg_until_pipe(t_word_list *word_list, int find_flg,
 					int cnt);
 int				itoa_status(int ret, char **status);
 // exit.c
-int				exit_cmd(t_word_list **word_list, t_env_list **env_list);
-//expand_env.c
-void	expand_env(char **line, t_env_list *env_list);
+int				exit_cmd(t_word_list **word_list, t_env_list **env_list,
+					int pipe_flg);
 // export_noargs.c
 int				export_noargs(t_env_list **env_list, int fd);
 // export_utils.c
@@ -192,10 +195,12 @@ int				new_env_node(t_env_list **node, char *envp);
 int				get_env_list(char **envp, t_env_list **head);
 // get_heredoc_file.c
 char			*get_file_name(int i);
-int				get_heredoc_file(t_here_list **node, char *eof,t_env_list *env_list);
+int				get_heredoc_file(t_here_list **node, char *eof,
+					t_env_list *env_list);
 void			unlink_here_list(t_here_list **here_list);
 // heredoc.c
-int				get_here_list(t_word_list *word_list, t_here_list **here_list,t_env_list *env_list);
+int				get_here_list(t_word_list *word_list, t_here_list **here_list,
+					t_env_list *env_list);
 // set_redirection.c
 int				set_redirection(t_word_list *word_list, t_here_list *here_list,
 					t_fd *fd_struct, int *exit_flg);
