@@ -59,12 +59,10 @@ void	execve_cmd(char **env_2darr, char **cmd_argv)
 	char	**path;
 	int		i;
 
-	if (access(cmd_argv[0], X_OK) == 0 && execve(cmd_argv[0], cmd_argv,
-			env_2darr) < 0)
-		perror_free_2darr_exit("execve", &env_2darr, &cmd_argv);
+	// if (ft_strchr(cmd_argv[0], '/'))
 	path = extract_path_from_env_2darr(env_2darr, cmd_argv);
-	i = 0;
-	while (path[i] != NULL)
+	i = -1;
+	while (path != NULL && path[++i] != NULL)
 	{
 		cmd_path = get_cmd_path(path, i, cmd_argv, env_2darr);
 		if (access(cmd_path, X_OK) == 0 && execve(cmd_path, cmd_argv,
@@ -74,7 +72,6 @@ void	execve_cmd(char **env_2darr, char **cmd_argv)
 			perror_free_2darr_exit("execve", &env_2darr, &cmd_argv);
 		}
 		free(cmd_path);
-		i++;
 	}
 	command_error(cmd_argv[0]);
 	free_char_2darr(&env_2darr);

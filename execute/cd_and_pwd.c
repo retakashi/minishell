@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 20:37:34 by reira             #+#    #+#             */
-/*   Updated: 2023/08/18 02:05:36 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/20 18:22:57 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ static int	move_to_home(t_env_list **env_list)
 	{
 		put_error("cd: HOME not set\n");
 		return (update_exit_status(env_list, "1"));
-		return (SUCCESS);
 	}
 	if (chdir(node->env_value) < 0)
 	{
 		cd_error(node->env_value);
 		return (update_exit_status(env_list, "1"));
-		return (FAILURE);
 	}
 	return (update_exit_status(env_list, "0"));
 }
