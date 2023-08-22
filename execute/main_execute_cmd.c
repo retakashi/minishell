@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_execute_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 13:17:34 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:24:44 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/20 19:36:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 	return (SUCCESS);
 }
 
-// p_data↓
+// f_data↓
 // 	int				**pipe_2darr;
 // 	int					i;
 // 	int					cnt;
@@ -44,15 +44,15 @@ static int	get_pipe_2darr(int ***pipe_2darr, int pipe_cnt)
 int	main_execute_cmd(t_word_list **word_list, t_env_list **env_list,
 		t_here_list **here_list, int pipe_cnt)
 {
-	t_p_data	p_data;
+	t_f_data	f_data;
 
 	if (pipe_cnt == 0)
 		return (execute_one_cmd(word_list, env_list, here_list));
-	if (get_pipe_2darr(&p_data.pipe_2darr, pipe_cnt) == FAILURE)
+	if (get_pipe_2darr(&f_data.pipe_2darr, pipe_cnt) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
-	p_data.cnt = pipe_cnt;
-	if (execute_some_cmds(word_list, env_list, here_list, p_data) == FAILURE)
-		free_list_pipe2darr_exit(p_data, word_list, env_list, here_list);
-	free_int_2darr(&p_data.pipe_2darr, p_data.cnt);
+	f_data.cnt = pipe_cnt;
+	if (execute_some_cmds(word_list, env_list, here_list, f_data) == FAILURE)
+		free_list_pipe2darr_exit(f_data, word_list, env_list, here_list);
+	free_int_2darr(&f_data.pipe_2darr, f_data.cnt);
 	return (SUCCESS);
 }

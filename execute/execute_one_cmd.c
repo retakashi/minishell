@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 22:03:05 by reira             #+#    #+#             */
-/*   Updated: 2023/08/17 14:21:10 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/20 19:32:20 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 volatile sig_atomic_t	g_sig;
 
-static int	parent_wait(void)
+static int	parent_wait(pid_t pid)
 {
 	int	wstatus;
 
 	if (set_signal_child() == FAILURE)
 		return (ft_perror("failed to set signal parent"));
-	if (wait(&wstatus) < 0)
+	if (waitpid(pid, &wstatus, 0) < 0)
 		return (ft_perror("wait"));
 	if (set_sigint() == FAILURE)
 		return (ft_perror("failed to set sigint"));
 	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus));
+		return (128 + WTERMSIG(wstatus));
 	else
 		return (WEXITSTATUS(wstatus));
 }
@@ -61,18 +61,9 @@ static void	child_execute(t_word_list **word_list, t_env_list **env_list,
 	free_here_list(here_list);
 	if (find_flg(*word_list, command) == false)
 		free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
-	if (is_builtin(*word_list, &flg_struct.builtin_flg) == true)
-	{
-		if (execute_builtin(*word_list, env_list, fd_struct,
-				&flg_struct) == FAILURE || flg_struct.exit_flg == true)
-			free_list_exit(word_list, env_list, NULL, EXIT_FAILURE);
-	}
-	else
-	{
-		if (dup2_fd_struct(fd_struct) == FAILURE)
-			free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
-		prepare_execve(word_list, env_list);
-	}
+	if (dup2_fd_struct(fd_struct) == FAILURE)
+		free_list_exit(word_list, env_list, NULL, EXIT_SUCCESS);
+	prepare_execve(word_list, env_list);
 }
 
 int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
@@ -90,7 +81,7 @@ int	execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 	if (pid == 0)
 		child_execute(word_list, env_list, here_list);
 	else
-		ret = parent_wait();
+		ret = parent_wait(pid);
 	if (itoa_status(ret, &status) == FAILURE)
 		free_list_exit(word_list, env_list, here_list, EXIT_FAILURE);
 	update_exit_status(env_list, status);

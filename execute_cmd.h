@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 21:42:48 by reira             #+#    #+#             */
-/*   Updated: 2023/08/18 02:29:58 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/20 19:36:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ typedef struct s_flg
 	int			pipe_flg;
 }				t_flg;
 
-typedef struct s_p_data
+typedef struct s_f_data
 {
 	int			**pipe_2darr;
 	int			i;
 	int			cnt;
-}				t_p_data;
+	pid_t		pid;
+	pid_t		last_pid;
+}				t_f_data;
 
 typedef struct s_child
 {
@@ -73,14 +75,6 @@ typedef struct s_env_2d
 	size_t		name_len;
 	size_t		str_len;
 }				t_env_2d;
-
-typedef struct s_cmds
-{
-	pid_t		pid;
-	pid_t		last_pid;
-	int			ret;
-	char		*status;
-}				t_cmds;
 
 typedef enum e_builtin_no
 {
@@ -112,9 +106,9 @@ int				cd_cmd(t_word_list *word_list, t_env_list **env_list);
 int				pwd_cmd(int fd, t_env_list **env_list);
 // dup2_close.c
 int				dup2_fd_struct(t_fd fd_struct);
-void			dup2_pipe(t_p_data p_data, t_word_list **word_list,
+void			dup2_pipe(t_f_data f_data, t_word_list **word_list,
 					t_env_list **env_list);
-void			close_pipe(t_p_data p_data, t_word_list **word_list,
+void			close_pipe(t_f_data f_data, t_word_list **word_list,
 					t_env_list **env_list);
 // command.c
 void			get_command(t_word_list **head);
@@ -127,7 +121,7 @@ int				put_error(char *str);
 int				ft_perror(char *str);
 void			command_error(char *str);
 char			**perror_change_err_flg(char *err_msg, int *err_flg);
-void			put_error_exit_cmdsver(char *err_msg, t_p_data p_data,
+void			put_error_exit_cmdsver(char *err_msg, t_f_data f_data,
 					t_word_list **word_list, t_env_list **env_list);
 // execve.c
 void			execve_cmd(char **env_2darr, char **cmd_argv);
@@ -137,7 +131,7 @@ int				execute_one_cmd(t_word_list **word_list, t_env_list **env_list,
 // execute_some_cmds.c
 int				execute_some_cmds(t_word_list **word_list,
 					t_env_list **env_list, t_here_list **here_list,
-					t_p_data p_data);
+					t_f_data f_data);
 // execute_some_cmds_utils.c
 void			advance_word_list(t_word_list *word_list, t_word_list **tmp,
 					int start);
@@ -166,7 +160,7 @@ int				main_execute_cmd(t_word_list **word_list, t_env_list **env_list,
 // free_exit.c
 void			free_list_exit(t_word_list **word_list, t_env_list **env_list,
 					t_here_list **here_list, int exit_status);
-void			free_list_pipe2darr_exit(t_p_data p_data,
+void			free_list_pipe2darr_exit(t_f_data f_data,
 					t_word_list **word_list, t_env_list **env_list,
 					t_here_list **here_list);
 void			free_2darr_exit(char ***arr, char ***arr2);

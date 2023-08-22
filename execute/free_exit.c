@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtakashi <rtakashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 23:01:19 by reira             #+#    #+#             */
-/*   Updated: 2023/08/11 20:12:49 by rtakashi         ###   ########.fr       */
+/*   Updated: 2023/08/20 19:36:58 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	free_list_exit(t_word_list **word_list, t_env_list **env_list,
 	exit(exit_status);
 }
 
-void	free_list_pipe2darr_exit(t_p_data p_data, t_word_list **word_list,
+void	free_list_pipe2darr_exit(t_f_data f_data, t_word_list **word_list,
 		t_env_list **env_list, t_here_list **here_list)
 {
-	free_int_2darr(&p_data.pipe_2darr, p_data.i);
+	free_int_2darr(&f_data.pipe_2darr, f_data.i);
 	free_all_list(word_list, env_list, here_list);
 	exit(EXIT_FAILURE);
 }

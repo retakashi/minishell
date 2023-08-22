@@ -6,7 +6,7 @@
 /*   By: reira <reira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:34:57 by reira             #+#    #+#             */
-/*   Updated: 2023/08/18 01:20:32 by reira            ###   ########.fr       */
+/*   Updated: 2023/08/20 18:25:02 by reira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int	itoa_status(int ret, char **status)
 {
 	if (ret == FAILURE)
 		return (FAILURE);
-	if (ret == 2 || ret == 3)
-		ret += 128;
 	*status = ft_itoa(ret);
 	if (*status == NULL)
 		return (ft_perror("ft_itoa"));
