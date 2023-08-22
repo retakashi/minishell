@@ -59,7 +59,9 @@ void	execve_cmd(char **env_2darr, char **cmd_argv)
 	char	**path;
 	int		i;
 
-	// if (ft_strchr(cmd_argv[0], '/'))
+	if (ft_strchr(cmd_argv[0], '/') && access(cmd_argv[0], X_OK) == 0
+		&& execve(cmd_argv[0], cmd_argv, env_2darr) < 0)
+		perror_free_2darr_exit("execve", &env_2darr, &cmd_argv);
 	path = extract_path_from_env_2darr(env_2darr, cmd_argv);
 	i = -1;
 	while (path != NULL && path[++i] != NULL)
