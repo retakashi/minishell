@@ -6,6 +6,7 @@ Reimplementation of a simple shell script.
 
 ## Requirement
 macOS
+
 If necessary, please install the following: [readline](https://formulae.brew.sh/formula/readline)
 
 ## Usage
