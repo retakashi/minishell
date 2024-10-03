@@ -2,6 +2,7 @@
 
 ## Overview
 Reimplementation of a simple shell script.
+![gif](https://github.com/retakashi/minishell/blob/main/minishell.gif)
 
 ## Requirement
 macOS
