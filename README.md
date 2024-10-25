@@ -4,8 +4,10 @@
 Reimplementation of a simple shell script.
 ![gif](https://github.com/retakashi/minishell/blob/main/minishell.gif)
 
-## Requirement
-macOS
+## Implementation Environment
+- **Programming Language**: C
+- **Operating Systems**: macOS
+- **Compiler**: Apple Clang 15.0.0 (clang-1500.3.9.4), Target: arm64-apple-darwin23.6.0
 
 If necessary, please install the following: [readline](https://formulae.brew.sh/formula/readline)
 
