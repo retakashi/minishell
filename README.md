@@ -8,8 +8,7 @@ Reimplementation of a simple shell script.
 - **Programming Language**: C
 - **Operating Systems**: macOS
 - **Compiler**: Apple Clang 15.0.0 (clang-1500.3.9.4), Target: arm64-apple-darwin23.6.0
-
-If necessary, please install the following: [readline](https://formulae.brew.sh/formula/readline)
+- If necessary, please install the following: [readline](https://formulae.brew.sh/formula/readline)
 
 ## Usage
 ``` bash
